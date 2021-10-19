@@ -3,7 +3,6 @@ package ru.laptseu.libararyapp.Services;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import ru.laptseu.libararyapp.Entities.EntityWithLongId;
 import ru.laptseu.libararyapp.Repositories.RepositoryFactory;
@@ -12,18 +11,17 @@ import ru.laptseu.libararyapp.Repositories.RepositoryFactory;
 @Getter
 @Setter
 public abstract class AbstractService<T extends EntityWithLongId> {
- abstract   Class getEntity() ;
- @Autowired
+    abstract Class getEntityClass();
     private final RepositoryFactory repositoryFactory;
-    PagingAndSortingRepository repository = repositoryFactory.get(getEntity().getClass());
+    //private final PagingAndSortingRepository repository;// = repositoryFactory.get(getEntityClass());
 
     public T save(T entity) {
-        repository.save(entity);
+        repositoryFactory.get(getEntityClass()).save(entity);
         return entity;
     }
 
     public T read(Long id) {
-        T entity = (T) repository.findById(id).orElse(null);//todo
+        T entity = (T)  repositoryFactory.get(getEntityClass()).findById(id).orElse(null);//todo
         return entity;
     }
 

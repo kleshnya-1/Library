@@ -2,23 +2,23 @@ spring:
   application:
     name: libraryApp
 
-#  jpa:
-#    database: postgresql
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: validate
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
 
-  datasource_library:
+  datasource-library:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/libraryDb
     username: postgres
     password: 1
 
-  datasource_archive:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/archiveDb
-    username: postgres
-    password: 1
+#  datasource_archive:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5433/archiveDb
+#    username: postgres
+#    password: 1
 
 
 #  mvc:
