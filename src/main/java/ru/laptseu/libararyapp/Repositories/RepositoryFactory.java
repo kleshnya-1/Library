@@ -5,8 +5,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Component;
 import ru.laptseu.libararyapp.Entities.Author;
-import ru.laptseu.libararyapp.Entities.Books.BookArchive;
-import ru.laptseu.libararyapp.Entities.Books.BookLibrary;
+import ru.laptseu.libararyapp.Entities.Books.ArchivedBook;
+import ru.laptseu.libararyapp.Entities.Books.LibraryBook;
 import ru.laptseu.libararyapp.Entities.Entity;
 import ru.laptseu.libararyapp.Entities.Publisher;
 
@@ -20,8 +20,8 @@ public class RepositoryFactory {
 
     static {
         FACTORY_MAP.put(Author.class, AuthorRepository.class);
-        FACTORY_MAP.put(BookArchive.class, BookArchiveRepository.class);
-        FACTORY_MAP.put(BookLibrary.class, BookLibraryRepository.class);
+        FACTORY_MAP.put(ArchivedBook.class, BookArchiveRepository.class);
+        FACTORY_MAP.put(LibraryBook.class, BookLibraryRepository.class);
         FACTORY_MAP.put(Publisher.class, PublisherRepository.class);
     }
 

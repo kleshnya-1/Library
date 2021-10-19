@@ -1,7 +1,7 @@
 package ru.laptseu.libararyapp.Repositories;
 
-import ru.laptseu.libararyapp.Entities.Books.BookArchive;
+import ru.laptseu.libararyapp.Entities.Books.ArchivedBook;
 
-public interface BookArchiveRepository extends AbstractRepository<BookArchive> {
+public interface BookArchiveRepository extends AbstractRepository<ArchivedBook> {
 
 }

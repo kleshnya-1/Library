@@ -9,7 +9,7 @@ import ru.laptseu.libararyapp.Entities.Publisher;
 import javax.persistence.Entity;
 import java.util.List;
 
-@Entity
+//@Entity
 @Getter
 @Setter
 public class Book extends EntityWithLongId {

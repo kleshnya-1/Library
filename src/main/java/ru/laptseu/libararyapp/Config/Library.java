@@ -1,4 +1,4 @@
-package ru.laptseu.libararyapp.Cfg;
+package ru.laptseu.libararyapp.Config;
 
 
 import org.hibernate.cfg.Environment;
@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import javax.sql.DataSource;
 
@@ -21,7 +20,7 @@ import javax.sql.DataSource;
 //        entityManagerFactoryRef = "userEntityManager",
 //        transactionManagerRef = "userTransactionManager"
 )
-public class Lib {
+public class Library {
     @Autowired
     private Environment env;
 

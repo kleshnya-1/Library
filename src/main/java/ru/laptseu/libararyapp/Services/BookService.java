@@ -11,6 +11,6 @@ public class BookService extends AbstractService<Book> {
     Class entityClass;
     public BookService(RepositoryFactory repositoryFactory) {
         super(repositoryFactory);
-        this.entityClass = new Book().getClass();
+        this.entityClass = Book.class;
     }
 }

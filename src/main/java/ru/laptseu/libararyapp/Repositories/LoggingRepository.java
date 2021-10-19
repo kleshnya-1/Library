@@ -9,17 +9,20 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Optional;
 
 @Log4j2
-public class LogRepository implements PagingAndSortingRepository<String, Long> {
+public class LoggingRepository implements PagingAndSortingRepository<String, Long> {
     @Value("${logFile.address}")
     String LOGGING_FILE_ADDRESS;
+    Calendar calendar = new GregorianCalendar();
 
     @Override
     public <S extends String> S save(S entity) {
         try (FileOutputStream fileOutputStream = new FileOutputStream(LOGGING_FILE_ADDRESS, true)) {
-            entity = (S) (entity + "\n");
+            entity = (S) (calendar.getTime()+" | "+ entity + "\n");
             byte[] buffer = entity.getBytes();
             fileOutputStream.write(buffer);
         } catch (IOException e) {
