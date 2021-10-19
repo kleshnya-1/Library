@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: libraryApp
+
+#  jpa:
+#    database: postgresql
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: validate
+
+  datasource_library:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/libraryDb
+    username: postgres
+    password: 1
+
+  datasource_archive:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/archiveDb
+    username: postgres
+    password: 1
+
+
+#  mvc:
+#    hiddenmethod:
+#      filter:
+#        enabled: true
+
+logFile:
+ address:  "C:\Users\Andrey\IdeaProjects\libararyApp\log.txt"
+
+Log4j2:
+  Configuration:
+    status: warn
+
+    appenders:
+      Console:
+        name: LogToConsole
+        PatternLayout:
+          Pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+
+      RollingFile:
+        - name: LogToRollingFile
+          fileName: logs/app.log
+          filePattern: "logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz"
+          PatternLayout:
+            pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+          Policies:
+            SizeBasedTriggeringPolicy:
+              size: 10MB
+          DefaultRollOverStrategy:
+            max: 10
+
+    Loggers:
+      logger:
+        - name: com.mkyong
+          level: debug
+          additivity: false
+          AppenderRef:
+            - ref: LogToConsole
+            - ref: LogToRollingFile
+
+      Root:
+        level: error
+        AppenderRef:
+          ref: LogToConsole
