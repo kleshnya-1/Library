@@ -1,16 +1,17 @@
-package ru.laptseu.libararyapp.Entities.Books;
+package ru.laptseu.libararyapp.Entities.Dto;
 
 import lombok.Getter;
 import lombok.Setter;
 import ru.laptseu.libararyapp.Entities.EntityWithLongId;
-import ru.laptseu.libararyapp.Entities.Publisher;
 
 @Getter
 @Setter
-public class Book extends EntityWithLongId {
+public class BookDto extends EntityWithLongId {
+    private Long id;
     private String name;
     private String description;
     private int sectionNumber;
     private int yearOfPublishing;
-    private Publisher publisher;
+    private PublisherDto publisher;
+
 }

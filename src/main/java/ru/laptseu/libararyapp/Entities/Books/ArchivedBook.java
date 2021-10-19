@@ -9,6 +9,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class ArchivedBook extends Book{
+public class ArchivedBook extends Book {
     private List<Integer> authorList;
 }

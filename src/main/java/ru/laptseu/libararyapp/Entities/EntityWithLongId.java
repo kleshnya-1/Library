@@ -7,12 +7,11 @@ import lombok.Setter;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 
 @Getter
 @Setter
-public abstract class EntityWithLongId extends Entity{
+public abstract class EntityWithLongId extends Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id;
+    private Long id;
 }

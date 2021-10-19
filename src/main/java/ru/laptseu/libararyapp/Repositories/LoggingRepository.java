@@ -22,7 +22,7 @@ public class LoggingRepository implements PagingAndSortingRepository<String, Lon
     @Override
     public <S extends String> S save(S entity) {
         try (FileOutputStream fileOutputStream = new FileOutputStream(LOGGING_FILE_ADDRESS, true)) {
-            entity = (S) (calendar.getTime()+" | "+ entity + "\n");
+            entity = (S) (calendar.getTime() + " | " + entity + "\n");
             byte[] buffer = entity.getBytes();
             fileOutputStream.write(buffer);
         } catch (IOException e) {

@@ -9,5 +9,5 @@ import javax.persistence.MappedSuperclass;
 @Getter
 @Setter
 public abstract class Entity {
-    private  boolean isDeleted;
+    private boolean isDeleted;
 }
