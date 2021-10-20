@@ -19,5 +19,10 @@
       "name": "library.datasource.url",
       "type": "java.lang.String",
       "description": "Description for library.datasource.url."
+    },
+    {
+      "name": "spring.library-datasource.url",
+      "type": "java.lang.String",
+      "description": "Description for spring.library-datasource.url."
     }
   ] }

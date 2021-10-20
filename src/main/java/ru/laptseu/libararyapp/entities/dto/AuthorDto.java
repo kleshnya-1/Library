@@ -14,5 +14,5 @@ public class AuthorDto  {
     private String secondName;
     private Integer birthDate;
     private Integer deathDate;
-    private List<BookDto> bookList;
+   // private List<BookDto> bookList;
 }

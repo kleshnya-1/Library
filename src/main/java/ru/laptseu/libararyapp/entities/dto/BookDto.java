@@ -12,6 +12,6 @@ public class BookDto extends EntityWithLongId {
     private String description;
     private int sectionNumber;
     private int yearOfPublishing;
-    private PublisherDto publisher;
+ //   private PublisherDto publisher;
 
 }

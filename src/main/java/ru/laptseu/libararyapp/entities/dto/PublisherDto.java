@@ -14,5 +14,5 @@ public class PublisherDto extends EntityWithLongId {
     private String name;
     private String address;
     private String phoneNumber;
-    private List<BookDto> bookList;
+   // private List<BookDto> bookList;
 }

@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class LibraryBook extends Book {
+    private int sectionNumber;
     @ManyToMany(mappedBy = "bookList",fetch = FetchType.EAGER)
     private List<Author> authorList;
 
@@ -19,6 +20,6 @@ public class LibraryBook extends Book {
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "libraryBook")
-    private ArchivedBook archivedBook;
+//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "libraryBook")
+//    private ArchivedBook archivedBook;
 }

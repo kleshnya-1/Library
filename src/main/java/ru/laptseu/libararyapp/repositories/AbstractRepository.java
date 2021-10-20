@@ -7,7 +7,7 @@ import ru.laptseu.libararyapp.entities.EntityWithLongId;
 
 import java.util.List;
 
-public interface AbstractRepository<T extends EntityWithLongId> extends PagingAndSortingRepository<T, Long> {
+public interface AbstractRepository<T extends EntityWithLongId> extends PagingAndSortingRepository<T , Long> {
 
     List<T> readAllByIsDeletedFalse(Pageable pageable);
 
@@ -29,11 +29,14 @@ public interface AbstractRepository<T extends EntityWithLongId> extends PagingAn
     }
 
     default void deleteById(int id) {
-
         T ent = findById(id);
         if (ent != null) {
             ent.setDeleted(true);
             save(ent);
         }
     }
+
+//    default T save(T obj){
+//
+//    }
 }

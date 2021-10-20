@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import ru.laptseu.libararyapp.entities.EntityWithLongId;
+import ru.laptseu.libararyapp.entities.books.Book;
 import ru.laptseu.libararyapp.repositories.RepositoryFactory;
 
 @RequiredArgsConstructor
@@ -24,6 +25,10 @@ public abstract class AbstractService<T extends EntityWithLongId> {
     public T read(Long id) {
         T entity = (T) repositoryFactory.get(getEntityClass()).findById(id).orElse(null);//todo
         return entity;
+    }
+
+    public T update(T entity) {
+        return (T) repositoryFactory.get(getEntityClass()).save(entity);
     }
 
     public void delete(Long id) {

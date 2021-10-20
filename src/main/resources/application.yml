@@ -3,37 +3,37 @@ spring:
     name: libraryApp
 
 
-  jpa:
-      show-sql: true
-      generate-ddl: true
-      properties:
-        hibernate:
-          ddl-auto: validate
-          hbm2ddl:
-            import_files:
-
 #  jpa:
-#    database: postgresql
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: create
+#      show-sql: true
+#      generate-ddl: true
+#      properties:
+#        hibernate:
+#          ddl-auto: validate
+#          hbm2ddl:
+#            import_files:
+
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: create
 
 
-library:
-  datasource:
-      url: jdbc:postgresql://localhost:5432/libraryDb
-      driver-class-name: org.postgresql.Driver
-      username: postgres
-      password: 1
 
-
-
-archive:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/archiveDb
-    username: postgres
-    password: 1
+#  datasource:
+#      url: jdbc:postgresql://localhost:5432/libraryDb
+#      driver-class-name: org.postgresql.Driver
+#      username: postgres
+#      password: 1
+#
+#
+#
+#archive:
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5433/archiveDb
+#    username: postgres
+#    password: 1
 
 
 #  mvc:
