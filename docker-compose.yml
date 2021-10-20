@@ -26,5 +26,5 @@ services:
       - POSTGRES_PASSWORD=1
     restart: always
     ports:
-      - "5433:5433"
+      - "5439:5432"
 

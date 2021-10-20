@@ -9,6 +9,10 @@ import ru.laptseu.libararyapp.entities.books.ArchivedBook;
 import ru.laptseu.libararyapp.entities.books.LibraryBook;
 import ru.laptseu.libararyapp.entities.Entity;
 import ru.laptseu.libararyapp.entities.Publisher;
+import ru.laptseu.libararyapp.repositories.archive.BookArchiveRepository;
+import ru.laptseu.libararyapp.repositories.library.AuthorRepository;
+import ru.laptseu.libararyapp.repositories.library.BookLibraryRepository;
+import ru.laptseu.libararyapp.repositories.library.PublisherRepository;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import java.util.List;
 
-//@Entity
+@Entity
 @Getter
 @Setter
 public class ArchivedBook extends Book {
@@ -16,6 +16,6 @@ public class ArchivedBook extends Book {
 //    @JoinColumn(name = "libraryBook_id")
 //    private LibraryBook libraryBook;
 
-    private List<Integer> authorList;
+ //   private List<Integer> authorList;
 
 }
