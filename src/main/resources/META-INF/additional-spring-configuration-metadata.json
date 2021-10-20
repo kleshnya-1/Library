@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "logFile.address",
+      "type": "java.lang.String",
+      "description": "Description for logFile.address."
+    },
+    {
+      "name": "library.datasource.url",
+      "type": "java.lang.String",
+      "description": "Description for library.datasource.url."
+    },
+    {
+      "name": "archive.datasource.url",
+      "type": "java.lang.String",
+      "description": "Description for archive.datasource.url."
+    },
+    {
+      "name": "library.datasource.url",
+      "type": "java.lang.String",
+      "description": "Description for library.datasource.url."
+    }
+  ] }
