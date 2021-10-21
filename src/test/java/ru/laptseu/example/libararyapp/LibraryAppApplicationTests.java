@@ -20,8 +20,6 @@ class LibraryAppApplicationTests {
     void contextLoads() {
         LibraryBook b1 = new LibraryBook();
        bookService.save(b1);
-
-
     }
 
 }
