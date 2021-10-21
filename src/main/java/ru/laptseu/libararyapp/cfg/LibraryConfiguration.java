@@ -13,7 +13,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ru.laptseu.libararyapp.entities.Author;
 import ru.laptseu.libararyapp.entities.Publisher;
+import ru.laptseu.libararyapp.entities.books.ArchivedBook;
 import ru.laptseu.libararyapp.entities.books.LibraryBook;
+import ru.laptseu.libararyapp.repositories.archive.BookArchiveRepository;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -24,6 +26,7 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "libraryEntityManager",
         transactionManagerRef = "libraryTransactionManager",
+
         basePackages = {"ru.laptseu.libararyapp.repositories.library"}
 )
 public class LibraryConfiguration {
@@ -48,7 +51,7 @@ public class LibraryConfiguration {
     }
 
     @Bean
-    public PlatformTransactionManager libraryTransactionManager(EntityManagerFactory productDSEmFactory) {
+    public PlatformTransactionManager libraryTransactionManager(@Qualifier("libraryEntityManager") EntityManagerFactory productDSEmFactory) {
         return new JpaTransactionManager(productDSEmFactory);
     }
 }

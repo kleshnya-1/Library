@@ -17,7 +17,7 @@ public abstract class AbstractService<T extends EntityWithLongId> {
     abstract Class getEntityClass();
 
     public T save(T entity) {
-        var savedEntity = (T) repositoryFactory.get(getEntityClass()).save(entity);
+        T savedEntity = (T) repositoryFactory.get(getEntityClass()).save(entity);
         repositoryFactory.get(String.class).save(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved");
         return savedEntity;
     }
