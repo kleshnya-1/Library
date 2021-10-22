@@ -17,7 +17,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
-#    properties.hibernate.temp.use_jdbc_metadata_defaults: false
 
 
 

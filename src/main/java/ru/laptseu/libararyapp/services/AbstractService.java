@@ -2,14 +2,12 @@ package ru.laptseu.libararyapp.services;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import ru.laptseu.libararyapp.entities.Entity;
 import ru.laptseu.libararyapp.entities.EntityWithLongId;
-import ru.laptseu.libararyapp.entities.books.Book;
 import ru.laptseu.libararyapp.repositories.RepositoryFactory;
 
 @RequiredArgsConstructor
 @Getter
-@Setter
 public abstract class AbstractService<T extends EntityWithLongId> {
 
     private final RepositoryFactory repositoryFactory;
@@ -18,7 +16,7 @@ public abstract class AbstractService<T extends EntityWithLongId> {
 
     public T save(T entity) {
         T savedEntity = (T) repositoryFactory.get(getEntityClass()).save(entity);
-        repositoryFactory.get(String.class).save(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved");
+        repositoryFactory.get(Entity.class).save(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved");
         return savedEntity;
     }
 
@@ -33,24 +31,24 @@ public abstract class AbstractService<T extends EntityWithLongId> {
 
     public void delete(Long id) {
         repositoryFactory.get(getEntityClass()).deleteById(id);
-        repositoryFactory.get(String.class).save(getEntityClass().getSimpleName() + " " + id + " deleted");
+        repositoryFactory.get(Entity.class).save(getEntityClass().getSimpleName() + " " + id + " deleted");
     }
 
 //    @Transactional(rollbackFor = Exception.class)
-//    public ArchivedBook toArchive(LibraryBook libraryBook) {
-//        ArchivedBook archivedBook = bookArchivingMapper.map(libraryBook);
-//        repositoryFactory.get(archivedBook.getClass()).save(archivedBook);
-//        repositoryFactory.get(libraryBook.getClass()).deleteById(libraryBook.getId());
-//        repositoryFactory.get(String.class).save("Book " + libraryBook.getId() + " " + libraryBook.getName() + " archived successfully");
-//        return archivedBook;
+//    public BookArchived toArchive(BookInLibrary bookInLibrary) {
+//        BookArchived bookArchived = bookArchivingMapper.map(bookInLibrary);
+//        repositoryFactory.get(bookArchived.getClass()).save(bookArchived);
+//        repositoryFactory.get(bookInLibrary.getClass()).deleteById(bookInLibrary.getId());
+//        repositoryFactory.get(Entity.class).save("Book " + bookInLibrary.getId() + " " + bookInLibrary.getName() + " archived successfully");
+//        return bookArchived;
 //    }
 //
 //    @Transactional(rollbackFor = Exception.class)
-//    public LibraryBook fromArchive(ArchivedBook archivedBook) {
-//        LibraryBook libraryBook = bookArchivingMapper.map(archivedBook);
-//        repositoryFactory.get(libraryBook.getClass()).save(libraryBook);
-//        repositoryFactory.get(archivedBook.getClass()).deleteById(archivedBook.getId());
-//        repositoryFactory.get(String.class).save("Book " + archivedBook.getId() + " " + archivedBook.getName() + " unarchived successfully");
-//        return libraryBook;
+//    public BookInLibrary fromArchive(BookArchived bookArchived) {
+//        BookInLibrary bookInLibrary = bookArchivingMapper.map(bookArchived);
+//        repositoryFactory.get(bookInLibrary.getClass()).save(bookInLibrary);
+//        repositoryFactory.get(bookArchived.getClass()).deleteById(bookArchived.getId());
+//        repositoryFactory.get(Entity.class).save("Book " + bookArchived.getId() + " " + bookArchived.getName() + " unarchived successfully");
+//        return bookInLibrary;
 //    }
 }

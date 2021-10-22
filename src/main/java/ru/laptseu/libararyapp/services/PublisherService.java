@@ -13,7 +13,6 @@ import ru.laptseu.libararyapp.repositories.RepositoryFactory;
 public class PublisherService extends AbstractService<Publisher> {
     Class entityClass = Publisher.class;
 
-
     public PublisherService(RepositoryFactory repositoryFactory) {
         super(repositoryFactory);
     }

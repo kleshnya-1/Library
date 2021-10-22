@@ -5,11 +5,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Component;
 import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.books.ArchivedBook;
-import ru.laptseu.libararyapp.entities.books.Book;
-import ru.laptseu.libararyapp.entities.books.LibraryBook;
 import ru.laptseu.libararyapp.entities.Entity;
 import ru.laptseu.libararyapp.entities.Publisher;
+import ru.laptseu.libararyapp.entities.books.BookArchived;
+import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 import ru.laptseu.libararyapp.repositories.archive.BookArchiveRepository;
 import ru.laptseu.libararyapp.repositories.library.AuthorRepository;
 import ru.laptseu.libararyapp.repositories.library.BookLibraryRepository;
@@ -25,10 +24,10 @@ public class RepositoryFactory {
 
     static {
         FACTORY_MAP.put(Author.class, AuthorRepository.class);
-        FACTORY_MAP.put(ArchivedBook.class, BookArchiveRepository.class);
-        FACTORY_MAP.put(LibraryBook.class, BookLibraryRepository.class);
-        FACTORY_MAP.put(Book.class, BookLibraryRepository.class);
+        FACTORY_MAP.put(BookArchived.class, BookArchiveRepository.class);
+        FACTORY_MAP.put(BookInLibrary.class, BookLibraryRepository.class);
         FACTORY_MAP.put(Publisher.class, PublisherRepository.class);
+        FACTORY_MAP.put(Entity.class, LoggingRepository.class); // Entity as superClass don't have own persisting repository and here uses for mapping this logging repository (.txt)
     }
 
     private final ApplicationContext applicationContext;

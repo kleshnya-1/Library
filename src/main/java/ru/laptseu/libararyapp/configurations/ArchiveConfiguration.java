@@ -1,10 +1,7 @@
-package ru.laptseu.libararyapp.cfg;
+package ru.laptseu.libararyapp.configurations;
 
-import org.hibernate.cfg.Environment;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
-import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
@@ -16,12 +13,11 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ru.laptseu.libararyapp.entities.Publisher;
-import ru.laptseu.libararyapp.entities.books.ArchivedBook;
+import ru.laptseu.libararyapp.entities.books.BookArchived;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 @Configuration
@@ -39,8 +35,6 @@ public class ArchiveConfiguration {
         return new DataSourceProperties();
     }
 
-
-
     @Bean
     public DataSource archiveDataSource(@Qualifier("archiveDataSourceProperties") DataSourceProperties dataSourcePropertiesArchive) {
         return dataSourcePropertiesArchive.initializeDataSourceBuilder().build();
@@ -52,35 +46,23 @@ public class ArchiveConfiguration {
                 new HashMap(), null);
     }
 
-    @Bean
-    @ConfigurationProperties("spring.jpa")
-    public JpaProperties archiveJpaProperties() {
-        return new JpaProperties();
-    }
-
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");
-       // properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create");// TODO: 21.10.2021 refactor to properties
         return properties;
     }
-
-
 
     @Bean
     public LocalContainerEntityManagerFactoryBean archiveEntityManager
             (EntityManagerFactoryBuilder builder,
              @Qualifier("archiveDataSource") DataSource dataSource) {
-         LocalContainerEntityManagerFactoryBean l = builder
+        LocalContainerEntityManagerFactoryBean l = builder
                 .dataSource(dataSource)
-             //   .properties(archiveJpaProperties())
-                .packages(ArchivedBook.class, Publisher.class)
+                .packages(BookArchived.class, Publisher.class)
                 .build();
-         l.setJpaProperties(additionalProperties());
+        l.setJpaProperties(additionalProperties());
         return l;
     }
-
-
 
     @Bean
     public PlatformTransactionManager archiveTransactionManager(@Qualifier("archiveEntityManager") EntityManagerFactory productDSEmFactory) {

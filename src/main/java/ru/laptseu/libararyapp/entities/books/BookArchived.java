@@ -4,14 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.Calendar;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
-public class ArchivedBook extends Book {
-private Calendar dateOfArchived;
+@Table(name = "archived_books")
+public class BookArchived extends Book {
+    private Calendar dateOfArchived;
 }

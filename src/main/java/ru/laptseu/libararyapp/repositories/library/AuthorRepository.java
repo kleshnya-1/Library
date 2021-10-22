@@ -1,10 +1,10 @@
 package ru.laptseu.libararyapp.repositories.library;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.stereotype.Repository;
 import ru.laptseu.libararyapp.entities.Author;
 import ru.laptseu.libararyapp.repositories.AbstractRepository;
 
-//@EntityScan("ru.laptseu.libararyapp.entities")
+@Repository
 public interface AuthorRepository extends AbstractRepository<Author> {
 
 }

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.GregorianCalendar;
 import java.util.Optional;
 
 @Log4j2
+@Repository
 public class LoggingRepository implements PagingAndSortingRepository<String, Long> {
     @Value("${logFile.address}")
     String LOGGING_FILE_ADDRESS;
@@ -22,7 +24,7 @@ public class LoggingRepository implements PagingAndSortingRepository<String, Lon
     @Override
     public <S extends String> S save(S entity) {
         try (FileOutputStream fileOutputStream = new FileOutputStream(LOGGING_FILE_ADDRESS, true)) {
-            entity = (S) (calendar.getTime() + " | " + entity + "\n");
+            entity = (S) (calendar.getTime() + " | " + entity + "\n"); //todo custom date format
             byte[] buffer = entity.getBytes();
             fileOutputStream.write(buffer);
         } catch (IOException e) {

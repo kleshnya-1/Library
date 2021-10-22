@@ -1,8 +1,10 @@
 package ru.laptseu.libararyapp.repositories.archive;
 
-import ru.laptseu.libararyapp.entities.books.ArchivedBook;
+import org.springframework.stereotype.Repository;
+import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.repositories.AbstractRepository;
 
-public interface BookArchiveRepository extends AbstractRepository<ArchivedBook> {
+@Repository
+public interface BookArchiveRepository extends AbstractRepository<BookArchived> {
 
 }
