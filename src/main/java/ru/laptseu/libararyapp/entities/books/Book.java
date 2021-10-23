@@ -12,5 +12,5 @@ import javax.persistence.MappedSuperclass;
 public class Book extends EntityWithLongId {
     private String name;
     private String description;
-    private int yearOfPublishing;
+    private Integer yearOfPublishing;
 }

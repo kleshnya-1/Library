@@ -32,6 +32,7 @@ public interface AbstractRepository<T extends EntityWithLongId> extends PagingAn
         return readByIdAndIsDeletedFalse(id);
     }
 
+    @Override
     default void deleteById(Long id) {
         T ent = findById(id).orElse(null);
         if (ent != null) {

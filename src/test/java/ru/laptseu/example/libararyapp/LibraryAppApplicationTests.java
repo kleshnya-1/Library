@@ -32,8 +32,11 @@ class LibraryAppApplicationTests {
         Class c111 = b111.getClass();
 
         b1.setName(String.valueOf(Calendar.getInstance().get(Calendar.MILLISECOND)));
-        bookLibraryRepository.save(b1);
-       bookLibraryService.save(b1);
+        b1.setYearOfPublishing(1300);
+        b1.setId(1000L);
+      //  bookLibraryRepository.save(b1);
+      Long l =  bookLibraryService.save(b1).getId();
+       bookLibraryService.delete(l);
     }
 
 }

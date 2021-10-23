@@ -4,7 +4,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import ru.laptseu.libararyapp.entities.Entity;
 import ru.laptseu.libararyapp.entities.EntityWithLongId;
+import ru.laptseu.libararyapp.entities.books.BookArchived;
+import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 import ru.laptseu.libararyapp.repositories.RepositoryFactory;
+
+import javax.naming.OperationNotSupportedException;
 
 @RequiredArgsConstructor
 @Getter
@@ -34,21 +38,8 @@ public abstract class AbstractService<T extends EntityWithLongId> {
         repositoryFactory.get(Entity.class).save(getEntityClass().getSimpleName() + " " + id + " deleted");
     }
 
-//    @Transactional(rollbackFor = Exception.class)
-//    public BookArchived toArchive(BookInLibrary bookInLibrary) {
-//        BookArchived bookArchived = bookArchivingMapper.map(bookInLibrary);
-//        repositoryFactory.get(bookArchived.getClass()).save(bookArchived);
-//        repositoryFactory.get(bookInLibrary.getClass()).deleteById(bookInLibrary.getId());
-//        repositoryFactory.get(Entity.class).save("Book " + bookInLibrary.getId() + " " + bookInLibrary.getName() + " archived successfully");
-//        return bookArchived;
-//    }
-//
-//    @Transactional(rollbackFor = Exception.class)
-//    public BookInLibrary fromArchive(BookArchived bookArchived) {
-//        BookInLibrary bookInLibrary = bookArchivingMapper.map(bookArchived);
-//        repositoryFactory.get(bookInLibrary.getClass()).save(bookInLibrary);
-//        repositoryFactory.get(bookArchived.getClass()).deleteById(bookArchived.getId());
-//        repositoryFactory.get(Entity.class).save("Book " + bookArchived.getId() + " " + bookArchived.getName() + " unarchived successfully");
-//        return bookInLibrary;
-//    }
+    abstract public BookArchived toArchive(BookInLibrary bookInLibrary) throws OperationNotSupportedException;
+
+    abstract public BookInLibrary fromArchive(BookArchived bookArchived) throws OperationNotSupportedException;
+
 }
