@@ -8,6 +8,6 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 @Getter
 @Setter
-public abstract class Entity {
+public class Entity {
     private boolean isDeleted;
 }

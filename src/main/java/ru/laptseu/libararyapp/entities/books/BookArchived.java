@@ -2,10 +2,11 @@ package ru.laptseu.libararyapp.entities.books;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.Publisher;
 
-import javax.persistence.*;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Table;
 import java.util.Calendar;
 import java.util.List;
 

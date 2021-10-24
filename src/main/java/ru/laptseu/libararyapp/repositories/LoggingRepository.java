@@ -5,23 +5,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Optional;
 
 @Log4j2
 @Repository
-public class LoggingRepository implements PagingAndSortingRepository<String, Long> {
+public class LoggingRepository implements AbstractRepository {
     @Value("${logFile.address}")
     String LOGGING_FILE_ADDRESS;
     Calendar calendar = new GregorianCalendar();
 
-    @Override
+
     public <S extends String> S save(S entity) {
         try (FileOutputStream fileOutputStream = new FileOutputStream(LOGGING_FILE_ADDRESS, true)) {
             entity = (S) (calendar.getTime() + " | " + entity + "\n"); //todo custom date format
@@ -33,38 +33,75 @@ public class LoggingRepository implements PagingAndSortingRepository<String, Lon
         return entity;
     }
 
+
     @Override
-    public Iterable<String> findAll(Sort sort) {
+    public List readAllByIsDeletedFalse(Pageable pageable) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Page<String> findAll(Pageable pageable) {
+    public List readAllByIsDeletedFalse() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <S extends String> Iterable<S> saveAll(Iterable<S> entities) {
+    public Optional readByIdAndIsDeletedFalse(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List findPageable(Pageable pageable) {
+        return AbstractRepository.super.findPageable(pageable);
+    }
+
+    @Override
+    public List findAll() {
+        return AbstractRepository.super.findAll();
+    }
+
+    @Override
+    public Optional findById(Long id) {
+        return AbstractRepository.super.findById(id);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        AbstractRepository.super.deleteById(id);
+    }
+
+    @Override
+    public Iterable findAll(Sort sort) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Optional<String> findById(Long aLong) {
+    public Page findAll(Pageable pageable) {
+        throw new UnsupportedOperationException();
+    }
+
+
+    @Override
+    public Iterable saveAll(Iterable entities) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean existsById(Long aLong) {
+    public Object save(Object entity) {
+        return null;
+    }
+
+    @Override
+    public Optional findById(Object o) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Iterable<String> findAll() {
+    public boolean existsById(Object o) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Iterable<String> findAllById(Iterable<Long> longs) {
+    public Iterable findAllById(Iterable iterable) {
         throw new UnsupportedOperationException();
     }
 
@@ -74,22 +111,22 @@ public class LoggingRepository implements PagingAndSortingRepository<String, Lon
     }
 
     @Override
-    public void deleteById(Long aLong) {
+    public void deleteById(Object o) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void delete(String entity) {
+    public void delete(Object entity) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void deleteAllById(Iterable<? extends Long> longs) {
+    public void deleteAllById(Iterable iterable) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void deleteAll(Iterable<? extends String> entities) {
+    public void deleteAll(Iterable entities) {
         throw new UnsupportedOperationException();
     }
 

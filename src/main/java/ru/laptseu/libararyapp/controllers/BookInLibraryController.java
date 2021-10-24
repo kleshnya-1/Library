@@ -5,27 +5,21 @@
 //import org.springframework.stereotype.Controller;
 //import org.springframework.ui.Model;
 //import org.springframework.web.bind.annotation.*;
-//import ru.laptseu.bankapp.models.Account;
-//import ru.laptseu.bankapp.models.dto.AccountDto;
-//import ru.laptseu.bankapp.models.dto.BankDto;
-//import ru.laptseu.bankapp.models.dto.ClientDto;
-//import ru.laptseu.bankapp.services.AccountService;
-//import ru.laptseu.bankapp.services.BankService;
-//import ru.laptseu.bankapp.services.ClientService;
+//import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 //
 //import java.util.List;
 //
 //@Log4j2
 //@Controller
-//@RequestMapping("/accounts")
+//@RequestMapping("/library")
 //@RequiredArgsConstructor
-//public class AccountController {
-//    private final AccountService accountService;
-//    private final BankService bankService;
-//    private final ClientService clientService;
+//public class BookInLibraryController {
+//    // TODO: 24.10.2021
+//
 //
 //    @GetMapping("/")
 //    public String openAllAccounts(Model model) {
+//        List<BookInLibraryDto>
 //        List<AccountDto> accountDtos = accountService.readDto();
 //        model.addAttribute("accounts", accountDtos);
 //        return "accounts/show";

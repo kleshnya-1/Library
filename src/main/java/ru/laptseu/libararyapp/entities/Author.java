@@ -17,8 +17,8 @@ import java.util.List;
 public class Author extends EntityWithLongId {
     private String firstName;
     private String secondName;
-    private Integer birthDate;
-    private Integer deathDate;
+    private Integer birthYear;
+    private Integer deathYear;
     @ManyToMany(mappedBy = "authorList", cascade = CascadeType.ALL)
     private List<BookInLibrary> bookList;
 }

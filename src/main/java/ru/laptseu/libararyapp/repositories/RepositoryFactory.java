@@ -2,7 +2,6 @@ package ru.laptseu.libararyapp.repositories;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Component;
 import ru.laptseu.libararyapp.entities.Author;
 import ru.laptseu.libararyapp.entities.Entity;
@@ -20,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Component
 public class RepositoryFactory {
-    private static final Map<Class<? extends Entity>, Class<? extends PagingAndSortingRepository>> FACTORY_MAP = new HashMap<>();
+    private static final Map<Class<? extends Entity>, Class<? extends AbstractRepository>> FACTORY_MAP = new HashMap<>();
 
     static {
         FACTORY_MAP.put(Author.class, AuthorRepository.class);
@@ -32,7 +31,7 @@ public class RepositoryFactory {
 
     private final ApplicationContext applicationContext;
 
-    public PagingAndSortingRepository get(Class clazz) {
+    public AbstractRepository get(Class clazz) {
         return applicationContext.getBean(FACTORY_MAP.get(clazz));
     }
 }

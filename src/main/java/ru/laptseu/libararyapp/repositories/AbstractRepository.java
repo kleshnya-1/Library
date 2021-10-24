@@ -1,6 +1,5 @@
 package ru.laptseu.libararyapp.repositories;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -20,8 +19,8 @@ public interface AbstractRepository<T extends EntityWithLongId> extends PagingAn
     Optional<T> readByIdAndIsDeletedFalse(Long id);
 
 
-    default Page<T> findAllPage(Pageable pageable) {
-        return (Page<T>) readAllByIsDeletedFalse(pageable);
+    default List<T> findPageable(Pageable pageable) {
+        return readAllByIsDeletedFalse(pageable);
     }
 
     default List<T> findAll() {

@@ -12,6 +12,8 @@ import ru.laptseu.libararyapp.entities.Author;
 import ru.laptseu.libararyapp.entities.Publisher;
 import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
+import ru.laptseu.libararyapp.entities.dto.AuthorDto;
+import ru.laptseu.libararyapp.entities.dto.EntityDto;
 import ru.laptseu.libararyapp.repositories.archive.BookArchiveRepository;
 import ru.laptseu.libararyapp.repositories.library.BookLibraryRepository;
 import ru.laptseu.libararyapp.repositories.library.PublisherRepository;
@@ -61,6 +63,10 @@ class MappingTest {
     Long bookLibId2;
     Long bookArchId1;
     Long bookArchId2;
+    Long a1SavedId;
+    Long a2SavedId ;
+    Long a3SavedId ;
+    Long a4SavedId;
 
 
     @BeforeEach
@@ -89,10 +95,10 @@ class MappingTest {
         a2.setFirstName("a2 " + Calendar.getInstance().getTime());
         a3.setFirstName("a3 " + Calendar.getInstance().getTime());
         a4.setFirstName("a4 " + Calendar.getInstance().getTime());
-        authorService.save(a1);
-        authorService.save(a2);
-        authorService.save(a3);
-        authorService.save(a4);
+        a1SavedId = authorService.save(a1).getId();
+         a2SavedId = authorService.save(a2).getId();
+         a3SavedId = authorService.save(a3).getId();
+         a4SavedId = authorService.save(a4).getId();
 
         listOfThreeAuthors = new ArrayList<>();
         listOfThreeAuthors.add(a1);
@@ -131,6 +137,18 @@ class MappingTest {
         assertEquals(p2.getName(), bookWeUnArchived2.getPublisher().getName());
         assertEquals(3, bookWeUnArchived1.getAuthorList().size());
         assertEquals(1, bookWeUnArchived2.getAuthorList().size());
+    }
+
+    @Test
+    @DisplayName("Test Mapping Dto")
+    void testMappingDto() throws Exception {
+        AuthorDto authorDto1 = (AuthorDto) authorService.readDto(a1SavedId);
+        AuthorDto authorDto2 = (AuthorDto) authorService.readDto(a2SavedId);
+
+        List<EntityDto> aList1 =  authorService.readDtoList(1);
+        List<EntityDto> aList2 =  authorService.readDtoList(2);
+        List<EntityDto> aList3 =  authorService.readDtoList(3);
+
     }
 
 
