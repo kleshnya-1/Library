@@ -7,6 +7,7 @@ import ru.laptseu.libararyapp.entities.Entity;
 import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 import ru.laptseu.libararyapp.mappers.backMappers.BookArchivingMapper;
+import ru.laptseu.libararyapp.repositories.LoggingRepository;
 import ru.laptseu.libararyapp.repositories.RepositoryFactory;
 
 import javax.naming.OperationNotSupportedException;
@@ -16,25 +17,29 @@ import java.util.Calendar;
 @Service
 public class BookLibraryService extends AbstractService<BookInLibrary> {
     private final BookArchivingMapper bookArchivingMapper;
-    private final RepositoryFactory repositoryFactory;
+    private final ServiceFactory serviceFactory;
+    private final LoggingRepository loggingRepository;
+
     Class entityClass = BookInLibrary.class;
 
-    public BookLibraryService(RepositoryFactory repositoryFactory, BookArchivingMapper bookArchivingMapper) {
+    public BookLibraryService(RepositoryFactory repositoryFactory, BookArchivingMapper bookArchivingMapper, ServiceFactory serviceFactory, LoggingRepository loggingRepository) {
         super(repositoryFactory);
         this.bookArchivingMapper = bookArchivingMapper;
-        this.repositoryFactory = repositoryFactory;
+
+        this.serviceFactory = serviceFactory;
+        this.loggingRepository = loggingRepository;
     }
 
     @Override
     @Transactional(value = "libraryTransactionManager", rollbackFor = Exception.class)
 
-    public BookArchived toArchive(BookInLibrary bookInLibrary) {
-        BookArchived bookArchived = bookArchivingMapper.map(bookInLibrary);
+    public BookArchived toArchive(BookInLibrary bookInLibraryForArchiving) {
+        BookArchived bookArchived = bookArchivingMapper.map(bookInLibraryForArchiving);
         bookArchived.setId(null);
         bookArchived.setDateOfArchived(Calendar.getInstance());
-        repositoryFactory.get(bookArchived.getClass()).save(bookArchived);
-        repositoryFactory.get(bookInLibrary.getClass()).deleteById(bookInLibrary.getId());
-        repositoryFactory.get(Entity.class).save("Book " + bookInLibrary.getId() + " " + bookInLibrary.getName() + " archived successfully");
+        bookArchived= (BookArchived) serviceFactory.get(bookArchived.getClass()).save(bookArchived);
+        serviceFactory.get(bookInLibraryForArchiving.getClass()).delete(bookInLibraryForArchiving.getId());
+        loggingRepository.save("Book " + bookInLibraryForArchiving.getId() + " " + bookInLibraryForArchiving.getName() + " archived successfully");
         return bookArchived;
     }
 

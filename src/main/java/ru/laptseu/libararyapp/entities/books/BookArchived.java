@@ -16,8 +16,8 @@ import java.util.List;
 public class BookArchived extends Book {
     private Calendar dateOfArchived;
 
-  //  @ElementCollection
-//    private List<Integer> authorIdList;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Integer> authorList;
 
-    private Integer publisherId;
+    private Integer publisher;
 }

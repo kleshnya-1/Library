@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = LibraryAppApplication.class)
 @DisplayName("Archive Service Test")
-class ArchivingAndMappingTest {
+class ArchivingTest {
     @Autowired
     BookLibraryService bookLibraryService;
     @Autowired
@@ -51,10 +51,7 @@ class ArchivingAndMappingTest {
     BookArchived ab2;
     Publisher p1;
     Publisher p2;
-    Author a1;
-    Author a2;
-    Author a3;
-    Author a4;
+
 
     Long bookLibId1;
     Long bookLibId2;
@@ -77,20 +74,8 @@ class ArchivingAndMappingTest {
         p2 = new Publisher();
         p2.setName("p2 " + Calendar.getInstance().getTime() + " " + p2.hashCode());
 
-        a1 = new Author();
-        a2 = new Author();
-        a3 = new Author();
-        a4 = new Author();
-        a1.setFirstName("a1 " + Calendar.getInstance().getTime());
-        a2.setFirstName("a2 " + Calendar.getInstance().getTime());
-        a3.setFirstName("a3 " + Calendar.getInstance().getTime());
-        a4.setFirstName("a4 " + Calendar.getInstance().getTime());
-        List<Author> listOfThreeAuthors = new ArrayList<>();
-        listOfThreeAuthors.add(a1);
-        listOfThreeAuthors.add(a2);
-        listOfThreeAuthors.add(a3);
-        List<Author> listOfOneAuthors = new ArrayList<>();
-        listOfOneAuthors.add(a4);
+
+
 
         bookLibId1 = bookLibraryService.save(lb1).getId();
         bookLibId2 = bookLibraryService.save(lb2).getId();
@@ -101,31 +86,7 @@ class ArchivingAndMappingTest {
         archiveService = serviceFactory.get(BookArchived.class);
     }
 
-    @Test
-    @DisplayName("Test Mapping")
-    void testMapping() throws Exception {
-        lb1.setPublisher(p1);
-        lb2.setPublisher(p2);
 
-
-        assertEquals(2, bookLibraryRepository.findAll().size());
-        assertEquals(2, bookArchiveRepository.findAll().size());
-
-        BookInLibrary bookFromLib1 = (BookInLibrary) libraryService.read(bookLibId1);
-        BookInLibrary bookFromLib2 = (BookInLibrary) libraryService.read(bookLibId2);
-        BookArchived bookFromArchive1 = (BookArchived) archiveService.read(bookArchId1);
-        BookArchived bookFromArchive2 = (BookArchived) archiveService.read(bookArchId2);
-
-        libraryService.toArchive(bookFromLib1);
-        libraryService.toArchive(bookFromLib2);
-        assertEquals(0, bookLibraryRepository.findAll().size());
-        assertEquals(4, bookArchiveRepository.findAll().size());
-
-        archiveService.fromArchive(bookFromArchive1);
-        archiveService.fromArchive(bookFromArchive2);
-        assertEquals(2, bookLibraryRepository.findAll().size());
-        assertEquals(2, bookArchiveRepository.findAll().size());
-    }
 
     @Test
     @DisplayName("Test Archive and UnArchive Books")

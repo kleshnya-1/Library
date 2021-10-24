@@ -39,7 +39,13 @@ public abstract class AbstractService<T extends EntityWithLongId> {
     }
 
     abstract public BookArchived toArchive(BookInLibrary bookInLibrary) throws OperationNotSupportedException;
+     public BookArchived toArchive(Long id) throws OperationNotSupportedException{
+         return toArchive((BookInLibrary) read(id));
+     }
 
     abstract public BookInLibrary fromArchive(BookArchived bookArchived) throws OperationNotSupportedException;
+     public BookInLibrary fromArchive(Long id) throws OperationNotSupportedException{
+         return  fromArchive((BookArchived) read(id));
+     }
 
 }
