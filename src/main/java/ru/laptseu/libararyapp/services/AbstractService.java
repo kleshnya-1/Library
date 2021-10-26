@@ -78,8 +78,17 @@ public abstract class AbstractService<T extends EntityWithLongId> {
         return frontMappersFactory.get(getEntityClass()).map(entity);
     }
 
-    public Entity fromDto(EntityDto entityDto) {
+    public T fromDto(EntityDto entityDto) {
         FrontMapper ma = frontMappersFactory.get(getEntityClass());
-        return frontMappersFactory.get(getEntityClass()).map(entityDto);
+        return (T) frontMappersFactory.get(getEntityClass()).map(entityDto);
     }
+
+//    public List<EntityDto> toDto(List<Entity> entity) {
+//        return frontMappersFactory.get(getEntityClass()).map(entity);
+//    }
+//
+//    public List<T> fromDto(List<EntityDto> entityDto) {
+//        FrontMapper ma = frontMappersFactory.get(getEntityClass());
+//        return (T) frontMappersFactory.get(getEntityClass()).map(entityDto);
+//    }
 }

@@ -4,10 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 
-import javax.persistence.CascadeType;
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import java.util.List;
 
 @Entity
@@ -19,6 +17,6 @@ public class Publisher extends EntityWithLongId {
     private String address;
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<BookInLibrary> bookList;
 }

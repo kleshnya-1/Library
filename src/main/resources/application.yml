@@ -35,10 +35,10 @@ spring:
 #    password: 1
 
 
-#  mvc:
-#    hiddenmethod:
-#      filter:
-#        enabled: true
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
 logFile:
  address:  "log.txt"

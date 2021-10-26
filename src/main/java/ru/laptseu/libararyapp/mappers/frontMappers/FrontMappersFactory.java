@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import ru.laptseu.libararyapp.entities.Author;
 import ru.laptseu.libararyapp.entities.Entity;
+import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,7 @@ public class FrontMappersFactory {
 
     static {
         FACTORY_MAP.put(Author.class, AuthorMapper.class);
+        FACTORY_MAP.put(BookInLibrary.class, BookMapper.class);
     }
 
     private final ApplicationContext applicationContext;
