@@ -13,7 +13,9 @@ import ru.laptseu.libararyapp.entities.Publisher;
 import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 import ru.laptseu.libararyapp.entities.dto.AuthorDto;
+import ru.laptseu.libararyapp.entities.dto.BookDto;
 import ru.laptseu.libararyapp.entities.dto.EntityDto;
+import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
 import ru.laptseu.libararyapp.repositories.archive.BookArchiveRepository;
 import ru.laptseu.libararyapp.repositories.library.BookLibraryRepository;
 import ru.laptseu.libararyapp.repositories.library.PublisherRepository;
@@ -45,6 +47,8 @@ class MappingTest {
     BookArchiveService archiveService;
     @Autowired
     PublisherService publisherService;
+    @Autowired
+    FrontMappersFactory frontMappersFactory;
 
     BookInLibrary lb1;
     BookInLibrary lb2;
@@ -148,6 +152,19 @@ class MappingTest {
         List<EntityDto> aList1 =  authorService.readDtoList(1);
         List<EntityDto> aList2 =  authorService.readDtoList(2);
         List<EntityDto> aList3 =  authorService.readDtoList(3);
+
+        BookDto bookDto = new BookDto();
+        List list = new ArrayList();
+        list.add(authorDto1);
+        list.add(authorDto2);
+        bookDto.setAuthorDtoList(list);
+
+        // TODO: 26.10.2021 in progress
+      // BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map(bookDto);
+     //  BookDto bookDto1 = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
+      // assertEquals(1,1);
+
+
 
     }
 

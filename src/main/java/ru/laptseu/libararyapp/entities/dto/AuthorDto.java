@@ -8,8 +8,9 @@ import javax.validation.constraints.Positive;
 @Getter
 @Setter
 public class AuthorDto extends EntityDto {
-   @Positive
+    @Positive
     private Long id;
+
     private String firstName;
     private String secondName;
     private Integer birthYear;

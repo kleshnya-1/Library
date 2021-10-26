@@ -26,7 +26,9 @@
             <td th:text="${dto.getDeathYear()}">-</td>
             </tbody>
         </table>
-<!--        <iframe src="" height="1000" width="300" title="Iframe Example"></iframe>-->
+        <h4>Книги в библиотеке: </h4>
+        <h6>*в работе*: </h6>
+        <iframe src="@{/library/id/{id}(id=${e.getId()})}" height="300" width="600" title="Iframe Example"></iframe>
         </main>
     <footer th:insert="blocks/footer :: footer"></footer>
 </div>

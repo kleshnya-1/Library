@@ -1,7 +1,6 @@
-package ru.laptseu.libararyapp.controllers;//package ru.laptseu.libararyapp.controllers;
+package ru.laptseu.libararyapp.controllers;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +16,6 @@ import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.List;
 
-@Log4j2
 @Controller
 @RequestMapping("/authors")
 @RequiredArgsConstructor
@@ -43,14 +41,14 @@ public class AuthorController {
         if (bindingResult.hasErrors()) {
             return "redirect:/authors/1";
         }
-        if (filledDto.getId()!=null){
+        if (filledDto.getId() != null) {//this URL only for new Entities
             return "redirect:/authors/1";
         }
         if (filledDto.getFirstName() == "" && filledDto.getSecondName() == "" &&
                 filledDto.getBirthYear() == null && filledDto.getDeathYear() == null) {
             return "redirect:/authors/1";
         }
-        if (filledDto.getBirthYear()!=null && filledDto.getBirthYear() > Calendar.getInstance().get(Calendar.YEAR)) {
+        if (filledDto.getBirthYear() != null && filledDto.getBirthYear() > Calendar.getInstance().get(Calendar.YEAR)) {
             return "redirect:/authors/1";
         }
         if (filledDto.getBirthYear() != null && filledDto.getDeathYear() != null) {
@@ -64,7 +62,7 @@ public class AuthorController {
     }
 
     @GetMapping("/id/{id}")
-    public String openAccount(@PathVariable Long id, Model model) {
+    public String openPersonalPage(@PathVariable Long id, Model model) {
         Author author = (Author) serviceFactory.get(Author.class).read(id);
         AuthorDto dto = (AuthorDto) frontMappersFactory.get(Author.class).map(author);
         List<BookDto> dtoBooks = frontMappersFactory.get(BookInLibrary.class).map(author.getBookList());
@@ -89,7 +87,6 @@ public class AuthorController {
         return "authors/author_edit";
     }
 
-    //
     @PatchMapping("/id/{id}")
     public String update(@ModelAttribute("dto") AuthorDto dto) {
         serviceFactory.get(Author.class).update(serviceFactory.get(Author.class).fromDto(dto));

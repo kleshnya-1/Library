@@ -2,9 +2,7 @@ package ru.laptseu.libararyapp.mappers.frontMappers;
 
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
-import ru.laptseu.libararyapp.entities.Author;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
-import ru.laptseu.libararyapp.entities.dto.AuthorDto;
 import ru.laptseu.libararyapp.entities.dto.BookDto;
 import ru.laptseu.libararyapp.entities.dto.EntityDto;
 
