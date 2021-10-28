@@ -41,27 +41,14 @@ public class ArchiveConfiguration {
     }
 
     @Bean
-    public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
-        return new EntityManagerFactoryBuilder(new HibernateJpaVendorAdapter(),
-                new HashMap(), null);
-    }
-
-    Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");// TODO: 21.10.2021 refactor to properties
-        return properties;
-    }
-
-    @Bean
     public LocalContainerEntityManagerFactoryBean archiveEntityManager
             (EntityManagerFactoryBuilder builder,
              @Qualifier("archiveDataSource") DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean l = builder
+
+        return builder
                 .dataSource(dataSource)
                 .packages(BookArchived.class, Publisher.class)
                 .build();
-        l.setJpaProperties(additionalProperties());
-        return l;
     }
 
     @Bean

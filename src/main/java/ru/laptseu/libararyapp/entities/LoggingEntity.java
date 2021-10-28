@@ -2,18 +2,24 @@ package ru.laptseu.libararyapp.entities;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-
+@Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @MappedSuperclass
-public abstract class EntityWithLongId extends ru.laptseu.libararyapp.entities.Entity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public  class LoggingEntity extends EntityWithLongId {
+    private String message;
+
+    public LoggingEntity(String s) {
+        message = s;
+    }
+
 }

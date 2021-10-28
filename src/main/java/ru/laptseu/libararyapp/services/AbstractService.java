@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import ru.laptseu.libararyapp.entities.Entity;
 import ru.laptseu.libararyapp.entities.EntityWithLongId;
+import ru.laptseu.libararyapp.entities.LoggingEntity;
 import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 import ru.laptseu.libararyapp.entities.dto.EntityDto;
@@ -28,7 +29,7 @@ public abstract class AbstractService<T extends EntityWithLongId> {
 
     public T save(T entity) {
         T savedEntity = (T) repositoryFactory.get(getEntityClass()).save(entity);
-        repositoryFactory.get(Entity.class).save(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved");
+        repositoryFactory.get(LoggingEntity.class).save(new LoggingEntity(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved"));
         return savedEntity;
     }
 
@@ -43,7 +44,7 @@ public abstract class AbstractService<T extends EntityWithLongId> {
 
     public void delete(Long id) {
         repositoryFactory.get(getEntityClass()).deleteById(id);
-        repositoryFactory.get(Entity.class).save(getEntityClass().getSimpleName() + " " + id + " deleted");
+        repositoryFactory.get(LoggingEntity.class).save(new LoggingEntity(getEntityClass().getSimpleName() + " " + id + " deleted"));
     }
 
     public BookArchived toArchive(BookInLibrary bookInLibrary) throws OperationNotSupportedException {
@@ -72,7 +73,9 @@ public abstract class AbstractService<T extends EntityWithLongId> {
         List dtoList = entityList.stream().map(entity -> toDto(entity)).collect(Collectors.toList());
         return dtoList;
     }
-
+    public List<T> readBooksByAuthor(Long id) throws OperationNotSupportedException {
+        throw new OperationNotSupportedException();
+    }
 
     public EntityDto toDto(Entity entity) {
         return frontMappersFactory.get(getEntityClass()).map(entity);
@@ -82,13 +85,4 @@ public abstract class AbstractService<T extends EntityWithLongId> {
         FrontMapper ma = frontMappersFactory.get(getEntityClass());
         return (T) frontMappersFactory.get(getEntityClass()).map(entityDto);
     }
-
-//    public List<EntityDto> toDto(List<Entity> entity) {
-//        return frontMappersFactory.get(getEntityClass()).map(entity);
-//    }
-//
-//    public List<T> fromDto(List<EntityDto> entityDto) {
-//        FrontMapper ma = frontMappersFactory.get(getEntityClass());
-//        return (T) frontMappersFactory.get(getEntityClass()).map(entityDto);
-//    }
 }

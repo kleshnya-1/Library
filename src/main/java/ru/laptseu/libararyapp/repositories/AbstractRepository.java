@@ -30,6 +30,9 @@ public interface AbstractRepository<T extends EntityWithLongId> extends PagingAn
     default Optional<T> findById(Long id) {
         return readByIdAndIsDeletedFalse(id);
     }
+    default List<T> findByAuthorId(Long id) {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     default void deleteById(Long id) {

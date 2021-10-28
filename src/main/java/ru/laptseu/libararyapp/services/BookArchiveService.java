@@ -4,12 +4,12 @@ import lombok.Getter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.laptseu.libararyapp.entities.Author;
+import ru.laptseu.libararyapp.entities.LoggingEntity;
 import ru.laptseu.libararyapp.entities.Publisher;
 import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 import ru.laptseu.libararyapp.mappers.backMappers.BookArchivingMapper;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
-import ru.laptseu.libararyapp.repositories.LoggingRepository;
 import ru.laptseu.libararyapp.repositories.RepositoryFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
 
@@ -21,14 +21,15 @@ import java.util.List;
 public class BookArchiveService extends AbstractService<BookArchived> {
     private final BookArchivingMapper bookArchivingMapper;
     private final ServiceFactory serviceFactory;
-    private final LoggingRepository loggingRepository;//directly to repository. is it ok? because message in String can't be saved in <T extends Entity>
+
     Class entityClass = BookArchived.class;
 
-    public BookArchiveService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory, BookArchivingMapper bookArchivingMapper, ServiceFactory serviceFactory, LoggingRepository loggingRepository) {
+    public BookArchiveService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory,
+                              BookArchivingMapper bookArchivingMapper, ServiceFactory serviceFactory) {
         super(repositoryFactory, pageUtility, frontMappersFactory);
         this.bookArchivingMapper = bookArchivingMapper;
         this.serviceFactory = serviceFactory;
-        this.loggingRepository = loggingRepository;
+
     }
 
     @Transactional(value = "archiveTransactionManager", rollbackFor = Exception.class)
@@ -42,7 +43,7 @@ public class BookArchiveService extends AbstractService<BookArchived> {
         bookInLibrary.setPublisher(publisherByIdFromArchivedBook);
         serviceFactory.get(bookInLibrary.getClass()).save(bookInLibrary);
         serviceFactory.get(bookArchived.getClass()).delete(bookArchived.getId());
-        loggingRepository.save("Book " + bookArchived.getId() + " " + bookArchived.getName() + " unarchived successfully");
+        serviceFactory.get(LoggingEntity.class).save(new LoggingEntity("Book " + bookArchived.getId() + " " + bookArchived.getName() + " unarchived successfully"));
         return bookInLibrary;
     }
 }

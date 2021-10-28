@@ -16,9 +16,7 @@ import ru.laptseu.libararyapp.entities.dto.AuthorDto;
 import ru.laptseu.libararyapp.entities.dto.BookDto;
 import ru.laptseu.libararyapp.entities.dto.EntityDto;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
-import ru.laptseu.libararyapp.repositories.archive.BookArchiveRepository;
 import ru.laptseu.libararyapp.repositories.library.BookLibraryRepository;
-import ru.laptseu.libararyapp.repositories.library.PublisherRepository;
 import ru.laptseu.libararyapp.services.*;
 
 import java.util.ArrayList;
@@ -157,7 +155,7 @@ class MappingTest {
         List list = new ArrayList();
         list.add(authorDto1);
         list.add(authorDto2);
-        bookDto.setAuthorDtoList(list);
+        bookDto.setAuthorList(list);
 
         // TODO: 26.10.2021 in progress
       // BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map(bookDto);

@@ -27,15 +27,47 @@
                 <td th:text="${dtoList.indexOf(e)}">-</td>
                 <td th:text="${e.getFirstName()}">-</td>
                 <td th:text="${e.getSecondName()}">-</td>
-                <td th:text="${e.getBirthYear()}">-</td>
-                <td th:text="${e.getDeathYear()}">-</td>
+
+                <div th:if="${e.getBirthYear()!=null}">
+                    <div th:if="${e.getBirthYear()<0}">
+                        <td>
+                            <p th:text="${e.getBirthYear()*-1}"></p>
+                            <p>BC</p>
+                        </td>
+                    </div>
+                    <div th:if="${e.getBirthYear()>-1}">
+                        <td th:text="${e.getBirthYear()}">
+                        </td>
+                    </div>
+                </div>
+                    <div th:if="${e.getBirthYear()==null}">
+                        <td>-</td>
+                    </div>
+
+                <div th:if="${e.getDeathYear()!=null}">
+                    <div th:if="${e.getDeathYear()<0}">
+                        <td>
+                            <p th:text="${e.getDeathYear()*-1}"></p>
+                            <p>BC</p>
+                        </td>
+                    </div>
+                    <div th:if="${e.getDeathYear()>-1}">
+                        <td th:text="${e.getDeathYear()}">
+                        </td>
+                    </div>
+                </div>
+                <div th:if="${e.getDeathYear()==null}">
+                    <td>-</td>
+                </div>
                 <td>
                     <a th:href="@{/authors/id/{id}(id=${e.getId()})}" class="btn btn-outline-primary">Открыть</a>
-                    <a th:href="@{/authors/id/{id}/edit(id=${e.getId()})}" class="btn btn-outline-primary">Редактировать</a>
-                    <form class="btn btn-outline-primary" th:method="post" th:action="@{http://localhost:8080/authors/id/{id}/remove(id=${e.getId()})}">
+                    <a th:href="@{/authors/id/{id}/edit(id=${e.getId()})}"
+                       class="btn btn-outline-primary">Редактировать</a>
+                    <form class="btn btn-outline-primary" th:method="post"
+                          th:action="@{http://localhost:8080/authors/id/{id}/remove(id=${e.getId()})}">
                         <input type="submit" value="Удалить"/>
                     </form>
-                          </td>
+                </td>
             </tr>
             </tbody>
         </table>

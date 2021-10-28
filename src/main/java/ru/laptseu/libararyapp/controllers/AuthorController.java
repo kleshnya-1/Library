@@ -11,6 +11,7 @@ import ru.laptseu.libararyapp.entities.dto.AuthorDto;
 import ru.laptseu.libararyapp.entities.dto.BookDto;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
 import ru.laptseu.libararyapp.services.ServiceFactory;
+import ru.laptseu.libararyapp.utilities.PageUtility;
 
 import javax.validation.Valid;
 import java.util.Calendar;
@@ -19,20 +20,17 @@ import java.util.List;
 @Controller
 @RequestMapping("/authors")
 @RequiredArgsConstructor
-public class AuthorController {
+public class AuthorController {// TODO: 27.10.2021 нормальные названия методов
     private final ServiceFactory serviceFactory;
     private final FrontMappersFactory frontMappersFactory;
+    private final PageUtility pageUtility;
 
     @GetMapping("/{page}")
     public String openPage(@PathVariable Integer page, Model model) {
         List<AuthorDto> dtoList = serviceFactory.get(Author.class).readDtoList(page);
         model.addAttribute("dtoList", dtoList);
-        if (page == 1) {
-            model.addAttribute("exPageNum", page);
-        } else {
-            model.addAttribute("exPageNum", page - 1);
-        }
-        model.addAttribute("nextPageNum", page + 1);
+        model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
+        model.addAttribute("nextPageNum", pageUtility.getNextPageNum( dtoList.size(), page));
         return "authors/author_first";
     }
 

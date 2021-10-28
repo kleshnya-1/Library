@@ -26,10 +26,10 @@
             <td th:text="${dto.getDeathYear()}">-</td>
             </tbody>
         </table>
-        <h4>Книги в библиотеке: </h4>
-        <h6>*в работе*: </h6>
-        <iframe src="@{/library/id/{id}(id=${e.getId()})}" height="300" width="600" title="Iframe Example"></iframe>
-        </main>
+
+        <iframe th:src="@{http://localhost:8080/library/by_author/{id}/1/(id=${dto.getId()})}" height="800" width="1400" title="Iframe Example"></iframe>
+
+    </main>
     <footer th:insert="blocks/footer :: footer"></footer>
 </div>
 </body>

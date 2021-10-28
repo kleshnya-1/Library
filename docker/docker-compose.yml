@@ -2,7 +2,10 @@ version: "3.8"
 
 volumes:
   pg_libraryApp_libraryDb_volume:
+#    external: true
+
   pg_libraryApp_archiveDb_volume:
+#    external: true
 
 
 services:

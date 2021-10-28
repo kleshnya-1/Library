@@ -91,24 +91,21 @@ class ArchivingTest {
     @Test
     @DisplayName("Test Archive and UnArchive Books")
     void testToArchive() throws Exception {
-        assertEquals(2, bookLibraryRepository.findAll().size());
-        assertEquals(2, bookArchiveRepository.findAll().size());
-
-        BookInLibrary bookFromLib1 = (BookInLibrary) libraryService.read(bookLibId1);
+              BookInLibrary bookFromLib1 = (BookInLibrary) libraryService.read(bookLibId1);
         BookInLibrary bookFromLib2 = (BookInLibrary) libraryService.read(bookLibId2);
         BookArchived bookFromArchive1 = (BookArchived) archiveService.read(bookArchId1);
         BookArchived bookFromArchive2 = (BookArchived) archiveService.read(bookArchId2);
 
+        int sizeL = bookLibraryRepository.findAll().size();
+        int sizeA = bookArchiveRepository.findAll().size();
         libraryService.toArchive(bookFromLib1);
         libraryService.toArchive(bookFromLib2);
-        assertEquals(0, bookLibraryRepository.findAll().size());
-        assertEquals(4, bookArchiveRepository.findAll().size());
+
+        assertEquals(2+sizeA, bookArchiveRepository.findAll().size());
 
         archiveService.fromArchive(bookFromArchive1);
         archiveService.fromArchive(bookFromArchive2);
-        assertEquals(2, bookLibraryRepository.findAll().size());
-        assertEquals(2, bookArchiveRepository.findAll().size());
+        assertEquals(sizeL, bookLibraryRepository.findAll().size());
+        assertEquals(sizeA, bookArchiveRepository.findAll().size());
     }
-
-
 }
