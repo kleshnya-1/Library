@@ -13,7 +13,7 @@ import ru.laptseu.libararyapp.utilities.PageUtility;
 @Service
 
 public class PublisherService extends AbstractService<Publisher> {
-    Class entityClass = Publisher.class;
+  //  Class entityClass = Publisher.class;
 
     public PublisherService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory) {
         super(repositoryFactory, pageUtility, frontMappersFactory);

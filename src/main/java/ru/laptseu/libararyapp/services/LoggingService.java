@@ -11,7 +11,7 @@ import ru.laptseu.libararyapp.utilities.PageUtility;
 @Getter
 @Service
 public class LoggingService extends AbstractService<LoggingEntity> {
-    Class entityClass = LoggingEntity.class;
+  //  Class entityClass = LoggingEntity.class;
 
     public LoggingService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory) {
         super(repositoryFactory, pageUtility, frontMappersFactory);

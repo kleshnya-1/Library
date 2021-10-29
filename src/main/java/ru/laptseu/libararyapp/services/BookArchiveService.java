@@ -22,7 +22,7 @@ public class BookArchiveService extends AbstractService<BookArchived> {
     private final BookArchivingMapper bookArchivingMapper;
     private final ServiceFactory serviceFactory;
 
-    Class entityClass = BookArchived.class;
+  //  Class entityClass = BookArchived.class;
 
     public BookArchiveService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory,
                               BookArchivingMapper bookArchivingMapper, ServiceFactory serviceFactory) {

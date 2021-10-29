@@ -27,7 +27,7 @@ public class RepositoryFactory {
         FACTORY_MAP.put(BookArchived.class, BookArchiveRepository.class);
         FACTORY_MAP.put(BookInLibrary.class, BookLibraryRepository.class);
         FACTORY_MAP.put(Publisher.class, PublisherRepository.class);
-        FACTORY_MAP.put(LoggingEntity.class, LoggingRepository.class); // Entity as superClass don't have own persisting repository and here uses for mapping this logging repository (.txt)
+        FACTORY_MAP.put(LoggingEntity.class, LoggingRepository.class);
     }
 
     private final ApplicationContext applicationContext;

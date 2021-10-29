@@ -144,12 +144,12 @@ class MappingTest {
     @Test
     @DisplayName("Test Mapping Dto")
     void testMappingDto() throws Exception {
-        AuthorDto authorDto1 = (AuthorDto) authorService.readDto(a1SavedId);
-        AuthorDto authorDto2 = (AuthorDto) authorService.readDto(a2SavedId);
+        AuthorDto authorDto1 = (AuthorDto) frontMappersFactory.get(Author.class).map( authorService.read(a1SavedId));
+        AuthorDto authorDto2 = (AuthorDto) frontMappersFactory.get(Author.class).map(authorService.read(a2SavedId));
 
-        List<EntityDto> aList1 =  authorService.readDtoList(1);
-        List<EntityDto> aList2 =  authorService.readDtoList(2);
-        List<EntityDto> aList3 =  authorService.readDtoList(3);
+        List<EntityDto> aList1 =  frontMappersFactory.get(Author.class).map(authorService.readList(1));
+        List<EntityDto> aList2 =  frontMappersFactory.get(Author.class).map(authorService.readList(2));
+        List<EntityDto> aList3 = frontMappersFactory.get(Author.class).map( authorService.readList(3));
 
         BookDto bookDto = new BookDto();
         List list = new ArrayList();

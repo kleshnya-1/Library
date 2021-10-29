@@ -14,6 +14,6 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class EntityWithLongId extends ru.laptseu.libararyapp.entities.Entity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 }

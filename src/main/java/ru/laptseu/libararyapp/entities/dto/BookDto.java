@@ -18,7 +18,7 @@ public class BookDto extends EntityDto {
 
     private List<AuthorDto> authorList;        // TODO: 26.10.2021 in progress
     private String description;
-    private int sectionNumber;
-    private int yearOfPublishing;
+    private Integer sectionNumber;
+    private Integer yearOfPublishing;
     private PublisherDto publisherDto;        // TODO: 26.10.2021 in progress
 }

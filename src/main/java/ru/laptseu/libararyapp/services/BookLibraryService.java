@@ -23,7 +23,7 @@ public class BookLibraryService extends AbstractService<BookInLibrary> {
     private final ServiceFactory serviceFactory;
     private final RepositoryFactory repositoryFactory;
 
-    Class entityClass = BookInLibrary.class;
+   // Class entityClass = BookInLibrary.class;
 
     public BookLibraryService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory,
                               BookArchivingMapper bookArchivingMapper, ServiceFactory serviceFactory ) {
@@ -47,6 +47,11 @@ public class BookLibraryService extends AbstractService<BookInLibrary> {
 
     @Override
     public List<BookInLibrary> readBooksByAuthor(Long id) throws OperationNotSupportedException {
-        return repositoryFactory.get(entityClass).findByAuthorId(id);
+        return repositoryFactory.get(getEntityClass()).findByAuthorId(id);
+    }
+
+    @Override
+    public List<BookInLibrary> readBooksByPublisher(Long id) throws OperationNotSupportedException {
+        return repositoryFactory.get(getEntityClass()).findByPublisherId(id);
     }
 }

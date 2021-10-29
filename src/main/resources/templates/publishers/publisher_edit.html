@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid py-3">
+    <header th:insert="blocks/header :: header"></header>
+    <main>
+        <form th:method="PATCH" th:action="@{http://localhost:8080/publishers/id/{id}(id=${dto.getId()})}" th:object="${dto}">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Название</label>
+                    <input class="form-control" placeholder="Альпина Паблишер" th:field="*{name}" type="text">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Адрес</label>
+                    <input class="form-control" placeholder="г.Москва, 4-я Магистральная улица, д.5" th:field="*{address}" type="text">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Телефон</label>
+                    <input class="form-control" placeholder="+7 (495) 980-53-54" th:field="*{phoneNumber}" type="text">
+                </div>
+            </div>
+            <p><input type="submit" value="Подтвердить"/> <input type="reset" value="Сброс"/></p>
+        </form>
+    </main>
+    <footer th:insert="blocks/footer :: footer"></footer>
+</div>
+</body>
+</html>

@@ -13,8 +13,14 @@ public interface BookLibraryRepository extends AbstractRepository<BookInLibrary>
 
     List<BookInLibrary> readAllByIsDeletedFalseAndAuthorList_Id(Long id );
 
+    List<BookInLibrary> readAllByIsDeletedFalseAndPublisher_Id(Long id );
+
     @Override
     default List<BookInLibrary> findByAuthorId(Long id){
        return readAllByIsDeletedFalseAndAuthorList_Id(id);
+    }
+    @Override
+    default List<BookInLibrary> findByPublisherId(Long id){
+       return readAllByIsDeletedFalseAndPublisher_Id(id);
     }
 }

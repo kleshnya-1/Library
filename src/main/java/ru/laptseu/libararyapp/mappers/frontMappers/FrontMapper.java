@@ -5,7 +5,7 @@ import ru.laptseu.libararyapp.entities.dto.EntityDto;
 
 import java.util.List;
 
-public interface FrontMapper<E extends Entity, D extends EntityDto> {
+public interface FrontMapper<E extends Entity, D extends EntityDto> {// TODO: 28.10.2021 ennWithongId
 
     E map(D entityDto);
 
