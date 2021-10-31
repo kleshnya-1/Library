@@ -1970,3 +1970,101 @@ Sun Oct 31 18:28:55 MSK 2021 | Author 9 saved
 Sun Oct 31 18:28:55 MSK 2021 | Author 10 saved
 Sun Oct 31 18:28:55 MSK 2021 | Author 11 saved
 Sun Oct 31 18:28:55 MSK 2021 | Author 12 saved
+Sun Oct 31 18:50:20 MSK 2021 | Author 1 saved
+Sun Oct 31 18:50:20 MSK 2021 | Author 2 saved
+Sun Oct 31 18:50:20 MSK 2021 | Author 3 saved
+Sun Oct 31 18:50:20 MSK 2021 | Author 4 saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 1 saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 2 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 1 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 2 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 1 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 2 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 3 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 1 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Book 1 created as lb1 Sun Oct 31 18:50:23 MSK 2021 archived successfully
+Sun Oct 31 18:50:20 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 4 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 2 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Book 2 created as lb2 Sun Oct 31 18:50:23 MSK 2021 archived successfully
+Sun Oct 31 18:50:20 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 3 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 1 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Book 1 created as ab1 Sun Oct 31 18:50:23 MSK 2021 unarchived successfully
+Sun Oct 31 18:50:20 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 4 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 2 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Book 2 created as ab2 Sun Oct 31 18:50:23 MSK 2021 unarchived successfully
+Sun Oct 31 18:50:20 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 5 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 3 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Book 3 created as lb1 Sun Oct 31 18:50:23 MSK 2021 unarchived successfully
+Sun Oct 31 18:50:20 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 6 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 4 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Book 4 created as lb2 Sun Oct 31 18:50:23 MSK 2021 unarchived successfully
+Sun Oct 31 18:50:20 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 3 saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 4 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 7 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 8 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 5 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 6 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 9 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 10 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 7 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 8 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 11 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 12 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 9 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 10 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 13 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 14 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 11 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 12 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 13 deleted
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 14 deleted
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 11 deleted
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 12 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 5 saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 6 saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 7 saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 8 saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 9 saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 10 saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 9 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 10 deleted
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 15 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 15 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 11 saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 12 saved
+Sun Oct 31 18:50:20 MSK 2021 | Author 5 saved
+Sun Oct 31 18:50:20 MSK 2021 | Author 6 saved
+Sun Oct 31 18:50:20 MSK 2021 | Author 7 saved
+Sun Oct 31 18:50:20 MSK 2021 | Author 8 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 16 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 17 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 13 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 14 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 15 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 16 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Book 16 created as lb1 Sun Oct 31 18:50:24 MSK 2021 archived successfully
+Sun Oct 31 18:50:20 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 16 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 17 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Book 17 created as lb2 Sun Oct 31 18:50:24 MSK 2021 archived successfully
+Sun Oct 31 18:50:20 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 18 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 15 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Book 15 created as lb1 Sun Oct 31 18:50:24 MSK 2021 unarchived successfully
+Sun Oct 31 18:50:20 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 18:50:20 MSK 2021 | BookInLibrary 19 saved
+Sun Oct 31 18:50:20 MSK 2021 | BookArchived 16 deleted
+Sun Oct 31 18:50:20 MSK 2021 | Book 16 created as lb2 Sun Oct 31 18:50:24 MSK 2021 unarchived successfully
+Sun Oct 31 18:50:20 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 13 saved
+Sun Oct 31 18:50:20 MSK 2021 | Publisher 14 saved
+Sun Oct 31 18:50:20 MSK 2021 | Author 9 saved
+Sun Oct 31 18:50:20 MSK 2021 | Author 10 saved
+Sun Oct 31 18:50:20 MSK 2021 | Author 11 saved
+Sun Oct 31 18:50:20 MSK 2021 | Author 12 saved
