@@ -17,6 +17,7 @@ public class Author extends EntityWithLongId {
     private String secondName;
     private Integer birthYear;
     private Integer deathYear;
+
     @ManyToMany(mappedBy = "authorList", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<BookInLibrary> bookList;
 
@@ -26,7 +27,6 @@ public class Author extends EntityWithLongId {
         String sn;
         String by;
         String dy;
-
         if (firstName != null) {
             fn = firstName;
         } else {
@@ -37,7 +37,6 @@ public class Author extends EntityWithLongId {
         } else {
             sn = "";
         }
-
         if (birthYear == null) {
             by = "...";
         } else if (birthYear < 0) {

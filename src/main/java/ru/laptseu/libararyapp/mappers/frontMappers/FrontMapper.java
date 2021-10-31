@@ -5,13 +5,13 @@ import ru.laptseu.libararyapp.entities.dto.EntityDto;
 
 import java.util.List;
 
-public interface FrontMapper<E extends Entity, D extends EntityDto> {// TODO: 28.10.2021 ennWithongId
+public interface FrontMapper<E extends Entity, D extends EntityDto> {
 
     E map(D entityDto);
 
     D map(E entity);
 
-    List<E> mapB(List<D> entityDto);
+    List<E> mapFromDtoList(List<D> entityDtoList);
 
-    List<D> map(List<E> entity);
+    List<D> map(List<E> entityList);
 }

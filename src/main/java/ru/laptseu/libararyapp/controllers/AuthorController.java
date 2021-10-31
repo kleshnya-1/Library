@@ -1,6 +1,7 @@
 package ru.laptseu.libararyapp.controllers;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,60 +18,62 @@ import ru.laptseu.libararyapp.utilities.PageUtility;
 import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
+@Log4j2
 @Controller
 @RequestMapping("/authors")
 @RequiredArgsConstructor
 public class AuthorController {// TODO: 27.10.2021 нормальные названия методов
+    private static final String startingUrl = "redirect:/authors/1";
     private final ServiceFactory serviceFactory;
     private final FrontMappersFactory frontMappersFactory;
     private final PageUtility pageUtility;
-
 
     @GetMapping("/{page}")
     public String openPage(@PathVariable Integer page, Model model) {
         List<AuthorDto> dtoList = frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).readList(page));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
-        model.addAttribute("nextPageNum", pageUtility.getNextPageNum( dtoList.size(), page));
+        model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
         return "authors/author_first";
     }
 
     @PostMapping("/id/")
     public String submit(@ModelAttribute @Valid AuthorDto filledDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "redirect:/authors/1";
+            log.error(bindingResult.getFieldErrors());
+            return startingUrl;
         }
         if (filledDto.getId() != null) {//this URL only for new Entities
-            return "redirect:/authors/1";
+            log.error("not saved as new with id " + filledDto.getId());
+            return startingUrl;
         }
-        if (filledDto.getFirstName()==""){
+        if (Objects.equals(filledDto.getFirstName(), "")) {
             filledDto.setFirstName(null);
         }
-        if (filledDto.getSecondName()==""){
+        if (Objects.equals(filledDto.getSecondName(), "")) {
             filledDto.setSecondName(null);
         }
         if (filledDto.getFirstName() == null && filledDto.getSecondName() == null &&
                 filledDto.getBirthYear() == null && filledDto.getDeathYear() == null) {
-            return "redirect:/authors/1";
+            return startingUrl;
         }
         if (filledDto.getBirthYear() != null && filledDto.getBirthYear() > Calendar.getInstance().get(Calendar.YEAR)) {
-            return "redirect:/authors/1";
+            return startingUrl;
         }
-        if (filledDto.getBirthYear() != null && filledDto.getDeathYear() != null) {
-            if (filledDto.getDeathYear() - filledDto.getBirthYear() < 0) {
-                return "redirect:/authors/1";
-            }
+        if (filledDto.getBirthYear() != null && filledDto.getDeathYear() != null && filledDto.getDeathYear() - filledDto.getBirthYear() < 0) {
+            return startingUrl;
         }
-        if (filledDto.isUnknownBirthYear()==true){
+        if (filledDto.isUnknownBirthYear()) {
             filledDto.setBirthYear(null);
         }
-        if (filledDto.isUnknownDeathYear()==true){
+        if (filledDto.isUnknownDeathYear()) {
             filledDto.setDeathYear(null);
         }
-        Author author = (Author) frontMappersFactory.get(Author.class).map((filledDto));
+        Author author = (Author) frontMappersFactory.get(Author.class).map(filledDto);
         serviceFactory.get(Author.class).save(author);
-        return "redirect:/authors/1";
+        return startingUrl;
     }
 
     @GetMapping("/id/{id}")
@@ -78,9 +81,7 @@ public class AuthorController {// TODO: 27.10.2021 нормальные назв
         Author author = (Author) serviceFactory.get(Author.class).read(id);
         String representing = author.toString();
         AuthorDto dto = (AuthorDto) frontMappersFactory.get(Author.class).map(author);
-       // List<BookDto> dtoBooks = frontMappersFactory.get(BookInLibrary.class).map(author.getBookList());
         model.addAttribute("dto", dto);
-       // model.addAttribute("dtoList", dtoBooks);
         model.addAttribute("representing", representing);
         return "authors/author_one";
     }
@@ -103,12 +104,12 @@ public class AuthorController {// TODO: 27.10.2021 нормальные назв
     @PatchMapping("/id/{id}")
     public String update(@ModelAttribute("dto") AuthorDto dto) {
         serviceFactory.get(Author.class).update((EntityWithLongId) frontMappersFactory.get(Author.class).map((dto)));
-        return "redirect:/authors/1";
+        return startingUrl;
     }
 
     @PostMapping("/id/{id}/remove")
     public String delete(@PathVariable Long id) {
         serviceFactory.get(Author.class).delete(id);
-        return "redirect:/authors/1";
+        return startingUrl;
     }
 }

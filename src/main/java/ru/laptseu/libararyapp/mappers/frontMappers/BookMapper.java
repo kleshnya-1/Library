@@ -8,10 +8,10 @@ import ru.laptseu.libararyapp.entities.dto.BookDto;
 
 @Component
 @Mapper(componentModel = "spring", uses = {AuthorMapper.class, PublisherMapper.class})
-public  interface BookMapper extends FrontMapper<BookInLibrary, BookDto> {
+public interface BookMapper extends FrontMapper<BookInLibrary, BookDto> {
     @Mapping(source = "publisherDto", target = "publisher")
-      BookInLibrary map(BookDto bookDto);
+    BookInLibrary map(BookDto bookDto);
 
     @Mapping(source = "publisher", target = "publisherDto")
-       BookDto map(BookInLibrary bookInLibrary);
+    BookDto map(BookInLibrary bookInLibrary);
 }

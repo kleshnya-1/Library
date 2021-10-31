@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Getter
 public class PageUtility {
 
-    private final int numberOfEntitiesPerPage;// TODO: 24.10.2021 move to properties
+    private final int numberOfEntitiesPerPage;
 
     public PageUtility(@Value("${app.pages.entities-per-page}") int numberOfEntitiesPerPage) {
         this.numberOfEntitiesPerPage = numberOfEntitiesPerPage;
@@ -31,7 +31,7 @@ public class PageUtility {
     }
 
     public int getNextPageNum(int size, int page) {
-        if (size<numberOfEntitiesPerPage) {
+        if (size < numberOfEntitiesPerPage) {
             return page;
         } else {
             return page + 1;

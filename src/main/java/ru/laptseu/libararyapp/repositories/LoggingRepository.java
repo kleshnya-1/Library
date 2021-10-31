@@ -18,15 +18,14 @@ import java.util.Optional;
 @Log4j2
 @Repository
 public class LoggingRepository implements AbstractRepository<LoggingEntity> {
-    @Value("${logFile.address}")
-    String LOGGING_FILE_ADDRESS;
     Calendar calendar = new GregorianCalendar();
-
+    @Value("${logFile.address}")
+    private String LOGGING_FILE_ADDRESS;
 
     public LoggingEntity save(LoggingEntity loggingEntity) {
         String entity = loggingEntity.getMessage();
         try (FileOutputStream fileOutputStream = new FileOutputStream(LOGGING_FILE_ADDRESS, true)) {
-            entity = (calendar.getTime() + " | " + entity + "\n"); //todo custom date format
+            entity = (calendar.getTime() + " | " + entity + "\n");
             byte[] buffer = entity.getBytes();
             fileOutputStream.write(buffer);
         } catch (IOException e) {
@@ -72,10 +71,9 @@ public class LoggingRepository implements AbstractRepository<LoggingEntity> {
     }
 
 
-
     @Override
     public void delete(LoggingEntity entity) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -104,7 +102,6 @@ public class LoggingRepository implements AbstractRepository<LoggingEntity> {
     public long count() {
         throw new UnsupportedOperationException();
     }
-
 
 
     @Override

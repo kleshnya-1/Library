@@ -12,7 +12,9 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class Book extends EntityWithLongId {
     private String name;
-    @Column(columnDefinition="text")
+
+    @Column(columnDefinition = "text")
     private String description;
+
     private Integer yearOfPublishing;
 }

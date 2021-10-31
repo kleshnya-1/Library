@@ -66,8 +66,8 @@ class ArchivingTest {
     Long bookArchId1;
     Long bookArchId2;
     Long a1SavedId;
-    Long a2SavedId ;
-    Long a3SavedId ;
+    Long a2SavedId;
+    Long a3SavedId;
     Long a4SavedId;
 
     @BeforeEach
@@ -121,34 +121,30 @@ class ArchivingTest {
         archiveService = serviceFactory.get(BookArchived.class);
     }
 
-
-
     @Test
     @DisplayName("Test Archive and UnArchive Books")
     void testToArchive() throws Exception {
-              BookInLibrary bookFromLib1 = (BookInLibrary) libraryService.read(bookLibId1);
+        BookInLibrary bookFromLib1 = (BookInLibrary) libraryService.read(bookLibId1);
         BookInLibrary bookFromLib2 = (BookInLibrary) libraryService.read(bookLibId2);
         BookArchived bookFromArchive1 = (BookArchived) archiveService.read(bookArchId1);
         BookArchived bookFromArchive2 = (BookArchived) archiveService.read(bookArchId2);
 
         int sizeL = bookLibraryRepository.findAll().size();
         int sizeA = bookArchiveRepository.findAll().size();
-        Long idOfArchivingLb1=libraryService.toArchive(bookFromLib1).getId();
-        Long idOfArchivingLb2=  libraryService.toArchive(bookFromLib2).getId();
+        Long idOfArchivingLb1 = libraryService.toArchive(bookFromLib1).getId();
+        Long idOfArchivingLb2 = libraryService.toArchive(bookFromLib2).getId();
 
-        assertEquals(2+sizeA, bookArchiveRepository.findAll().size());
+        assertEquals(2 + sizeA, bookArchiveRepository.findAll().size());
 
-       BookInLibrary bookInLibraryFromArchive1= archiveService.fromArchive(bookFromArchive1);
-        BookInLibrary bookInLibraryFromArchive2=archiveService.fromArchive(bookFromArchive2);
+        BookInLibrary bookInLibraryFromArchive1 = archiveService.fromArchive(bookFromArchive1);
+        BookInLibrary bookInLibraryFromArchive2 = archiveService.fromArchive(bookFromArchive2);
         assertEquals(bookFromArchive1.getName(), bookInLibraryFromArchive1.getName());
-
 
         assertEquals(sizeL, bookLibraryRepository.findAll().size());
         assertEquals(sizeA, bookArchiveRepository.findAll().size());
 
-
-        BookInLibrary bookInLibraryFromArchiveFromLibrary1= archiveService.fromArchive(idOfArchivingLb1);
-        BookInLibrary bookInLibraryFromArchiveFromLibrary2=archiveService.fromArchive(idOfArchivingLb2);
+        BookInLibrary bookInLibraryFromArchiveFromLibrary1 = archiveService.fromArchive(idOfArchivingLb1);
+        BookInLibrary bookInLibraryFromArchiveFromLibrary2 = archiveService.fromArchive(idOfArchivingLb2);
 
         assertEquals(bookFromLib1.getAuthorList().get(1).getFirstName(), bookInLibraryFromArchiveFromLibrary1.getAuthorList().get(1).getFirstName());
         assertEquals(bookFromLib2.getAuthorList().get(0).getFirstName(), bookInLibraryFromArchiveFromLibrary2.getAuthorList().get(0).getFirstName());

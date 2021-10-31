@@ -2,13 +2,11 @@ package ru.laptseu.libararyapp.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.EntityWithLongId;
 import ru.laptseu.libararyapp.entities.Publisher;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 import ru.laptseu.libararyapp.entities.dto.AuthorDto;
@@ -21,16 +19,15 @@ import ru.laptseu.libararyapp.utilities.PageUtility;
 import javax.naming.OperationNotSupportedException;
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import java.util.Objects;
 
 @Log4j2
 @Controller
 @RequestMapping("/library")
 @RequiredArgsConstructor
 public class BookInLibraryController {
+    private static final String startingUrl = "redirect:/library/1";
     private final ServiceFactory serviceFactory;
     private final FrontMappersFactory frontMappersFactory;
     private final PageUtility pageUtility;
@@ -40,85 +37,82 @@ public class BookInLibraryController {
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(serviceFactory.get(BookInLibrary.class).readList(page));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
-        model.addAttribute("nextPageNum", pageUtility.getNextPageNum( dtoList.size(), page));
-    // TODO: 28.10.2021 th:text="@{{id}(id=${a.getFirstName()})} ref in html
+        model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
         return "library/library_first";
     }
 
     @GetMapping("/by_author/{id}/{page}")
     public String booksByAuthor(@PathVariable Long id, @PathVariable Integer page, Model model) {
-        List<BookInLibrary> list ;
+        List<BookInLibrary> list;
         Author author = (Author) serviceFactory.get(Author.class).read(id);
-      //  AuthorDto authorDto = (AuthorDto) frontMappersFactory.get(Author.class).map(author);
         try {
             list = serviceFactory.get(BookInLibrary.class).readBooksByAuthor(id);
         } catch (OperationNotSupportedException e) {
             log.error(e);
-            return "redirect:/library/1";
+            return startingUrl;
         }
         String masterString = author.toString();
-
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(list);
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("authorId", id);
-        model.addAttribute("master", " "+masterString+" ");
+        model.addAttribute("master", " " + masterString + " ");
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
-        model.addAttribute("nextPageNum", pageUtility.getNextPageNum( dtoList.size(), page));
+        model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
         return "library/library_by_querry";
     }
 
     @GetMapping("/by_publisher/{id}/{page}")
     public String booksByPublisher(@PathVariable Long id, @PathVariable Integer page, Model model) {
-        List<BookInLibrary> list ;
+        List<BookInLibrary> list;
         Publisher publisher = (Publisher) serviceFactory.get(Publisher.class).read(id);
         try {
             list = serviceFactory.get(BookInLibrary.class).readBooksByPublisher(id);
         } catch (OperationNotSupportedException e) {
             log.error(e);
-            return "redirect:/library/1";
+            return startingUrl;
         }
-        String masterString = "";
-            masterString = publisher.getName();// TODO: 31.10.2021
+        String masterString = publisher.getName();
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(list);
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("publisherId", id);
-         model.addAttribute("master", " "+masterString+" ");
+        model.addAttribute("master", " " + masterString + " ");
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
-        model.addAttribute("nextPageNum", pageUtility.getNextPageNum( dtoList.size(), page));
+        model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
         return "library/library_by_querry";
     }
 
     @PostMapping("/id/")
     public String submit(@ModelAttribute @Valid BookDto filledDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {// TODO: 30.10.2021 logging
-            return "redirect:/library/1";
+        if (bindingResult.hasErrors()) {
+            log.error(bindingResult.getFieldErrors());
+            return startingUrl;
         }
         if (filledDto.getId() != null) {
-            return "redirect:/library/1";
+            log.error("not saved as new with id " + filledDto.getId());
+            return startingUrl;
         }
-        if (filledDto.getDescription()==""){
+        if (Objects.equals(filledDto.getDescription(), "")) {
             filledDto.setDescription(null);
         }
-        if (filledDto.getName()==""){
+        if (Objects.equals(filledDto.getName(), "")) {
             filledDto.setName(null);
         }
-        if (filledDto.isUnknownPublishingYear()){
+        if (filledDto.isUnknownPublishingYear()) {
             filledDto.setYearOfPublishing(null);
         }
-        if (filledDto.getPublisherDto().getId()==null){
+        if (filledDto.getPublisherDto().getId() == null) {
             filledDto.setPublisherDto(null);
         }
         BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map((filledDto));
         List<Author> authorList = new ArrayList<>();
-        for (String s:filledDto.getAuthorArrayForHtml()){
+        for (String s : filledDto.getAuthorArrayForHtml()) {
             Author author = new Author();
             author.setId(Long.parseLong(s));
             authorList.add(author);
         }
         bookInLibrary.setAuthorList(authorList);
-
         serviceFactory.get(BookInLibrary.class).save(bookInLibrary);
-        return "redirect:/library/1";
+        return startingUrl;
     }
 
     @GetMapping("/id/{id}")
@@ -155,26 +149,26 @@ public class BookInLibraryController {
     public String update(@ModelAttribute("dto") BookDto dto) {
         BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map((dto));
         List<Author> authorList;
-        if (dto.getAuthorArrayForHtml().length>0){
+        if (dto.getAuthorArrayForHtml().length > 0) {
             authorList = new ArrayList<>();
             bookInLibrary.setAuthorList(authorList);
-            for (String s:dto.getAuthorArrayForHtml()){
+            for (String s : dto.getAuthorArrayForHtml()) {
                 Author author = new Author();
                 author.setId(Long.parseLong(s));
                 authorList.add(author);
             }
         } else {
-            authorList = ((BookInLibrary)serviceFactory.get(BookInLibrary.class).read(bookInLibrary.getId())).getAuthorList();
+            authorList = ((BookInLibrary) serviceFactory.get(BookInLibrary.class).read(bookInLibrary.getId())).getAuthorList();
         }
         bookInLibrary.setAuthorList(authorList);
-               serviceFactory.get(BookInLibrary.class).update(bookInLibrary );
-        return "redirect:/library/1";
+        serviceFactory.get(BookInLibrary.class).update(bookInLibrary);
+        return startingUrl;
     }
 
     @PostMapping("/id/{id}/remove")
     public String delete(@PathVariable Long id) {
         serviceFactory.get(BookInLibrary.class).delete(id);
-        return "redirect:/library/1";
+        return startingUrl;
     }
 
     @PostMapping("/id/{id}/to_archive")
@@ -185,6 +179,6 @@ public class BookInLibraryController {
         } catch (OperationNotSupportedException e) {
             log.error(e);
         }
-        return "redirect:/library/1";
+        return startingUrl;
     }
 }

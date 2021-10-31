@@ -10,5 +10,6 @@ import ru.laptseu.libararyapp.entities.dto.PublisherDto;
 )
 public interface PublisherMapper extends FrontMapper<Publisher, PublisherDto> {
     Publisher map(PublisherDto publisherDto);
+
     PublisherDto map(Publisher publisher);
 }

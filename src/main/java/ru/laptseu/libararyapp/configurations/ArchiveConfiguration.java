@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ru.laptseu.libararyapp.entities.Publisher;
@@ -17,8 +16,6 @@ import ru.laptseu.libararyapp.entities.books.BookArchived;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
@@ -44,7 +41,6 @@ public class ArchiveConfiguration {
     public LocalContainerEntityManagerFactoryBean archiveEntityManager
             (EntityManagerFactoryBuilder builder,
              @Qualifier("archiveDataSource") DataSource dataSource) {
-
         return builder
                 .dataSource(dataSource)
                 .packages(BookArchived.class, Publisher.class)

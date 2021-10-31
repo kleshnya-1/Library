@@ -7,12 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import java.util.HashMap;
-import java.util.Properties;
 
 @org.springframework.context.annotation.Configuration
 
 public class Configuration {
-
     @Bean
     public HibernateJpaVendorAdapter hibernateJpaVendorAdapter(
             @Value("${spring.jooq.sql-dialect}") String databasePlatform,

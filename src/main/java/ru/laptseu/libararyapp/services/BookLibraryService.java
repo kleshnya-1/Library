@@ -8,11 +8,9 @@ import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 import ru.laptseu.libararyapp.mappers.backMappers.BookArchivingMapper;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
-import ru.laptseu.libararyapp.repositories.LoggingRepository;
 import ru.laptseu.libararyapp.repositories.RepositoryFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
 
-import javax.naming.OperationNotSupportedException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -23,10 +21,8 @@ public class BookLibraryService extends AbstractService<BookInLibrary> {
     private final ServiceFactory serviceFactory;
     private final RepositoryFactory repositoryFactory;
 
-   // Class entityClass = BookInLibrary.class;
-
     public BookLibraryService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory,
-                              BookArchivingMapper bookArchivingMapper, ServiceFactory serviceFactory ) {
+                              BookArchivingMapper bookArchivingMapper, ServiceFactory serviceFactory) {
         super(repositoryFactory, pageUtility, frontMappersFactory);
         this.bookArchivingMapper = bookArchivingMapper;
         this.serviceFactory = serviceFactory;
@@ -46,12 +42,12 @@ public class BookLibraryService extends AbstractService<BookInLibrary> {
     }
 
     @Override
-    public List<BookInLibrary> readBooksByAuthor(Long id) throws OperationNotSupportedException {
+    public List<BookInLibrary> readBooksByAuthor(Long id) {
         return repositoryFactory.get(getEntityClass()).findByAuthorId(id);
     }
 
     @Override
-    public List<BookInLibrary> readBooksByPublisher(Long id) throws OperationNotSupportedException {
+    public List<BookInLibrary> readBooksByPublisher(Long id) {
         return repositoryFactory.get(getEntityClass()).findByPublisherId(id);
     }
 }

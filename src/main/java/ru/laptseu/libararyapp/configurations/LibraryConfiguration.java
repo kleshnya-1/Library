@@ -17,7 +17,6 @@ import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.Properties;
 
 
 @Configuration
@@ -38,8 +37,6 @@ public class LibraryConfiguration {
     public DataSource libraryDataSource(@Qualifier("libraryDataSourceProperties") DataSourceProperties dataSourcePropertiesLibrary) {
         return dataSourcePropertiesLibrary.initializeDataSourceBuilder().build();
     }
-
-
 
     @Bean
     public LocalContainerEntityManagerFactoryBean libraryEntityManager

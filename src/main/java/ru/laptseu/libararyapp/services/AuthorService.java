@@ -10,12 +10,7 @@ import ru.laptseu.libararyapp.utilities.PageUtility;
 @Getter
 @Service
 public class AuthorService extends AbstractService<Author> {
-  //  Class entityClass = Author.class;
-
-
     public AuthorService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory) {
         super(repositoryFactory, pageUtility, frontMappersFactory);
     }
-
-
 }

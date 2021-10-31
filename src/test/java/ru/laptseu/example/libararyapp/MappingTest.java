@@ -66,10 +66,9 @@ class MappingTest {
     Long bookArchId1;
     Long bookArchId2;
     Long a1SavedId;
-    Long a2SavedId ;
-    Long a3SavedId ;
+    Long a2SavedId;
+    Long a3SavedId;
     Long a4SavedId;
-
 
     @BeforeEach
     void before() throws Exception {
@@ -98,9 +97,9 @@ class MappingTest {
         a3.setFirstName("a3 " + Calendar.getInstance().getTime());
         a4.setFirstName("a4 " + Calendar.getInstance().getTime());
         a1SavedId = authorService.save(a1).getId();
-         a2SavedId = authorService.save(a2).getId();
-         a3SavedId = authorService.save(a3).getId();
-         a4SavedId = authorService.save(a4).getId();
+        a2SavedId = authorService.save(a2).getId();
+        a3SavedId = authorService.save(a3).getId();
+        a4SavedId = authorService.save(a4).getId();
 
         listOfThreeAuthors = new ArrayList<>();
         listOfThreeAuthors.add(a1);
@@ -143,52 +142,20 @@ class MappingTest {
 
     @Test
     @DisplayName("Test Mapping Dto")
-    void testMappingDto() throws Exception {
-        AuthorDto authorDto1 = (AuthorDto) frontMappersFactory.get(Author.class).map( authorService.read(a1SavedId));
+    void testMappingDto() throws Exception {// TODO: 31.10.2021 finish
+        Author author1 = authorService.read(a1SavedId);
+        Author author2 = authorService.read(a2SavedId);
+        AuthorDto authorDto1 = (AuthorDto) frontMappersFactory.get(Author.class).map(authorService.read(a1SavedId));
         AuthorDto authorDto2 = (AuthorDto) frontMappersFactory.get(Author.class).map(authorService.read(a2SavedId));
 
-        List<EntityDto> aList1 =  frontMappersFactory.get(Author.class).map(authorService.readList(1));
-        List<EntityDto> aList2 =  frontMappersFactory.get(Author.class).map(authorService.readList(2));
-        List<EntityDto> aList3 = frontMappersFactory.get(Author.class).map( authorService.readList(3));
 
+        List<EntityDto> aList1 = frontMappersFactory.get(Author.class).map(authorService.readList(1));
+        List<EntityDto> aList2 = frontMappersFactory.get(Author.class).map(authorService.readList(2));
+        List<EntityDto> aList3 = frontMappersFactory.get(Author.class).map(authorService.readList(3));
         BookDto bookDto = new BookDto();
         List list = new ArrayList();
         list.add(authorDto1);
         list.add(authorDto2);
         bookDto.setAuthorList(list);
-
-        // TODO: 26.10.2021 in progress
-      // BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map(bookDto);
-     //  BookDto bookDto1 = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
-      // assertEquals(1,1);
-
-
-
     }
-//    @Test
-//    @DisplayName("Test Mapping Dto")
-//    void testMappingDtoPublisher() throws Exception {
-//        AuthorDto authorDto1 = (AuthorDto) frontMappersFactory.get(Author.class).map( authorService.read(a1SavedId));
-//        AuthorDto authorDto2 = (AuthorDto) frontMappersFactory.get(Author.class).map(authorService.read(a2SavedId));
-//
-//        List<EntityDto> aList1 =  frontMappersFactory.get(Author.class).map(authorService.readList(1));
-//        List<EntityDto> aList2 =  frontMappersFactory.get(Author.class).map(authorService.readList(2));
-//        List<EntityDto> aList3 = frontMappersFactory.get(Author.class).map( authorService.readList(3));
-//
-//        BookDto bookDto = new BookDto();
-//        List list = new ArrayList();
-//        list.add(authorDto1);
-//        list.add(authorDto2);
-//        bookDto.setAuthorList(list);
-//
-//        // TODO: 26.10.2021 in progress
-//      // BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map(bookDto);
-//     //  BookDto bookDto1 = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
-//      // assertEquals(1,1);
-//
-//
-//
-//    }
-
-
 }

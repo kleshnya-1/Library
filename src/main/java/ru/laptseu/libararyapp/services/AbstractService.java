@@ -16,7 +16,6 @@ import ru.laptseu.libararyapp.utilities.PageUtility;
 import javax.naming.OperationNotSupportedException;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -26,36 +25,31 @@ public abstract class AbstractService<T extends EntityWithLongId> {
     private final PageUtility pageUtility;
     private final FrontMappersFactory frontMappersFactory;
 
-    //  abstract Class getEntityClass();//TODO
-
-
-    Class getEntityClass() {
+    Class<? extends EntityWithLongId> getEntityClass() {
         return ((Class) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
     }
 
     public T save(T entity) {
-        int saveCounter=0;
+        int saveCounter = 0;
         T savedEntity = null;
-        while (saveCounter<=10){//  spring starts to count from last saved id by itself(!). much be
+        while (saveCounter <= 10) {//  spring starts to count from last saved id by itself(!).
             try {
                 savedEntity = (T) repositoryFactory.get(getEntityClass()).save(entity);
+                repositoryFactory.get(LoggingEntity.class).save(new LoggingEntity(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved"));
                 break;
-            } catch (DataIntegrityViolationException e){
+            } catch (DataIntegrityViolationException e) {
                 log.error(e);
             }
         }
-        repositoryFactory.get(LoggingEntity.class).save(new LoggingEntity(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved"));
         return savedEntity;
     }
 
     public T read(Long id) {
-        T entity = (T) repositoryFactory.get(getEntityClass()).findById(id).orElse(null);//todo
-        return entity;
+        return (T) repositoryFactory.get(getEntityClass()).findById(id).orElse(null);
     }
 
     public List<T> read() {
-        List<T> entityList = repositoryFactory.get(getEntityClass()).findAll();
-        return entityList;
+        return repositoryFactory.get(getEntityClass()).findAll();
     }
 
     public T update(T entity) {
@@ -69,7 +63,7 @@ public abstract class AbstractService<T extends EntityWithLongId> {
 
     public BookArchived toArchive(BookInLibrary bookInLibrary) throws OperationNotSupportedException {
         throw new OperationNotSupportedException();
-    }//todo private
+    }
 
     public BookArchived toArchive(Long id) throws OperationNotSupportedException {
         return toArchive((BookInLibrary) read(id));
@@ -85,8 +79,7 @@ public abstract class AbstractService<T extends EntityWithLongId> {
 
     public List<T> readList(Integer page) {
         Pageable pageable = pageUtility.getPageable(page);
-        List<T> entityList = repositoryFactory.get(getEntityClass()).findPageable(pageable);
-        return entityList;
+        return repositoryFactory.get(getEntityClass()).findPageable(pageable);
     }
 
     public List<T> readBooksByAuthor(Long id) throws OperationNotSupportedException {

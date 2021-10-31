@@ -14,6 +14,7 @@ import java.util.List;
 @Table(name = "library_books")
 public class BookInLibrary extends Book {
     private int sectionNumber;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Author> authorList;
 
