@@ -4136,3 +4136,95 @@ Thu Oct 28 19:25:46 MSK 2021 | BookInLibrary 129 saved
 Thu Oct 28 19:25:46 MSK 2021 | BookInLibrary 130 saved
 Thu Oct 28 21:48:38 MSK 2021 | Publisher 61 saved
 Thu Oct 28 21:53:55 MSK 2021 | Author 41 saved
+Fri Oct 29 20:55:25 MSK 2021 | BookInLibrary 128 saved
+Fri Oct 29 20:55:25 MSK 2021 | BookArchived 128 deleted
+Fri Oct 29 20:55:25 MSK 2021 | Book 128 name unarchived successfully
+Fri Oct 29 20:55:25 MSK 2021 | LoggingEntity null saved
+Sat Oct 30 10:38:00 MSK 2021 | BookInLibrary 130 deleted
+Sat Oct 30 10:38:00 MSK 2021 | BookArchived 129 saved
+Sat Oct 30 10:38:00 MSK 2021 | BookInLibrary 129 deleted
+Sat Oct 30 10:38:00 MSK 2021 | Book 129 ryrty archived successfully
+Sat Oct 30 10:38:00 MSK 2021 | LoggingEntity null saved
+Sat Oct 30 18:40:24 MSK 2021 | BookInLibrary 131 saved
+Sat Oct 30 18:44:59 MSK 2021 | BookInLibrary 132 saved
+Sat Oct 30 18:50:36 MSK 2021 | BookInLibrary 133 saved
+Sat Oct 30 18:52:08 MSK 2021 | BookInLibrary 134 saved
+Sat Oct 30 19:19:39 MSK 2021 | BookInLibrary 135 saved
+Sat Oct 30 19:21:04 MSK 2021 | BookInLibrary 136 saved
+Sat Oct 30 20:07:36 MSK 2021 | BookInLibrary 137 saved
+Sat Oct 30 20:22:00 MSK 2021 | BookInLibrary 138 saved
+Sat Oct 30 20:28:38 MSK 2021 | BookInLibrary 139 saved
+Sat Oct 30 20:34:15 MSK 2021 | BookInLibrary 140 saved
+Sat Oct 30 20:49:19 MSK 2021 | BookInLibrary 141 saved
+Sat Oct 30 20:53:18 MSK 2021 | BookInLibrary 142 saved
+Sat Oct 30 20:53:41 MSK 2021 | BookInLibrary 143 saved
+Sat Oct 30 20:55:04 MSK 2021 | BookInLibrary 144 saved
+Sat Oct 30 20:59:07 MSK 2021 | BookInLibrary 145 saved
+Sat Oct 30 21:26:32 MSK 2021 | BookInLibrary 146 saved
+Sat Oct 30 21:33:59 MSK 2021 | BookInLibrary 147 saved
+Sat Oct 30 21:45:28 MSK 2021 | BookInLibrary 148 saved
+Sat Oct 30 21:46:09 MSK 2021 | BookInLibrary 149 saved
+Sat Oct 30 21:47:27 MSK 2021 | BookInLibrary 150 saved
+Sat Oct 30 21:57:27 MSK 2021 | BookInLibrary 151 saved
+Sat Oct 30 21:57:27 MSK 2021 | BookInLibrary 152 saved
+Sat Oct 30 22:12:47 MSK 2021 | Publisher 62 saved
+Sat Oct 30 22:12:47 MSK 2021 | Author 42 saved
+Sun Oct 31 09:48:54 MSK 2021 | Author 1 saved
+Sun Oct 31 09:48:54 MSK 2021 | Author 2 saved
+Sun Oct 31 09:48:54 MSK 2021 | Author 3 saved
+Sun Oct 31 09:48:54 MSK 2021 | Publisher 1 saved
+Sun Oct 31 10:02:24 MSK 2021 | BookInLibrary 1 saved
+Sun Oct 31 10:02:24 MSK 2021 | BookInLibrary 2 saved
+Sun Oct 31 13:46:51 MSK 2021 | Author 4 saved
+Sun Oct 31 13:59:16 MSK 2021 | Publisher 2 saved
+Sun Oct 31 13:59:16 MSK 2021 | BookInLibrary 3 saved
+Sun Oct 31 13:59:16 MSK 2021 | Publisher 3 saved
+Sun Oct 31 13:59:16 MSK 2021 | BookInLibrary 4 saved
+Sun Oct 31 14:16:58 MSK 2021 | BookArchived 1 saved
+Sun Oct 31 14:16:58 MSK 2021 | BookInLibrary 2 deleted
+Sun Oct 31 14:16:58 MSK 2021 | Book 2 Мастер и Маргарита archived successfully
+Sun Oct 31 14:16:58 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 14:16:58 MSK 2021 | BookInLibrary 1 saved
+Sun Oct 31 14:16:58 MSK 2021 | BookArchived 1 deleted
+Sun Oct 31 14:16:58 MSK 2021 | Book 1 Мастер и Маргарита unarchived successfully
+Sun Oct 31 14:16:58 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 14:16:58 MSK 2021 | BookArchived 2 saved
+Sun Oct 31 14:16:58 MSK 2021 | BookInLibrary 1 deleted
+Sun Oct 31 14:16:58 MSK 2021 | Book 1 Мастер и Маргарита archived successfully
+Sun Oct 31 14:16:58 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 14:16:58 MSK 2021 | BookInLibrary 2 saved
+Sun Oct 31 14:16:58 MSK 2021 | BookArchived 2 deleted
+Sun Oct 31 14:16:58 MSK 2021 | Book 2 Мастер и Маргарита unarchived successfully
+Sun Oct 31 14:16:58 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 14:16:58 MSK 2021 | BookArchived 3 saved
+Sun Oct 31 14:16:58 MSK 2021 | BookInLibrary 2 deleted
+Sun Oct 31 14:16:58 MSK 2021 | Book 2 Мастер и Маргарита archived successfully
+Sun Oct 31 14:16:58 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 14:16:58 MSK 2021 | BookInLibrary 3 saved
+Sun Oct 31 14:16:58 MSK 2021 | BookArchived 3 deleted
+Sun Oct 31 14:16:58 MSK 2021 | Book 3 Мастер и Маргарита unarchived successfully
+Sun Oct 31 14:16:58 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 14:24:12 MSK 2021 | BookInLibrary 5 saved
+Sun Oct 31 14:24:12 MSK 2021 | BookInLibrary 6 saved
+Sun Oct 31 14:24:12 MSK 2021 | BookArchived 4 saved
+Sun Oct 31 14:24:12 MSK 2021 | BookInLibrary 6 deleted
+Sun Oct 31 14:24:12 MSK 2021 | Book 6 1984 archived successfully
+Sun Oct 31 14:24:12 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 14:27:40 MSK 2021 | Author 5 saved
+Sun Oct 31 14:37:36 MSK 2021 | BookInLibrary 12 saved
+Sun Oct 31 14:38:56 MSK 2021 | BookInLibrary 13 saved
+Sun Oct 31 14:38:56 MSK 2021 | BookInLibrary 12 deleted
+Sun Oct 31 14:38:56 MSK 2021 | Publisher 4 saved
+Sun Oct 31 14:56:30 MSK 2021 | BookInLibrary 14 saved
+Sun Oct 31 16:00:49 MSK 2021 | Author 6 saved
+Sun Oct 31 16:02:48 MSK 2021 | Author 6 deleted
+Sun Oct 31 16:02:48 MSK 2021 | BookInLibrary 15 saved
+Sun Oct 31 16:02:48 MSK 2021 | BookArchived 4 deleted
+Sun Oct 31 16:02:48 MSK 2021 | Book 4 1984 unarchived successfully
+Sun Oct 31 16:02:48 MSK 2021 | LoggingEntity null saved
+Sun Oct 31 16:02:48 MSK 2021 | Author 7 saved
+Sun Oct 31 16:02:48 MSK 2021 | BookInLibrary 16 saved
+Sun Oct 31 16:02:48 MSK 2021 | Author 8 saved
+Sun Oct 31 16:02:48 MSK 2021 | Author 9 saved
+Sun Oct 31 16:02:48 MSK 2021 | Author 10 saved
+Sun Oct 31 16:02:48 MSK 2021 | Publisher 5 saved

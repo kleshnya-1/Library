@@ -165,6 +165,30 @@ class MappingTest {
 
 
     }
+//    @Test
+//    @DisplayName("Test Mapping Dto")
+//    void testMappingDtoPublisher() throws Exception {
+//        AuthorDto authorDto1 = (AuthorDto) frontMappersFactory.get(Author.class).map( authorService.read(a1SavedId));
+//        AuthorDto authorDto2 = (AuthorDto) frontMappersFactory.get(Author.class).map(authorService.read(a2SavedId));
+//
+//        List<EntityDto> aList1 =  frontMappersFactory.get(Author.class).map(authorService.readList(1));
+//        List<EntityDto> aList2 =  frontMappersFactory.get(Author.class).map(authorService.readList(2));
+//        List<EntityDto> aList3 = frontMappersFactory.get(Author.class).map( authorService.readList(3));
+//
+//        BookDto bookDto = new BookDto();
+//        List list = new ArrayList();
+//        list.add(authorDto1);
+//        list.add(authorDto2);
+//        bookDto.setAuthorList(list);
+//
+//        // TODO: 26.10.2021 in progress
+//      // BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map(bookDto);
+//     //  BookDto bookDto1 = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
+//      // assertEquals(1,1);
+//
+//
+//
+//    }
 
 
 }

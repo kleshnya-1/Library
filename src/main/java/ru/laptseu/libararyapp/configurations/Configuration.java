@@ -25,17 +25,9 @@ public class Configuration {
         return jpaVendorAdapter;
     }
 
-
     @Bean
     public EntityManagerFactoryBuilder entityManagerFactoryBuilder(@Qualifier("hibernateJpaVendorAdapter") HibernateJpaVendorAdapter hibernateJpaVendorAdapter) {
         return new EntityManagerFactoryBuilder(hibernateJpaVendorAdapter,
                 new HashMap(), null);
-    }
-
-    @Bean
-    Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");//TODO: 21.10.2021 refactor to properties
-        return properties;
     }
 }

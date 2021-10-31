@@ -22,8 +22,6 @@ public class BookArchiveService extends AbstractService<BookArchived> {
     private final BookArchivingMapper bookArchivingMapper;
     private final ServiceFactory serviceFactory;
 
-  //  Class entityClass = BookArchived.class;
-
     public BookArchiveService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory,
                               BookArchivingMapper bookArchivingMapper, ServiceFactory serviceFactory) {
         super(repositoryFactory, pageUtility, frontMappersFactory);
@@ -35,6 +33,7 @@ public class BookArchiveService extends AbstractService<BookArchived> {
     @Transactional(value = "archiveTransactionManager", rollbackFor = Exception.class)
     public BookInLibrary fromArchive(BookArchived bookArchived) {
         BookInLibrary bookInLibrary = bookArchivingMapper.map(bookArchived);
+        bookInLibrary.setId(null);
         List<Author> newAuthorList = new ArrayList<>();
         bookInLibrary.getAuthorList().stream().forEach(author -> newAuthorList.add((Author) serviceFactory.get(Author.class).read(author.getId())));
         bookInLibrary.setAuthorList(newAuthorList);

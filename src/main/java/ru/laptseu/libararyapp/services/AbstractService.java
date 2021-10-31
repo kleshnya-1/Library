@@ -3,6 +3,7 @@ package ru.laptseu.libararyapp.services;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import ru.laptseu.libararyapp.entities.EntityWithLongId;
 import ru.laptseu.libararyapp.entities.LoggingEntity;
@@ -33,7 +34,16 @@ public abstract class AbstractService<T extends EntityWithLongId> {
     }
 
     public T save(T entity) {
-        T savedEntity = (T) repositoryFactory.get(getEntityClass()).save(entity);
+        int saveCounter=0;
+        T savedEntity = null;
+        while (saveCounter<=10){//  spring starts to count from last saved id by itself(!). much be
+            try {
+                savedEntity = (T) repositoryFactory.get(getEntityClass()).save(entity);
+                break;
+            } catch (DataIntegrityViolationException e){
+                log.error(e);
+            }
+        }
         repositoryFactory.get(LoggingEntity.class).save(new LoggingEntity(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved"));
         return savedEntity;
     }
@@ -59,7 +69,7 @@ public abstract class AbstractService<T extends EntityWithLongId> {
 
     public BookArchived toArchive(BookInLibrary bookInLibrary) throws OperationNotSupportedException {
         throw new OperationNotSupportedException();
-    }
+    }//todo private
 
     public BookArchived toArchive(Long id) throws OperationNotSupportedException {
         return toArchive((BookInLibrary) read(id));

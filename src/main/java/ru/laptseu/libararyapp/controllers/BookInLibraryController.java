@@ -2,6 +2,7 @@ package ru.laptseu.libararyapp.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +21,10 @@ import ru.laptseu.libararyapp.utilities.PageUtility;
 import javax.naming.OperationNotSupportedException;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Log4j2
 @Controller
@@ -44,24 +48,20 @@ public class BookInLibraryController {
     @GetMapping("/by_author/{id}/{page}")
     public String booksByAuthor(@PathVariable Long id, @PathVariable Integer page, Model model) {
         List<BookInLibrary> list ;
-        AuthorDto authorDto = (AuthorDto) frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).read(id));
+        Author author = (Author) serviceFactory.get(Author.class).read(id);
+      //  AuthorDto authorDto = (AuthorDto) frontMappersFactory.get(Author.class).map(author);
         try {
             list = serviceFactory.get(BookInLibrary.class).readBooksByAuthor(id);
         } catch (OperationNotSupportedException e) {
             log.error(e);
             return "redirect:/library/1";
         }
-        String masterString = "";
-        if (authorDto.getFirstName()!=null) {
-            masterString = authorDto.getFirstName();
-        }
-        if (authorDto.getSecondName()!=null) {
-            masterString = masterString+authorDto.getSecondName();
-        }
+        String masterString = author.toString();
+
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(list);
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("authorId", id);
-        model.addAttribute("master", masterString);
+        model.addAttribute("master", " "+masterString+" ");
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
         model.addAttribute("nextPageNum", pageUtility.getNextPageNum( dtoList.size(), page));
         return "library/library_by_querry";
@@ -70,7 +70,7 @@ public class BookInLibraryController {
     @GetMapping("/by_publisher/{id}/{page}")
     public String booksByPublisher(@PathVariable Long id, @PathVariable Integer page, Model model) {
         List<BookInLibrary> list ;
-          PublisherDto publisherDto = (PublisherDto) frontMappersFactory.get(Publisher.class).map(serviceFactory.get(Publisher.class).read(id));
+        Publisher publisher = (Publisher) serviceFactory.get(Publisher.class).read(id);
         try {
             list = serviceFactory.get(BookInLibrary.class).readBooksByPublisher(id);
         } catch (OperationNotSupportedException e) {
@@ -78,37 +78,45 @@ public class BookInLibraryController {
             return "redirect:/library/1";
         }
         String masterString = "";
-        if (publisherDto.getName()!=null) {
-            masterString = publisherDto.getName();
-        }
+            masterString = publisher.getName();// TODO: 31.10.2021
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(list);
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("publisherId", id);
-         model.addAttribute("master", masterString);
+         model.addAttribute("master", " "+masterString+" ");
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
         model.addAttribute("nextPageNum", pageUtility.getNextPageNum( dtoList.size(), page));
         return "library/library_by_querry";
     }
-    
-    
 
     @PostMapping("/id/")
-    public String submit(@ModelAttribute @Valid BookDto filledDto, BindingResult bindingResult
-    ) {
-        if (bindingResult.hasErrors()) {
+    public String submit(@ModelAttribute @Valid BookDto filledDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {// TODO: 30.10.2021 logging
             return "redirect:/library/1";
         }
         if (filledDto.getId() != null) {
             return "redirect:/library/1";
         }
-
         if (filledDto.getDescription()==""){
             filledDto.setDescription(null);
         }
         if (filledDto.getName()==""){
             filledDto.setName(null);
         }
+        if (filledDto.isUnknownPublishingYear()){
+            filledDto.setYearOfPublishing(null);
+        }
+        if (filledDto.getPublisherDto().getId()==null){
+            filledDto.setPublisherDto(null);
+        }
         BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map((filledDto));
+        List<Author> authorList = new ArrayList<>();
+        for (String s:filledDto.getAuthorArrayForHtml()){
+            Author author = new Author();
+            author.setId(Long.parseLong(s));
+            authorList.add(author);
+        }
+        bookInLibrary.setAuthorList(authorList);
+
         serviceFactory.get(BookInLibrary.class).save(bookInLibrary);
         return "redirect:/library/1";
     }
@@ -123,9 +131,10 @@ public class BookInLibraryController {
 
     @GetMapping("/id/library_new")
     public String newAccount(@ModelAttribute("emptyDto") BookDto emptyDto, Model model) {
-        List<AuthorDto> authors = serviceFactory.get(Author.class).read();
+        List<AuthorDto> authors = frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).read());
         List<PublisherDto> publishers = serviceFactory.get(Publisher.class).read();
         model.addAttribute("authors", authors);
+
         model.addAttribute("publishers", publishers);
         return "library/library_new";
     }
@@ -134,15 +143,31 @@ public class BookInLibraryController {
     public String edit(Model model, @PathVariable("id") Long id) {
         BookInLibrary bookInLibrary = (BookInLibrary) serviceFactory.get(BookInLibrary.class).read(id);
         BookDto dto = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
-        List<AuthorDto> authors = frontMappersFactory.get(Author.class).map(bookInLibrary.getAuthorList());
+        List<AuthorDto> authors = frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).read());
+        List<PublisherDto> publishers = frontMappersFactory.get(Publisher.class).map(serviceFactory.get(Publisher.class).read());
         model.addAttribute("dto", dto);
-        model.addAttribute("dtoList", authors);
+        model.addAttribute("authors", authors);
+        model.addAttribute("publishers", publishers);
         return "library/library_edit";
     }
 
     @PatchMapping("/id/{id}")
     public String update(@ModelAttribute("dto") BookDto dto) {
-        serviceFactory.get(BookInLibrary.class).update((EntityWithLongId) frontMappersFactory.get(BookInLibrary.class).map((dto)));
+        BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map((dto));
+        List<Author> authorList;
+        if (dto.getAuthorArrayForHtml().length>0){
+            authorList = new ArrayList<>();
+            bookInLibrary.setAuthorList(authorList);
+            for (String s:dto.getAuthorArrayForHtml()){
+                Author author = new Author();
+                author.setId(Long.parseLong(s));
+                authorList.add(author);
+            }
+        } else {
+            authorList = ((BookInLibrary)serviceFactory.get(BookInLibrary.class).read(bookInLibrary.getId())).getAuthorList();
+        }
+        bookInLibrary.setAuthorList(authorList);
+               serviceFactory.get(BookInLibrary.class).update(bookInLibrary );
         return "redirect:/library/1";
     }
 

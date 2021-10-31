@@ -19,7 +19,7 @@ public class FrontMappersFactory {
     static {
         FACTORY_MAP.put(Author.class, AuthorMapper.class);
         FACTORY_MAP.put(BookInLibrary.class, BookMapper.class);
-        FACTORY_MAP.put(BookInLibrary.class, BookMapper.class);
+       // FACTORY_MAP.put(BookInLibrary.class, BookMapper.class);
         FACTORY_MAP.put(Publisher.class, PublisherMapper.class);
     }
 

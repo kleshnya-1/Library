@@ -62,7 +62,12 @@ public class AuthorController {// TODO: 27.10.2021 нормальные назв
                 return "redirect:/authors/1";
             }
         }
-
+        if (filledDto.isUnknownBirthYear()==true){
+            filledDto.setBirthYear(null);
+        }
+        if (filledDto.isUnknownDeathYear()==true){
+            filledDto.setDeathYear(null);
+        }
         Author author = (Author) frontMappersFactory.get(Author.class).map((filledDto));
         serviceFactory.get(Author.class).save(author);
         return "redirect:/authors/1";
@@ -71,10 +76,12 @@ public class AuthorController {// TODO: 27.10.2021 нормальные назв
     @GetMapping("/id/{id}")
     public String openPersonalPage(@PathVariable Long id, Model model) {
         Author author = (Author) serviceFactory.get(Author.class).read(id);
+        String representing = author.toString();
         AuthorDto dto = (AuthorDto) frontMappersFactory.get(Author.class).map(author);
-        List<BookDto> dtoBooks = frontMappersFactory.get(BookInLibrary.class).map(author.getBookList());
+       // List<BookDto> dtoBooks = frontMappersFactory.get(BookInLibrary.class).map(author.getBookList());
         model.addAttribute("dto", dto);
-        model.addAttribute("dtoList", dtoBooks);
+       // model.addAttribute("dtoList", dtoBooks);
+        model.addAttribute("representing", representing);
         return "authors/author_one";
     }
 

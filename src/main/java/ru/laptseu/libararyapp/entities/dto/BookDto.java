@@ -16,9 +16,11 @@ public class BookDto extends EntityDto {
     @NotEmpty(message = "it's library and each book must have at least a name")
     private String name;
 
-    private List<AuthorDto> authorList;        // TODO: 26.10.2021 in progress
+    private List<AuthorDto> authorList;
+    private String[] authorArrayForHtml;
     private String description;
     private Integer sectionNumber;
     private Integer yearOfPublishing;
-    private PublisherDto publisherDto;        // TODO: 26.10.2021 in progress
+    private PublisherDto publisherDto;
+    private boolean unknownPublishingYear;
 }

@@ -10,9 +10,10 @@ import javax.validation.constraints.Positive;
 public class AuthorDto extends EntityDto {
     @Positive
     private Long id;
-
     private String firstName;
     private String secondName;
     private Integer birthYear;
+    private boolean unknownBirthYear;
     private Integer deathYear;
+    private boolean unknownDeathYear;
 }
