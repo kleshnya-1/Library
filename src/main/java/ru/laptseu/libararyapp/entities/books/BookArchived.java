@@ -18,7 +18,7 @@ public class BookArchived extends Book {
     private Calendar dateOfArchived;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<Integer> authorList;
+    private List<Long> authorList;
 
-    private Integer publisher;
+    private Long publisher;
 }

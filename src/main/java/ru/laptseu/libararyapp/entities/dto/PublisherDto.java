@@ -6,7 +6,6 @@ import lombok.Setter;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 
-
 @Getter
 @Setter
 public class PublisherDto extends EntityDto {

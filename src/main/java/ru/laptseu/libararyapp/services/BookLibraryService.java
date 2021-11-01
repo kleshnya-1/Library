@@ -3,32 +3,31 @@ package ru.laptseu.libararyapp.services;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.laptseu.libararyapp.entities.LoggingEntity;
 import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 import ru.laptseu.libararyapp.mappers.backMappers.BookArchivingMapper;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
-import ru.laptseu.libararyapp.repositories.LoggingRepository;
 import ru.laptseu.libararyapp.repositories.RepositoryFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
 
 import java.util.Calendar;
+import java.util.List;
 
 @Getter
 @Service
 public class BookLibraryService extends AbstractService<BookInLibrary> {
     private final BookArchivingMapper bookArchivingMapper;
     private final ServiceFactory serviceFactory;
-    private final LoggingRepository loggingRepository;
+    private final RepositoryFactory repositoryFactory;
 
-    Class entityClass = BookInLibrary.class;
-
-    public BookLibraryService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory, BookArchivingMapper bookArchivingMapper, ServiceFactory serviceFactory, LoggingRepository loggingRepository) {
+    public BookLibraryService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory,
+                              BookArchivingMapper bookArchivingMapper, ServiceFactory serviceFactory) {
         super(repositoryFactory, pageUtility, frontMappersFactory);
         this.bookArchivingMapper = bookArchivingMapper;
         this.serviceFactory = serviceFactory;
-        this.loggingRepository = loggingRepository;
+        this.repositoryFactory = repositoryFactory;
     }
-
 
     @Override
     @Transactional(value = "libraryTransactionManager", rollbackFor = Exception.class)
@@ -38,7 +37,17 @@ public class BookLibraryService extends AbstractService<BookInLibrary> {
         bookArchived.setDateOfArchived(Calendar.getInstance());
         bookArchived = (BookArchived) serviceFactory.get(bookArchived.getClass()).save(bookArchived);
         serviceFactory.get(bookInLibraryForArchiving.getClass()).delete(bookInLibraryForArchiving.getId());
-        loggingRepository.save("Book " + bookInLibraryForArchiving.getId() + " " + bookInLibraryForArchiving.getName() + " archived successfully");
+        serviceFactory.get(LoggingEntity.class).save(new LoggingEntity("Book " + bookInLibraryForArchiving.getId() + " " + bookInLibraryForArchiving.getName() + " archived successfully"));
         return bookArchived;
+    }
+
+    @Override
+    public List<BookInLibrary> readBooksByAuthor(Long id) {
+        return repositoryFactory.get(getEntityClass()).findByAuthorId(id);
+    }
+
+    @Override
+    public List<BookInLibrary> readBooksByPublisher(Long id) {
+        return repositoryFactory.get(getEntityClass()).findByPublisherId(id);
     }
 }

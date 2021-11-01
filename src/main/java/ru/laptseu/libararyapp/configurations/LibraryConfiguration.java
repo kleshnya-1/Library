@@ -17,7 +17,6 @@ import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.Properties;
 
 
 @Configuration
@@ -39,21 +38,14 @@ public class LibraryConfiguration {
         return dataSourcePropertiesLibrary.initializeDataSourceBuilder().build();
     }
 
-    Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");//TODO: 21.10.2021 refactor to properties
-        return properties;
-    }
-
     @Bean
     public LocalContainerEntityManagerFactoryBean libraryEntityManager
-            (EntityManagerFactoryBuilder builder, @Qualifier("libraryDataSource") DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean l = builder
+            (EntityManagerFactoryBuilder builder,
+             @Qualifier("libraryDataSource") DataSource dataSource) {
+        return builder
                 .dataSource(dataSource)
                 .packages(BookInLibrary.class, Publisher.class, Author.class)
                 .build();
-        l.setJpaProperties(additionalProperties());
-        return l;
     }
 
     @Bean

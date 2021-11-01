@@ -6,5 +6,4 @@ import ru.laptseu.libararyapp.repositories.AbstractRepository;
 
 @Repository
 public interface AuthorRepository extends AbstractRepository<Author> {
-
 }

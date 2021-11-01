@@ -11,13 +11,11 @@ import java.util.Optional;
 @Repository
 public interface AbstractRepository<T extends EntityWithLongId> extends PagingAndSortingRepository<T, Long> {
 
-    //todo wrong
     List<T> readAllByIsDeletedFalse(Pageable pageable);
 
     List<T> readAllByIsDeletedFalse();
 
     Optional<T> readByIdAndIsDeletedFalse(Long id);
-
 
     default List<T> findPageable(Pageable pageable) {
         return readAllByIsDeletedFalse(pageable);
@@ -29,6 +27,14 @@ public interface AbstractRepository<T extends EntityWithLongId> extends PagingAn
 
     default Optional<T> findById(Long id) {
         return readByIdAndIsDeletedFalse(id);
+    }
+
+    default List<T> findByAuthorId(Long id) {
+        throw new UnsupportedOperationException();
+    }
+
+    default List<T> findByPublisherId(Long id) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

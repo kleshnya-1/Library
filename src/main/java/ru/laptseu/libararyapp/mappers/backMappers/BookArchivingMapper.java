@@ -7,30 +7,35 @@ import org.springframework.stereotype.Component;
 import ru.laptseu.libararyapp.entities.Author;
 import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
-import ru.laptseu.libararyapp.services.BookArchiveService;
-import ru.laptseu.libararyapp.services.BookLibraryService;
+import ru.laptseu.libararyapp.services.AuthorService;
+
+import java.util.List;
 
 @Component
-@Mapper(componentModel = "spring")//(uses = {BankMapper.class, ClientMapper.class})
+@Mapper(componentModel = "spring")
 public abstract class BookArchivingMapper {
-    @Autowired
-    BookLibraryService bookLibraryService;
-    @Autowired
-    BookArchiveService bookArchiveService;
 
+    @Autowired
+    AuthorService authorService;
 
     @Mapping(source = "id", target = "id")
-    public abstract Author map(Long id);
+    public Author mapAuthor(Long id) {
+        return authorService.read(id);
+    }
 
-    public Long map(Author author) {
+    public Long mapAuthor(Author author) {
         return author.getId();
     }
 
     @Mapping(source = "publisher", target = "publisher.id")
     public abstract BookInLibrary map(BookArchived archivedBook);
 
-    // TODO: 23.10.2021 null mapping id
     @Mapping(source = "publisher.id", target = "publisher")
     public abstract BookArchived map(BookInLibrary libraryBook);
 
+    @Mapping(source = "publisher", target = "publisher.id")
+    public abstract List<BookInLibrary> map(List<BookArchived> archivedBook);
+
+    @Mapping(source = "publisher.id", target = "publisher")
+    public abstract List<BookArchived> mapL(List<BookInLibrary> libraryBook);
 }

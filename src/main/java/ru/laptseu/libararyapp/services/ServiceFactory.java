@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import ru.laptseu.libararyapp.entities.Author;
 import ru.laptseu.libararyapp.entities.Entity;
+import ru.laptseu.libararyapp.entities.LoggingEntity;
 import ru.laptseu.libararyapp.entities.Publisher;
 import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
@@ -22,6 +23,7 @@ public class ServiceFactory {
         FACTORY_MAP.put(BookArchived.class, BookArchiveService.class);
         FACTORY_MAP.put(Publisher.class, PublisherService.class);
         FACTORY_MAP.put(Author.class, AuthorService.class);
+        FACTORY_MAP.put(LoggingEntity.class, LoggingService.class);
     }
 
     private final ApplicationContext applicationContext;

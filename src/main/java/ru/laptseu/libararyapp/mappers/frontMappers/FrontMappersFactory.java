@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import ru.laptseu.libararyapp.entities.Author;
 import ru.laptseu.libararyapp.entities.Entity;
+import ru.laptseu.libararyapp.entities.Publisher;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 
 import java.util.HashMap;
@@ -18,11 +19,12 @@ public class FrontMappersFactory {
     static {
         FACTORY_MAP.put(Author.class, AuthorMapper.class);
         FACTORY_MAP.put(BookInLibrary.class, BookMapper.class);
+        FACTORY_MAP.put(Publisher.class, PublisherMapper.class);
     }
 
     private final ApplicationContext applicationContext;
 
-    public FrontMapper get(Class clazz) {
+    public FrontMapper get(Class<? extends Entity> clazz) {// TODO: 31.10.2021 parametrize
         return applicationContext.getBean(FACTORY_MAP.get(clazz));
     }
 }

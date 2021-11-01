@@ -2,21 +2,22 @@ package ru.laptseu.libararyapp.services;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
-import ru.laptseu.libararyapp.entities.Entity;
 import ru.laptseu.libararyapp.entities.EntityWithLongId;
+import ru.laptseu.libararyapp.entities.LoggingEntity;
 import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
-import ru.laptseu.libararyapp.entities.dto.EntityDto;
-import ru.laptseu.libararyapp.mappers.frontMappers.FrontMapper;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
 import ru.laptseu.libararyapp.repositories.RepositoryFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
 
 import javax.naming.OperationNotSupportedException;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Log4j2
 @RequiredArgsConstructor
 @Getter
 public abstract class AbstractService<T extends EntityWithLongId> {
@@ -24,17 +25,31 @@ public abstract class AbstractService<T extends EntityWithLongId> {
     private final PageUtility pageUtility;
     private final FrontMappersFactory frontMappersFactory;
 
-    abstract Class getEntityClass();
+    Class<? extends EntityWithLongId> getEntityClass() {
+        return ((Class) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
+    }
 
     public T save(T entity) {
-        T savedEntity = (T) repositoryFactory.get(getEntityClass()).save(entity);
-        repositoryFactory.get(Entity.class).save(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved");
+        int saveCounter = 0;
+        T savedEntity = null;
+        while (saveCounter <= 10) {//  spring starts to count from last saved id by itself(!).
+            try {
+                savedEntity = (T) repositoryFactory.get(getEntityClass()).save(entity);
+                repositoryFactory.get(LoggingEntity.class).save(new LoggingEntity(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved"));
+                break;
+            } catch (DataIntegrityViolationException e) {
+                log.error(e);
+            }
+        }
         return savedEntity;
     }
 
     public T read(Long id) {
-        T entity = (T) repositoryFactory.get(getEntityClass()).findById(id).orElse(null);//todo
-        return entity;
+        return (T) repositoryFactory.get(getEntityClass()).findById(id).orElse(null);
+    }
+
+    public List<T> read() {
+        return repositoryFactory.get(getEntityClass()).findAll();
     }
 
     public T update(T entity) {
@@ -43,7 +58,7 @@ public abstract class AbstractService<T extends EntityWithLongId> {
 
     public void delete(Long id) {
         repositoryFactory.get(getEntityClass()).deleteById(id);
-        repositoryFactory.get(Entity.class).save(getEntityClass().getSimpleName() + " " + id + " deleted");
+        repositoryFactory.get(LoggingEntity.class).save(new LoggingEntity(getEntityClass().getSimpleName() + " " + id + " deleted"));
     }
 
     public BookArchived toArchive(BookInLibrary bookInLibrary) throws OperationNotSupportedException {
@@ -62,33 +77,16 @@ public abstract class AbstractService<T extends EntityWithLongId> {
         return fromArchive((BookArchived) read(id));
     }
 
-    public EntityDto readDto(Long id) {
-        return toDto(read(id));
-    }
-
-    public List readDtoList(Integer page) {
+    public List<T> readList(Integer page) {
         Pageable pageable = pageUtility.getPageable(page);
-        List<Entity> entityList = repositoryFactory.get(getEntityClass()).findPageable(pageable);
-        List dtoList = entityList.stream().map(entity -> toDto(entity)).collect(Collectors.toList());
-        return dtoList;
+        return repositoryFactory.get(getEntityClass()).findPageable(pageable);
     }
 
-
-    public EntityDto toDto(Entity entity) {
-        return frontMappersFactory.get(getEntityClass()).map(entity);
+    public List<T> readBooksByAuthor(Long id) throws OperationNotSupportedException {
+        throw new OperationNotSupportedException();
     }
 
-    public T fromDto(EntityDto entityDto) {
-        FrontMapper ma = frontMappersFactory.get(getEntityClass());
-        return (T) frontMappersFactory.get(getEntityClass()).map(entityDto);
+    public List<T> readBooksByPublisher(Long id) throws OperationNotSupportedException {
+        throw new OperationNotSupportedException();
     }
-
-//    public List<EntityDto> toDto(List<Entity> entity) {
-//        return frontMappersFactory.get(getEntityClass()).map(entity);
-//    }
-//
-//    public List<T> fromDto(List<EntityDto> entityDto) {
-//        FrontMapper ma = frontMappersFactory.get(getEntityClass());
-//        return (T) frontMappersFactory.get(getEntityClass()).map(entityDto);
-//    }
 }

@@ -4,19 +4,14 @@ import ru.laptseu.libararyapp.entities.Entity;
 import ru.laptseu.libararyapp.entities.dto.EntityDto;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public interface FrontMapper<T extends Entity> {
+public interface FrontMapper<E extends Entity, D extends EntityDto> {
 
-    T map(EntityDto entityDto);
+    E map(D entityDto);
 
-    EntityDto map(T entity);
+    D map(E entity);
 
-//    default List<T> map(List<EntityDto>  entityDto){
-//       return  entityDto.stream().map(entityDto1 -> map(entityDto1)).collect(Collectors.toList());
-//   }
+    List<E> mapFromDtoList(List<D> entityDtoList);
 
-    default List<EntityDto> map(List<T> entityDto) {
-        return entityDto.stream().map(entityDto1 -> map(entityDto1)).collect(Collectors.toList());
-    }
+    List<D> map(List<E> entityList);
 }
