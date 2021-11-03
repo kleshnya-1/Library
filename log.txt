@@ -4230,3 +4230,61 @@ Sun Oct 31 16:02:48 MSK 2021 | Author 10 saved
 Sun Oct 31 16:02:48 MSK 2021 | Publisher 5 saved
 Sun Oct 31 20:23:39 MSK 2021 | BookInLibrary 17 saved
 Sun Oct 31 20:23:39 MSK 2021 | BookInLibrary 17 deleted
+Mon Nov 01 20:14:49 MSK 2021 | Author 10 deleted
+Mon Nov 01 20:14:49 MSK 2021 | Author 9 deleted
+Mon Nov 01 20:27:42 MSK 2021 | Author 10 deleted
+Mon Nov 01 20:31:37 MSK 2021 | BookArchived 5 saved
+Mon Nov 01 20:31:37 MSK 2021 | BookInLibrary 16 deleted
+Mon Nov 01 20:31:37 MSK 2021 | Book 16 Design Patterns: Elements of Reusable Object-Oriented Software archived successfully
+Mon Nov 01 20:31:37 MSK 2021 | LoggingEntity null saved
+Mon Nov 01 20:34:09 MSK 2021 | BookInLibrary 18 saved
+Mon Nov 01 20:34:09 MSK 2021 | BookArchived 5 deleted
+Mon Nov 01 20:34:09 MSK 2021 | Book 5 Design Patterns: Elements of Reusable Object-Oriented Software unarchived successfully
+Mon Nov 01 20:34:09 MSK 2021 | LoggingEntity null saved
+Mon Nov 01 21:29:00 MSK 2021 | BookArchived 6 saved
+Mon Nov 01 21:29:00 MSK 2021 | BookInLibrary 18 deleted
+Mon Nov 01 21:29:00 MSK 2021 | Book 18 Design Patterns: Elements of Reusable Object-Oriented Software archived successfully
+Mon Nov 01 21:29:00 MSK 2021 | LoggingEntity null saved
+Mon Nov 01 21:30:45 MSK 2021 | BookInLibrary 19 saved
+Mon Nov 01 21:30:45 MSK 2021 | BookArchived 6 deleted
+Mon Nov 01 21:30:45 MSK 2021 | Book 6 Design Patterns: Elements of Reusable Object-Oriented Software unarchived successfully
+Mon Nov 01 21:30:45 MSK 2021 | LoggingEntity null saved
+Mon Nov 01 21:31:22 MSK 2021 | BookArchived 7 saved
+Mon Nov 01 21:31:22 MSK 2021 | BookInLibrary 19 deleted
+Mon Nov 01 21:31:22 MSK 2021 | Book 19 Design Patterns: Elements of Reusable Object-Oriented Software archived successfully
+Mon Nov 01 21:31:22 MSK 2021 | LoggingEntity null saved
+Mon Nov 01 21:31:22 MSK 2021 | BookInLibrary 20 saved
+Mon Nov 01 21:31:22 MSK 2021 | BookArchived 7 deleted
+Mon Nov 01 21:31:22 MSK 2021 | Book 7 Design Patterns: Elements of Reusable Object-Oriented Software unarchived successfully
+Mon Nov 01 21:31:22 MSK 2021 | LoggingEntity null saved
+Tue Nov 02 19:19:49 MSK 2021 | BookInLibrary 21 saved
+Tue Nov 02 19:19:49 MSK 2021 | BookArchived 8 saved
+Tue Nov 02 19:19:49 MSK 2021 | BookInLibrary 21 deleted
+Tue Nov 02 19:19:49 MSK 2021 | Book 21 fsdfsdf archived successfully
+Tue Nov 02 19:19:49 MSK 2021 | LoggingEntity null saved
+Tue Nov 02 19:19:49 MSK 2021 | BookInLibrary 22 saved
+Tue Nov 02 19:19:49 MSK 2021 | BookArchived 8 deleted
+Tue Nov 02 19:19:49 MSK 2021 | Book 8 fsdfsdf unarchived successfully
+Tue Nov 02 19:19:49 MSK 2021 | LoggingEntity null saved
+Tue Nov 02 19:19:49 MSK 2021 | BookInLibrary 22 deleted
+Tue Nov 02 20:50:56 MSK 2021 | BookArchived 9 saved
+Tue Nov 02 20:50:56 MSK 2021 | BookInLibrary 9 deleted
+Tue Nov 02 20:50:56 MSK 2021 | Book 20 Design Patterns: Elements of Reusable Object-Oriented Software archived successfully
+Tue Nov 02 20:50:56 MSK 2021 | LoggingEntity null saved
+Tue Nov 02 20:50:56 MSK 2021 | BookInLibrary 23 saved
+Tue Nov 02 20:50:56 MSK 2021 | BookArchived 9 deleted
+Tue Nov 02 20:50:56 MSK 2021 | Book 9 Design Patterns: Elements of Reusable Object-Oriented Software unarchived successfully
+Tue Nov 02 20:50:56 MSK 2021 | LoggingEntity null saved
+Tue Nov 02 21:20:48 MSK 2021 | BookArchived 10 saved
+Tue Nov 02 21:20:48 MSK 2021 | BookInLibrary 23 deleted
+Tue Nov 02 21:20:48 MSK 2021 | Book 23 Design Patterns: Elements of Reusable Object-Oriented Software archived successfully
+Tue Nov 02 21:20:48 MSK 2021 | LoggingEntity null saved
+Tue Nov 02 21:20:48 MSK 2021 | BookArchived 10 deleted
+Tue Nov 02 21:20:48 MSK 2021 | BookArchived 11 saved
+Tue Nov 02 21:20:48 MSK 2021 | BookInLibrary 20 deleted
+Tue Nov 02 21:20:48 MSK 2021 | Book 20 Design Patterns: Elements of Reusable Object-Oriented Software archived successfully
+Tue Nov 02 21:20:48 MSK 2021 | LoggingEntity null saved
+Tue Nov 02 21:20:48 MSK 2021 | BookInLibrary 24 saved
+Tue Nov 02 21:20:48 MSK 2021 | BookArchived 11 deleted
+Tue Nov 02 21:20:48 MSK 2021 | Book 11 Design Patterns: Elements of Reusable Object-Oriented Software unarchived successfully
+Tue Nov 02 21:20:48 MSK 2021 | LoggingEntity null saved

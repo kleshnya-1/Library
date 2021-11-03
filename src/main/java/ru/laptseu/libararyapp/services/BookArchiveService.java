@@ -30,18 +30,23 @@ public class BookArchiveService extends AbstractService<BookArchived> {
     }
 
     @Override
-    @Transactional(value = "archiveTransactionManager", rollbackFor = Exception.class)
     public BookInLibrary fromArchive(BookArchived bookArchived) {
+        BookInLibrary bookInLibrary = fromArchiveTransaction(bookArchived);
+        serviceFactory.get(LoggingEntity.class).save(new LoggingEntity("Book " + bookArchived.getId() + " " + bookArchived.getName() + " unarchived successfully"));
+        return bookInLibrary;
+    }
+
+    @Transactional(value = "archiveTransactionManager", rollbackFor = Exception.class)
+    public BookInLibrary fromArchiveTransaction(BookArchived bookArchived) {
         BookInLibrary bookInLibrary = bookArchivingMapper.map(bookArchived);
         bookInLibrary.setId(null);
         List<Author> newAuthorList = new ArrayList<>();
-        bookInLibrary.getAuthorList().stream().forEach(author -> newAuthorList.add((Author) serviceFactory.get(Author.class).read(author.getId())));
+        bookInLibrary.getAuthorList().stream().forEach(author -> newAuthorList.add((Author) serviceFactory.get(Author.class).read(author.getId())));// TODO: 02.11.2021 много запросов
         bookInLibrary.setAuthorList(newAuthorList);
         Publisher publisherByIdFromArchivedBook = (Publisher) serviceFactory.get(Publisher.class).read(bookInLibrary.getPublisher().getId());
         bookInLibrary.setPublisher(publisherByIdFromArchivedBook);
-        serviceFactory.get(bookInLibrary.getClass()).save(bookInLibrary);
-        serviceFactory.get(bookArchived.getClass()).delete(bookArchived.getId());
-        serviceFactory.get(LoggingEntity.class).save(new LoggingEntity("Book " + bookArchived.getId() + " " + bookArchived.getName() + " unarchived successfully"));
+        serviceFactory.get(BookInLibrary.class).save(bookInLibrary);
+        serviceFactory.get(BookArchived.class).delete(bookArchived.getId());
         return bookInLibrary;
     }
 }

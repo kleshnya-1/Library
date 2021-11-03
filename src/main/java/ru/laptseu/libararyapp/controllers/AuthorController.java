@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.EntityWithLongId;
+import ru.laptseu.libararyapp.entities.EntityWithId;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 import ru.laptseu.libararyapp.entities.dto.AuthorDto;
 import ru.laptseu.libararyapp.entities.dto.BookDto;
@@ -24,14 +24,14 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/authors")
 @RequiredArgsConstructor
-public class AuthorController {// TODO: 27.10.2021 нормальные названия методов
+public class AuthorController {
     private static final String startingUrl = "redirect:/authors/1";
     private final ServiceFactory serviceFactory;
     private final FrontMappersFactory frontMappersFactory;
     private final PageUtility pageUtility;
 
     @GetMapping("/{page}")
-    public String openPage(@PathVariable Integer page, Model model) {
+    public String getAuthors(@PathVariable Integer page, Model model) {
         List<AuthorDto> dtoList = frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).readList(page));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
@@ -40,7 +40,7 @@ public class AuthorController {// TODO: 27.10.2021 нормальные назв
     }
 
     @PostMapping("/id/")
-    public String submit(@ModelAttribute @Valid AuthorDto filledDto, BindingResult bindingResult) {
+    public String createAuthor(@ModelAttribute @Valid AuthorDto filledDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error(bindingResult.getFieldErrors());
             return startingUrl;
@@ -77,7 +77,7 @@ public class AuthorController {// TODO: 27.10.2021 нормальные назв
     }
 
     @GetMapping("/id/{id}")
-    public String openPersonalPage(@PathVariable Long id, Model model) {
+    public String getAuthor(@PathVariable Long id, Model model) {
         Author author = (Author) serviceFactory.get(Author.class).read(id);
         String representing = author.toString();
         AuthorDto dto = (AuthorDto) frontMappersFactory.get(Author.class).map(author);
@@ -87,12 +87,12 @@ public class AuthorController {// TODO: 27.10.2021 нормальные назв
     }
 
     @GetMapping("/id/authors_new")
-    public String newAccount(@ModelAttribute("emptyDto") AuthorDto emptyDto) {
+    public String newAuthor(@ModelAttribute("emptyDto") AuthorDto emptyDto) {
         return "authors/author_new";
     }
 
     @GetMapping("/id/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
+    public String editAuthor(Model model, @PathVariable("id") Long id) {
         Author author = (Author) serviceFactory.get(Author.class).read(id);
         AuthorDto dto = (AuthorDto) frontMappersFactory.get(Author.class).map(author);
         List<BookDto> dtoBooks = frontMappersFactory.get(BookInLibrary.class).map(author.getBookList());
@@ -102,13 +102,13 @@ public class AuthorController {// TODO: 27.10.2021 нормальные назв
     }
 
     @PatchMapping("/id/{id}")
-    public String update(@ModelAttribute("dto") AuthorDto dto) {
-        serviceFactory.get(Author.class).update((EntityWithLongId) frontMappersFactory.get(Author.class).map((dto)));
+    public String updateAuthor(@ModelAttribute("dto") AuthorDto dto) {
+        serviceFactory.get(Author.class).update((EntityWithId) frontMappersFactory.get(Author.class).map((dto)));
         return startingUrl;
     }
 
     @PostMapping("/id/{id}/remove")
-    public String delete(@PathVariable Long id) {
+    public String deleteAuthor(@PathVariable Long id) {
         serviceFactory.get(Author.class).delete(id);
         return startingUrl;
     }

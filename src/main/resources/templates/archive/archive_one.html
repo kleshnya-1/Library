@@ -16,6 +16,7 @@
                 <th scope="col">Название</th>
                 <th scope="col">Авторство</th>
                 <th scope="col">Описание</th>
+                <th scope="col">Издатель</th>
                 <th scope="col">Дата архивации</th>
             </tr>
             </thead>
@@ -30,6 +31,13 @@
                     </td>
                 </div>
                 <td th:text="${dto.getDescription()}">-</td>
+                <td th:if="${dto.getPublisherDto()==null}">У книги нет издателя</td>
+                <div th:if="${dto.getPublisherDto()!=null}">
+                    <td>
+                        <a th:href="@{/publishers/id/{id}(id=${dto.getPublisherDto().getId()})}"
+                           th:text="${dto.getPublisherDto().getName()}">Открыть</a>
+                    </td>
+                </div>
                 <td th:text="${dateOfArchiving}">-</td>
             </tbody>
         </table>

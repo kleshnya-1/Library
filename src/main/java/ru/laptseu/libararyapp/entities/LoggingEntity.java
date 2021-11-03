@@ -13,7 +13,7 @@ import javax.persistence.MappedSuperclass;
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
-public class LoggingEntity extends EntityWithLongId {
+public class LoggingEntity extends EntityWithId {
     private String message;
 
     public LoggingEntity(String s) {

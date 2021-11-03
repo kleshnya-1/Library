@@ -64,17 +64,15 @@
                     <a th:href="@{/authors/id/{id}(id=${e.getId()})}" class="btn btn-primary">Открыть</a>
                     <a th:href="@{/authors/id/{id}/edit(id=${e.getId()})}"
                        class="btn btn-primary">Редактировать</a>
-                    <form class="btn btn-primary" th:method="post"
+                    <form class="btn-group" th:method="post"
                           th:action="@{http://localhost:8080/authors/id/{id}/remove(id=${e.getId()})}">
-                        <input type="submit" value="Удалить"/>
+                        <input class="btn btn-primary" type="submit" value="Удалить"/>
                     </form>
                     </div>
                 </td>
             </tr>
             </tbody>
         </table>
-
-
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item"><a class="page-link" th:href="@{/authors/{page}(page=${exPageNum})}">Назад</a>

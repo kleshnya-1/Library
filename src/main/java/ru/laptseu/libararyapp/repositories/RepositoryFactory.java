@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.Entity;
+import ru.laptseu.libararyapp.entities.EntityWithId;
 import ru.laptseu.libararyapp.entities.LoggingEntity;
 import ru.laptseu.libararyapp.entities.Publisher;
 import ru.laptseu.libararyapp.entities.books.BookArchived;
@@ -20,7 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Component
 public class RepositoryFactory {
-    private static final Map<Class<? extends Entity>, Class<? extends AbstractRepository>> FACTORY_MAP = new HashMap<>();
+    private static final Map<Class<? extends EntityWithId>, Class<? extends AbstractRepository>> FACTORY_MAP = new HashMap<>();
 
     static {
         FACTORY_MAP.put(Author.class, AuthorRepository.class);

@@ -30,7 +30,7 @@ public class BookArchivedController {
     private final BookArchivingMapper bookArchivingMapper;
 
     @GetMapping("/{page}")
-    public String openPage(@PathVariable Integer page, Model model) {
+    public String getBooksInArchive(@PathVariable Integer page, Model model) {
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(bookArchivingMapper.map(serviceFactory.get(BookArchived.class).readList(page)));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
@@ -39,7 +39,7 @@ public class BookArchivedController {
     }
 
     @GetMapping("/id/{id}")
-    public String openPersonalPage(@PathVariable Long id, Model model) {
+    public String getBookInArchive(@PathVariable Long id, Model model) {
         BookArchived bookArchived = (BookArchived) serviceFactory.get(BookArchived.class).read(id);
         BookInLibrary bookInLibrary = bookArchivingMapper.map(bookArchived);
         BookDto dto = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
@@ -49,7 +49,7 @@ public class BookArchivedController {
     }
 
     @GetMapping("/id/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
+    public String editBookInArchive(Model model, @PathVariable("id") Long id) {
         BookArchived bookArchived = (BookArchived) serviceFactory.get(BookArchived.class).read(id);
         BookInLibrary bookInLibrary = bookArchivingMapper.map(bookArchived);
         BookDto dto = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
@@ -60,19 +60,19 @@ public class BookArchivedController {
     }
 
     @PatchMapping("/id/{id}")
-    public String update(@ModelAttribute("dto") BookDto dto) {
+    public String updateBookInArchive(@ModelAttribute("dto") BookDto dto) {
         serviceFactory.get(BookArchived.class).update(bookArchivingMapper.map((BookArchived) frontMappersFactory.get(BookInLibrary.class).map((dto))));
         return startingUrl;
     }
 
     @PostMapping("/id/{id}/remove")
-    public String delete(@PathVariable Long id) {
+    public String deleteBookInArchive(@PathVariable Long id) {
         serviceFactory.get(BookArchived.class).delete(id);
         return startingUrl;
     }
 
     @PostMapping("/id/{id}/to_library")
-    public String toLibrary(@PathVariable Long id) {
+    public String unarchiveBookInArchive(@PathVariable Long id) {
         try {
             serviceFactory.get(BookArchived.class).fromArchive(id);
             return "archive/archive_successful_unarchiving";

@@ -10,28 +10,37 @@
     <header th:insert="blocks/header :: header"></header>
     <main>
         <form th:method="PATCH" th:action="@{http://localhost:8080/authors/id/{id}(id=${dto.getId()})}" th:object="${dto}">
-            <div class="form-row">
-                <div class="form-group col-md-6">
+            <div class="form-group row">
+                <div class="form-group col-md-3">
                     <label>Имя</label>
-                    <input class="form-control" placeholder="Имя" th:field="*{firstName}" type="text">
+                    <input class="form-control" placeholder="Антуан де" th:field="*{firstName}" type="text">
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-3">
                     <label>Фамилия</label>
-                    <input class="form-control" placeholder="Фамилия" th:field="*{secondName}" type="text">
+                    <input class="form-control" placeholder="Сент-Экзюпери" th:field="*{secondName}" type="text">
+                </div>
+                <div class="container">
+                    <div class="form-group row">
+                        <div class="form-group col-md-2">
+                            <label f>Годы жизни</label>
+                            <input class="form-control" placeholder="1900" th:field="*{birthYear}" type="number">
+                            <div class="col-xs-8">Неизвестен.</div>
+                            <input class="form-check-input" type="checkbox" th:field="*{unknownBirthYear}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group col-md-2">
+                            <input class="form-control" placeholder="1944" th:field="*{deathYear}" type="number">
+                            <div class="col-xs-8">Неизвестен.</div>
+                            <input class="form-check-input" type="checkbox" th:field="*{unknownDeathYear}">
+                        </div>
+
+                    </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label f>Годы жизни</label>
-                    <input class="form-control" placeholder="С" th:field="*{birthYear}" type="number">
-                </div>
-                <div class="form-group col-md-6">
-                    <label></label>
-                    <input class="form-control" placeholder="По" th:field="*{deathYear}" type="number">
-                </div>
-            </div>
-            <p><input type="submit" value="Подтвердить"/> <input type="reset" value="Сброс"/></p>
+            <p><input  class="btn btn-primary" type="submit" value="Подтвердить"/> <input  class="btn btn-primary" type="reset" value="Сброс"/></p>
         </form>
+
     </main>
     <footer th:insert="blocks/footer :: footer"></footer>
 </div>

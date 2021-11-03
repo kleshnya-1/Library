@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "authors")
-public class Author extends EntityWithLongId {
+public class Author extends EntityWithId {
     private String firstName;
     private String secondName;
     private Integer birthYear;

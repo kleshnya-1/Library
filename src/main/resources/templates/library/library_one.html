@@ -13,10 +13,12 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">Название</th>
+                            <th scope="col">Название</th>
                 <th scope="col">Авторство</th>
                 <th scope="col">Описание</th>
-                <th scope="col">Номер полки</th>
+                <th scope="col">Издатель</th>
+                <th scope="col">Год издания</th>
+                <th scope="col">№ полки</th>
             </tr>
             </thead>
             <tbody>
@@ -30,6 +32,24 @@
                     </td>
                 </div>
                 <td th:text="${dto.getDescription()}">-</td>
+                <td th:if="${dto.getPublisherDto()==null}">У книги нет издателя</td>
+                <div th:if="${dto.getPublisherDto()!=null}">
+                    <td>
+                        <a th:href="@{/publishers/id/{id}(id=${dto.getPublisherDto().getId()})}"
+                           th:text="${dto.getPublisherDto().getName()}">Открыть</a>
+                    </td>
+                </div>
+                <div th:if="${dto.getYearOfPublishing()!=null}">
+                    <div th:if="${dto.getYearOfPublishing()<0}">
+                        <td>
+                            <p th:text="${dto.getYearOfPublishing()*-1}"></p>
+                            <p>BC</p>
+                        </td>
+                    </div>
+                    <div th:if="${dto.getYearOfPublishing()>-1}">
+                        <td th:text="${dto.getYearOfPublishing()}">-</td>
+                    </div>
+                </div>
                 <td th:text="${dto.getSectionNumber()}">-</td>
             </tbody>
         </table>

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
-import ru.laptseu.libararyapp.entities.EntityWithLongId;
+import ru.laptseu.libararyapp.entities.EntityWithId;
 import ru.laptseu.libararyapp.entities.LoggingEntity;
 import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
@@ -20,20 +20,20 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @Getter
-public abstract class AbstractService<T extends EntityWithLongId> {
+public abstract class AbstractService<T extends EntityWithId> {
     private final RepositoryFactory repositoryFactory;
     private final PageUtility pageUtility;
     private final FrontMappersFactory frontMappersFactory;
 
-    Class<? extends EntityWithLongId> getEntityClass() {
+    Class<? extends EntityWithId> getEntityClass() {
         return ((Class) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
     }
 
     public T save(T entity) {
         int saveCounter = 0;
         T savedEntity = null;
-        while (saveCounter <= 10) {//  spring starts to count from last saved id by itself(!).
-            try {
+        while (saveCounter <= 10) {
+            try {// TODO: 02.11.2021 spring starts to count from last saved id by itself(!).
                 savedEntity = (T) repositoryFactory.get(getEntityClass()).save(entity);
                 repositoryFactory.get(LoggingEntity.class).save(new LoggingEntity(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved"));
                 break;
@@ -82,11 +82,11 @@ public abstract class AbstractService<T extends EntityWithLongId> {
         return repositoryFactory.get(getEntityClass()).findPageable(pageable);
     }
 
-    public List<T> readBooksByAuthor(Long id) throws OperationNotSupportedException {
-        throw new OperationNotSupportedException();
-    }
-
-    public List<T> readBooksByPublisher(Long id) throws OperationNotSupportedException {
-        throw new OperationNotSupportedException();
-    }
+//    public List<T> readBooksByAuthor(Long id) throws OperationNotSupportedException {
+//        throw new OperationNotSupportedException();// TODO: 02.11.2021 remove it because of get hibernate
+//    }
+//
+//    public List<T> readBooksByPublisher(Long id) throws OperationNotSupportedException {
+//        throw new OperationNotSupportedException();
+//    }
 }

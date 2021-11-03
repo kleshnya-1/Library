@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.laptseu.libararyapp.entities.EntityWithLongId;
+import ru.laptseu.libararyapp.entities.EntityWithId;
 import ru.laptseu.libararyapp.entities.Publisher;
 import ru.laptseu.libararyapp.entities.dto.AuthorDto;
 import ru.laptseu.libararyapp.entities.dto.PublisherDto;
@@ -21,14 +21,14 @@ import java.util.List;
 @Controller
 @RequestMapping("/publishers")
 @RequiredArgsConstructor
-public class PublisherController {// TODO: 27.10.2021 нормальные названия методов
+public class PublisherController {
     private static final String startingUrl = "redirect:/publishers/1";
     private final ServiceFactory serviceFactory;
     private final FrontMappersFactory frontMappersFactory;
     private final PageUtility pageUtility;
 
     @GetMapping("/{page}")
-    public String openPage(@PathVariable Integer page, Model model) {
+    public String getPublishers(@PathVariable Integer page, Model model) {
         List<PublisherDto> dtoList = frontMappersFactory.get(Publisher.class).map(serviceFactory.get(Publisher.class).readList(page));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
@@ -37,7 +37,7 @@ public class PublisherController {// TODO: 27.10.2021 нормальные на�
     }
 
     @PostMapping("/id/")
-    public String submit(@ModelAttribute @Valid PublisherDto filledDto, BindingResult bindingResult) {
+    public String createPublisher(@ModelAttribute @Valid PublisherDto filledDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error(bindingResult.getFieldErrors());
             return startingUrl;
@@ -52,7 +52,7 @@ public class PublisherController {// TODO: 27.10.2021 нормальные на�
     }
 
     @GetMapping("/id/{id}")
-    public String openPersonalPage(@PathVariable Long id, Model model) {
+    public String getPublisher(@PathVariable Long id, Model model) {
         Publisher publisher = (Publisher) serviceFactory.get(Publisher.class).read(id);
         PublisherDto dto = (PublisherDto) frontMappersFactory.get(Publisher.class).map(publisher);
         model.addAttribute("dto", dto);
@@ -60,12 +60,12 @@ public class PublisherController {// TODO: 27.10.2021 нормальные на�
     }
 
     @GetMapping("/id/publishers_new")
-    public String newAccount(@ModelAttribute("emptyDto") PublisherDto emptyDto) {
+    public String getCreatePublisherPage(@ModelAttribute("emptyDto") PublisherDto emptyDto) {
         return "publishers/publisher_new";
     }
 
     @GetMapping("/id/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
+    public String editPublisher(Model model, @PathVariable("id") Long id) {
         Publisher publisher = (Publisher) serviceFactory.get(Publisher.class).read(id);
         AuthorDto dto = (AuthorDto) frontMappersFactory.get(Publisher.class).map(publisher);
         model.addAttribute("dto", dto);
@@ -73,13 +73,13 @@ public class PublisherController {// TODO: 27.10.2021 нормальные на�
     }
 
     @PatchMapping("/id/{id}")
-    public String update(@ModelAttribute("dto") AuthorDto dto) {
-        serviceFactory.get(Publisher.class).update((EntityWithLongId) frontMappersFactory.get(Publisher.class).map((dto)));
+    public String updatePublisher(@ModelAttribute("dto") AuthorDto dto) {
+        serviceFactory.get(Publisher.class).update(frontMappersFactory.get(Publisher.class).map((dto)));
         return startingUrl;
     }
 
     @PostMapping("/id/{id}/remove")
-    public String delete(@PathVariable Long id) {
+    public String deletePublisher(@PathVariable Long id) {
         serviceFactory.get(Publisher.class).delete(id);
         return startingUrl;
     }

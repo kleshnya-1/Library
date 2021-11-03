@@ -92,7 +92,7 @@ class ArchivingTest {
         listOfOneAuthor = new ArrayList<>();
         listOfOneAuthor.add(a4);
 
-        lb1 = new BookInLibrary();
+              lb1 = new BookInLibrary();
         lb1.setName("created as lb1 " + Calendar.getInstance().getTime());
         lb2 = new BookInLibrary();
         lb2.setName("created as lb2 " + Calendar.getInstance().getTime());

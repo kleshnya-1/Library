@@ -30,24 +30,30 @@ public class BookLibraryService extends AbstractService<BookInLibrary> {
     }
 
     @Override
-    @Transactional(value = "libraryTransactionManager", rollbackFor = Exception.class)
     public BookArchived toArchive(BookInLibrary bookInLibraryForArchiving) {
-        BookArchived bookArchived = bookArchivingMapper.map(bookInLibraryForArchiving);
-        bookArchived.setId(null);
-        bookArchived.setDateOfArchived(Calendar.getInstance());
-        bookArchived = (BookArchived) serviceFactory.get(bookArchived.getClass()).save(bookArchived);
-        serviceFactory.get(bookInLibraryForArchiving.getClass()).delete(bookInLibraryForArchiving.getId());
+        BookArchived bookArchived = toArchiveTransaction(bookInLibraryForArchiving);
         serviceFactory.get(LoggingEntity.class).save(new LoggingEntity("Book " + bookInLibraryForArchiving.getId() + " " + bookInLibraryForArchiving.getName() + " archived successfully"));
         return bookArchived;
     }
 
-    @Override
-    public List<BookInLibrary> readBooksByAuthor(Long id) {
-        return repositoryFactory.get(getEntityClass()).findByAuthorId(id);
+
+    @Transactional(value = "libraryTransactionManager", rollbackFor = Exception.class)
+    public BookArchived toArchiveTransaction(BookInLibrary bookInLibraryForArchiving) {
+        BookArchived bookArchived = bookArchivingMapper.map(bookInLibraryForArchiving);
+        bookArchived.setId(null);
+        bookArchived.setDateOfArchived(Calendar.getInstance());
+        bookArchived = (BookArchived) serviceFactory.get(BookArchived.class).save(bookArchived);
+        serviceFactory.get(BookInLibrary.class).delete(bookInLibraryForArchiving.getId());
+        return bookArchived;
     }
 
-    @Override
-    public List<BookInLibrary> readBooksByPublisher(Long id) {
-        return repositoryFactory.get(getEntityClass()).findByPublisherId(id);
-    }
+//    @Override
+//    public List<BookInLibrary> readBooksByAuthor(Long id) {
+//        return repositoryFactory.get(getEntityClass()).findByAuthorId(id);
+//    }
+//
+//    @Override
+//    public List<BookInLibrary> readBooksByPublisher(Long id) {
+//        return repositoryFactory.get(getEntityClass()).findByPublisherId(id);
+//    }
 }

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.Entity;
+import ru.laptseu.libararyapp.entities.EntityWithId;
 import ru.laptseu.libararyapp.entities.Publisher;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Component
 public class FrontMappersFactory {
-    private static final Map<Class<? extends Entity>, Class<? extends FrontMapper>> FACTORY_MAP = new HashMap<>();
+    private static final Map<Class<? extends EntityWithId>, Class<? extends FrontMapper>> FACTORY_MAP = new HashMap<>();
 
     static {
         FACTORY_MAP.put(Author.class, AuthorMapper.class);
@@ -24,7 +24,7 @@ public class FrontMappersFactory {
 
     private final ApplicationContext applicationContext;
 
-    public FrontMapper get(Class<? extends Entity> clazz) {// TODO: 31.10.2021 parametrize
+    public FrontMapper get(Class<? extends EntityWithId> clazz) {// TODO: 31.10.2021 parametrize
         return applicationContext.getBean(FACTORY_MAP.get(clazz));
     }
 }
