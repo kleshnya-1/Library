@@ -37,9 +37,7 @@ public class BookInLibraryController {
     @GetMapping("/{page}")
     public String getBooksInLibrary(@PathVariable Integer page, Model model) {
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(serviceFactory.get(BookInLibrary.class).readList(page));
-       dtoList.forEach(bookDto ->{
-          bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription()));
-       } );
+        dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
         model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
@@ -48,45 +46,38 @@ public class BookInLibraryController {
 
     @GetMapping("/by_author/{id}/{page}")
     public String getBooksInLibraryByAuthor(@PathVariable Long id, @PathVariable Integer page, Model model) {
-        List<BookInLibrary> list;
         Author author = (Author) serviceFactory.get(Author.class).read(id);
-
-            list =  ((Author) serviceFactory.get(Author.class).read(id)).getBookList();// TODO: 03.11.2021 aaaaaaaaaaaaaaAAAAAAAAAAAAAAAA
-
         String masterString = author.toString();
-        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(list);
+        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(author.getBookList());
+        dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("authorId", id);
         model.addAttribute("master", " " + masterString + " ");
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
         model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
+        model.addAttribute("path", "/by_author/");
         return "library/library_by_querry";
     }
 
     @GetMapping("/by_publisher/{id}/{page}")
     public String getBooksInLibraryByPublisher(@PathVariable Long id, @PathVariable Integer page, Model model) {
-        List<BookInLibrary> list;
-        Publisher publisher = (Publisher) serviceFactory.get(Publisher.class).read(id);// TODO: 02.11.2021 aaaaaaaaaaaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
-            list = ((Publisher) serviceFactory.get(Publisher.class).read(id)).getBookList();
-
+        Publisher publisher = (Publisher) serviceFactory.get(Publisher.class).read(id);
         String masterString = publisher.getName();
-        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(list);
+        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(publisher.getBookList());
+        dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("publisherId", id);
         model.addAttribute("master", " " + masterString + " ");
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
         model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
+        model.addAttribute("path", "/by_publisher/");
         return "library/library_by_querry";
     }
 
     @PostMapping("/id/")
-    public String createBookInLIbrary(@ModelAttribute @Valid BookDto filledDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public String createBookInLibrary(@ModelAttribute @Valid BookDto filledDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors() || filledDto.getId() != null) {
             log.error(bindingResult.getFieldErrors());
-            return startingUrl;
-        }
-        if (filledDto.getId() != null) {
             log.error("not saved as new with id " + filledDto.getId());
             return startingUrl;
         }
@@ -127,7 +118,6 @@ public class BookInLibraryController {
         List<AuthorDto> authors = frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).read());
         List<PublisherDto> publishers = serviceFactory.get(Publisher.class).read();
         model.addAttribute("authors", authors);
-
         model.addAttribute("publishers", publishers);
         return "library/library_new";
     }
@@ -146,6 +136,9 @@ public class BookInLibraryController {
 
     @PatchMapping("/id/{id}")
     public String updateBookInLibrary(@ModelAttribute("dto") BookDto dto) {
+        if (dto.getPublisherDto().getId() == null) {
+            dto.setPublisherDto(null);
+        }
         BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map((dto));
         List<Author> authorList;
         if (dto.getAuthorArrayForHtml().length > 0) {
@@ -160,6 +153,7 @@ public class BookInLibraryController {
             authorList = ((BookInLibrary) serviceFactory.get(BookInLibrary.class).read(bookInLibrary.getId())).getAuthorList();
         }
         bookInLibrary.setAuthorList(authorList);
+
         serviceFactory.get(BookInLibrary.class).update(bookInLibrary);
         return startingUrl;
     }

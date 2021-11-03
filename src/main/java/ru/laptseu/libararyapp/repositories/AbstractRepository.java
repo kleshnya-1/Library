@@ -29,14 +29,6 @@ public interface AbstractRepository<T extends EntityWithId> extends PagingAndSor
         return readByIdAndIsDeletedFalse(id);
     }
 
-//    default List<T> findByAuthorId(Long id) {
-//        throw new UnsupportedOperationException();
-//    }
-//
-//    default List<T> findByPublisherId(Long id) {
-//        throw new UnsupportedOperationException();
-//    }
-
     @Override
     default void deleteById(Long id) {
         T ent = findById(id).orElse(null);

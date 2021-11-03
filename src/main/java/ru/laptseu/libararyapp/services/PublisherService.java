@@ -8,6 +8,8 @@ import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
 import ru.laptseu.libararyapp.repositories.RepositoryFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
 
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
 @Service
@@ -16,6 +18,15 @@ public class PublisherService extends AbstractService<Publisher> {
 
     public PublisherService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory) {
         super(repositoryFactory, pageUtility, frontMappersFactory);
+    }
+
+    @Override
+    public Publisher read(Long id) {
+        Publisher a = super.read(id);
+        if (a != null && a.getBookList() != null) {
+            a.setBookList(a.getBookList().stream().filter(b -> b.isDeleted() == false).collect(Collectors.toList()));
+        }
+        return a;
     }
 
 }

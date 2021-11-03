@@ -1,6 +1,7 @@
 package ru.laptseu.libararyapp.services;
 
 import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.laptseu.libararyapp.entities.Author;
@@ -16,6 +17,7 @@ import ru.laptseu.libararyapp.utilities.PageUtility;
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 @Getter
 @Service
 public class BookArchiveService extends AbstractService<BookArchived> {
@@ -29,15 +31,10 @@ public class BookArchiveService extends AbstractService<BookArchived> {
         this.serviceFactory = serviceFactory;
     }
 
-    @Override
-    public BookInLibrary fromArchive(BookArchived bookArchived) {
-        BookInLibrary bookInLibrary = fromArchiveTransaction(bookArchived);
-        serviceFactory.get(LoggingEntity.class).save(new LoggingEntity("Book " + bookArchived.getId() + " " + bookArchived.getName() + " unarchived successfully"));
-        return bookInLibrary;
-    }
 
+    @Override
     @Transactional(value = "archiveTransactionManager", rollbackFor = Exception.class)
-    public BookInLibrary fromArchiveTransaction(BookArchived bookArchived) {
+    public BookInLibrary fromArchive(BookArchived bookArchived) {
         BookInLibrary bookInLibrary = bookArchivingMapper.map(bookArchived);
         bookInLibrary.setId(null);
         List<Author> newAuthorList = new ArrayList<>();
@@ -47,6 +44,11 @@ public class BookArchiveService extends AbstractService<BookArchived> {
         bookInLibrary.setPublisher(publisherByIdFromArchivedBook);
         serviceFactory.get(BookInLibrary.class).save(bookInLibrary);
         serviceFactory.get(BookArchived.class).delete(bookArchived.getId());
+        try {
+            serviceFactory.get(LoggingEntity.class).save(new LoggingEntity("Book " + bookArchived.getId() + " " + bookArchived.getName() + " unarchived successfully"));
+        } catch (Exception e) {
+            log.error(e);
+        }
         return bookInLibrary;
     }
 }

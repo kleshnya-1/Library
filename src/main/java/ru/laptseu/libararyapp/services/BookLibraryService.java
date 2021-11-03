@@ -1,6 +1,7 @@
 package ru.laptseu.libararyapp.services;
 
 import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.laptseu.libararyapp.entities.LoggingEntity;
@@ -12,8 +13,9 @@ import ru.laptseu.libararyapp.repositories.RepositoryFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.stream.Collectors;
 
+@Log4j2
 @Getter
 @Service
 public class BookLibraryService extends AbstractService<BookInLibrary> {
@@ -30,30 +32,29 @@ public class BookLibraryService extends AbstractService<BookInLibrary> {
     }
 
     @Override
-    public BookArchived toArchive(BookInLibrary bookInLibraryForArchiving) {
-        BookArchived bookArchived = toArchiveTransaction(bookInLibraryForArchiving);
-        serviceFactory.get(LoggingEntity.class).save(new LoggingEntity("Book " + bookInLibraryForArchiving.getId() + " " + bookInLibraryForArchiving.getName() + " archived successfully"));
-        return bookArchived;
-    }
-
-
     @Transactional(value = "libraryTransactionManager", rollbackFor = Exception.class)
-    public BookArchived toArchiveTransaction(BookInLibrary bookInLibraryForArchiving) {
+    public BookArchived toArchive(BookInLibrary bookInLibraryForArchiving) {
         BookArchived bookArchived = bookArchivingMapper.map(bookInLibraryForArchiving);
         bookArchived.setId(null);
         bookArchived.setDateOfArchived(Calendar.getInstance());
         bookArchived = (BookArchived) serviceFactory.get(BookArchived.class).save(bookArchived);
         serviceFactory.get(BookInLibrary.class).delete(bookInLibraryForArchiving.getId());
+        try {
+            serviceFactory.get(LoggingEntity.class).save(new LoggingEntity("Book " +
+                    bookInLibraryForArchiving.getId() + " " + bookInLibraryForArchiving.getName() + " archived successfully"));
+        } catch (Exception e) {
+            log.error(e);
+        }
         return bookArchived;
     }
 
-//    @Override
-//    public List<BookInLibrary> readBooksByAuthor(Long id) {
-//        return repositoryFactory.get(getEntityClass()).findByAuthorId(id);
-//    }
-//
-//    @Override
-//    public List<BookInLibrary> readBooksByPublisher(Long id) {
-//        return repositoryFactory.get(getEntityClass()).findByPublisherId(id);
-//    }
+    @Override
+    public BookInLibrary read(Long id) {
+        BookInLibrary a = super.read(id);
+        a.setAuthorList(a.getAuthorList().stream().filter(b -> b.isDeleted() == false).collect(Collectors.toList()));
+        if (a.getPublisher() != null && a.getPublisher().isDeleted() == true) {
+            a.setPublisher(null);
+        }
+        return a;
+    }
 }

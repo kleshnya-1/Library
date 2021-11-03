@@ -70,7 +70,6 @@ public class LoggingRepository implements AbstractRepository<LoggingEntity> {
         return false;
     }
 
-
     @Override
     public void delete(LoggingEntity entity) {
         throw new UnsupportedOperationException();
@@ -102,7 +101,6 @@ public class LoggingRepository implements AbstractRepository<LoggingEntity> {
     public long count() {
         throw new UnsupportedOperationException();
     }
-
 
     @Override
     public void deleteAllById(Iterable iterable) {

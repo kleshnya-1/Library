@@ -6,14 +6,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.laptseu.libararyapp.entities.Author;
+import ru.laptseu.libararyapp.entities.Publisher;
 import ru.laptseu.libararyapp.entities.books.BookArchived;
 import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 import ru.laptseu.libararyapp.entities.dto.AuthorDto;
 import ru.laptseu.libararyapp.entities.dto.BookDto;
+import ru.laptseu.libararyapp.entities.dto.PublisherDto;
 import ru.laptseu.libararyapp.mappers.backMappers.BookArchivingMapper;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
 import ru.laptseu.libararyapp.services.ServiceFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
+import ru.laptseu.libararyapp.utilities.TextTrimmingUtility;
 
 import javax.naming.OperationNotSupportedException;
 import java.util.List;
@@ -28,10 +31,12 @@ public class BookArchivedController {
     private final FrontMappersFactory frontMappersFactory;
     private final PageUtility pageUtility;
     private final BookArchivingMapper bookArchivingMapper;
+    private final TextTrimmingUtility textTrimmingUtility;
 
     @GetMapping("/{page}")
     public String getBooksInArchive(@PathVariable Integer page, Model model) {
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(bookArchivingMapper.map(serviceFactory.get(BookArchived.class).readList(page)));
+        dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
         model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
@@ -54,8 +59,10 @@ public class BookArchivedController {
         BookInLibrary bookInLibrary = bookArchivingMapper.map(bookArchived);
         BookDto dto = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
         List<AuthorDto> authors = frontMappersFactory.get(Author.class).map(bookInLibrary.getAuthorList());
+        List<PublisherDto> publishers = frontMappersFactory.get(Publisher.class).map(serviceFactory.get(Publisher.class).read());
         model.addAttribute("dto", dto);
-        model.addAttribute("dtoList", authors);
+        model.addAttribute("authors", authors);
+        model.addAttribute("publishers", publishers);
         return "archive/archive_edit";
     }
 

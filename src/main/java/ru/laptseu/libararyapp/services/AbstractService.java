@@ -81,12 +81,4 @@ public abstract class AbstractService<T extends EntityWithId> {
         Pageable pageable = pageUtility.getPageable(page);
         return repositoryFactory.get(getEntityClass()).findPageable(pageable);
     }
-
-//    public List<T> readBooksByAuthor(Long id) throws OperationNotSupportedException {
-//        throw new OperationNotSupportedException();// TODO: 02.11.2021 remove it because of get hibernate
-//    }
-//
-//    public List<T> readBooksByPublisher(Long id) throws OperationNotSupportedException {
-//        throw new OperationNotSupportedException();
-//    }
 }

@@ -19,7 +19,7 @@
                 <th scope="col">Название</th>
                 <th scope="col">Авторство</th>
                 <th scope="col">Описание</th>
-                <th scope="col">Номер полки</th>
+                <th scope="col">Издатель</th>
                 <th scope="col">Действия</th>
             </tr>
             </thead>
@@ -37,7 +37,13 @@
                     </td>
                 </div>
                 <td th:text="${e.getDescription()}">-</td>
-                <td th:text="${e.getSectionNumber()}">-</td>
+                <td th:if="${e.getPublisherDto()==null}">У книги нет издателя</td>
+                <div th:if="${e.getPublisherDto()!=null}">
+                    <td>
+                        <a th:href="@{/publishers/id/{id}(id=${e.getPublisherDto().getId()})}"
+                           th:text="${e.getPublisherDto().getName()}">Открыть</a>
+                    </td>
+                </div>
                 <td>
                     <a class="btn btn-primary" th:href="@{/library/id/{id}(id=${e.getId()})}">Открыть</a>
                     <a class="btn btn-primary" th:href="@{/library/id/{id}/edit(id=${e.getId()})}">Редактировать</a>
@@ -50,14 +56,13 @@
             </tbody>
         </table>
 
-
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item"><a class="page-link"
-                                         th:href="@{/library/by_author/{id}/{page}(id=${authorId}, page=${exPageNum})}">Назад</a>
+                                         th:href="@{/library/{path}/{id}/{page}(id=${authorId}, page=${exPageNum}, path=${path})}">Назад</a>
                 </li>
                 <li class="page-item"><a class="page-link"
-                                         th:href="@{/library/by_author/{id}/{page}(id=${authorId}, page=${nextPageNum})}">Вперед</a>
+                                         th:href="@{/library/{path}/{id}/{page}(id=${authorId}, page=${nextPageNum}, path=${path})}">Вперед</a>
                 </li>
             </ul>
         </nav>

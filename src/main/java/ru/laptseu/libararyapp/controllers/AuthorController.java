@@ -41,12 +41,9 @@ public class AuthorController {
 
     @PostMapping("/id/")
     public String createAuthor(@ModelAttribute @Valid AuthorDto filledDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()||filledDto.getId() != null) {
             log.error(bindingResult.getFieldErrors());
-            return startingUrl;
-        }
-        if (filledDto.getId() != null) {//this URL only for new Entities
-            log.error("not saved as new with id " + filledDto.getId());
+            log.error("not saved as new with id " + filledDto.getId());//this URL only for new Entities
             return startingUrl;
         }
         if (Objects.equals(filledDto.getFirstName(), "")) {
@@ -103,7 +100,7 @@ public class AuthorController {
 
     @PatchMapping("/id/{id}")
     public String updateAuthor(@ModelAttribute("dto") AuthorDto dto) {
-        serviceFactory.get(Author.class).update((EntityWithId) frontMappersFactory.get(Author.class).map((dto)));
+        serviceFactory.get(Author.class).update(frontMappersFactory.get(Author.class).map((dto)));
         return startingUrl;
     }
 

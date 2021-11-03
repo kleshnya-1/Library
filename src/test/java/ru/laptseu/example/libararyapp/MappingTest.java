@@ -156,6 +156,6 @@ class MappingTest {
         List list = new ArrayList();
         list.add(authorDto1);
         list.add(authorDto2);
-        bookDto.setAuthorList(list);
+        bookDto.setAuthorList(list);// TODO: 03.11.2021
     }
 }

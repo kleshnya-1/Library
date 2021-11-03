@@ -16,12 +16,12 @@ public class TextTrimmingUtility {
         if (source.length() > descriptionLength) {//case: too long description
             for (int i = descriptionLength - 3; i > 0; i--) {
                 if (Character.isWhitespace(source.charAt(i))) {
-                   return source.substring(0, i)+"...";
+                    return source.substring(0, i) + "...";
                 }
             }
         } else {
             return source;//case short enough description
         }
-        return source.substring(0, descriptionLength - 3)+"...";//case too long and has no spaces in range
+        return source.substring(0, descriptionLength - 3) + "...";//case too long and has no spaces in range
     }
 }

@@ -33,7 +33,8 @@
                         <a class="btn btn-primary" th:href="@{/publishers/id/{id}(id=${e.getId()})}">Открыть</a>
                         <a class="btn btn-primary"
                            th:href="@{/publishers/id/{id}/edit(id=${e.getId()})}">Редактировать</a>
-                        <form class="btn-group" th:action="@{http://localhost:8080/publishers/id/{id}/remove(id=${e.getId()})}"
+                        <form class="btn-group"
+                              th:action="@{http://localhost:8080/publishers/id/{id}/remove(id=${e.getId()})}"
                               th:method="post">
                             <input class="btn btn-primary" type="submit" value="Удалить"/>
                         </form>

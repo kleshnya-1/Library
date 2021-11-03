@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.laptseu.libararyapp.entities.EntityWithId;
 import ru.laptseu.libararyapp.entities.Publisher;
 import ru.laptseu.libararyapp.entities.dto.AuthorDto;
 import ru.laptseu.libararyapp.entities.dto.PublisherDto;
@@ -38,12 +37,9 @@ public class PublisherController {
 
     @PostMapping("/id/")
     public String createPublisher(@ModelAttribute @Valid PublisherDto filledDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || filledDto.getId() != null) {
             log.error(bindingResult.getFieldErrors());
-            return startingUrl;
-        }
-        if (filledDto.getId() != null) {//this URL only for new Entities
-            log.error("not saved as new with id " + filledDto.getId());
+            log.error("not saved as new with id " + filledDto.getId());//this URL only for new Entities
             return startingUrl;
         }
         Publisher publisher = (Publisher) frontMappersFactory.get(Publisher.class).map((filledDto));

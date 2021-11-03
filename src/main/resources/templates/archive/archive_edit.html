@@ -12,29 +12,64 @@
     <main>
         <form th:action="@{http://localhost:8080/library/id/{id}(id=${dto.getId()})}" th:method="PATCH"
               th:object="${dto}">
-            <div class="form-row">
+            <div class="row">
                 <div class="form-group col-md-6">
                     <label>Название</label>
                     <input class="form-control" placeholder="Колобок"
                            th:field="*{name}" type="text">
                 </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label>Авторы</label>
+                                    <br>
+                                    <sup>(для изменения выберете новых)</sup>
+                                    <select class="form-control" id="authors" multiple="multiple" size="10"
+                                            th:field="*{authorArrayForHtml}">
+                                        <option th:each="a : ${authors}"
+                                                th:text="${a.getFirstName()}+'  '+${a.getSecondName()}"
+                                                th:value="${a.getId()}"></option>
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-2">
+                                    <label>Номер полки</label>
+                                    <input class="form-control" placeholder="0" size="400"
+                                           th:field="*{sectionNumber}"
+                                           type="number">
+                                    <label>Год издания</label>
+                                    <input class="form-control" placeholder="0" size="400"
+                                           th:field="*{yearOfPublishing}"
+                                           type="number">
+                                    <div class="col-xs-8">Неизвестен.</div>
+                                    <input class="form-check-input" th:field="*{unknownPublishingYear}" type="checkbox">
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Издатель</label>
+                            <select class="form-control" th:field="*{publisherDto.id}">
+                                <option th:each="a : ${publishers}"
+                                        th:text="${a.getName()}" th:value="${a.getId()}"></option>
+                                <option
+                                        th:text="неивестен" th:value="null"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group col-md-6">
                     <label>Описание</label>
-                    <input class="form-control"
-                           height="500"
-                           placeholder="Книга отом, как череда случайных, несвязанных между собой событий, приводит кнелепой смерти главного героя." th:field="*{description}" type="text" width="900">
+                    <textarea class="form-control"
+                              placeholder="Книга отом, как череда случайных, несвязанных между собой событий, приводит к нелепой смерти главного героя."
+                              th:field="*{description}" type="text"> </textarea>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="exampleFormControlSelect2">Авторы</label>
-                    <select class="form-control" id="exampleFormControlSelect2" multiple>
-                        <option th:each="a : ${authors}"
-                                th:text="${a.getName()}" th:value="${a.getId()}"></option>
-                    </select>
-                </div>
-            </div>
-            <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+            <button class="btn btn-primary" type="submit">Создать</button>
         </form>
     </main>
     <footer th:insert="blocks/footer :: footer"></footer>
