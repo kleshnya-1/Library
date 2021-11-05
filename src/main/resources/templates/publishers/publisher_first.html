@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<div th:insert="blocks/style :: style"></div>
 <head>
     <meta charset="UTF-8">
     <title>Издательства</title>
@@ -9,9 +10,9 @@
 <body>
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
-    <main>
-        <h4>Издательства: </h4>
-        <a class="btn btn-primary" th:href="@{/publishers/id/publishers_new}">Добавить</a>
+    <h4>Издательства: </h4>
+    <a class="btn btn-primary" th:href="@{/publishers/id/publishers_new}">Добавить</a>
+    <div class="container-in">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -27,7 +28,7 @@
                 <td th:text="${e.getAddress()}">-</td>
                 <td th:text="${e.getPhoneNumber()}">-</td>
                 <td>
-                    <div aria-label="Basic example" class="btn-group" role="group">
+
                         <a class="btn btn-primary" th:href="@{/publishers/id/{id}(id=${e.getId()})}">Открыть</a>
                         <a class="btn btn-primary"
                            th:href="@{/publishers/id/{id}/edit(id=${e.getId()})}">Редактировать</a>
@@ -36,14 +37,14 @@
                               th:method="post">
                             <input class="btn btn-primary" type="submit" value="Удалить"/>
                         </form>
-                    </div>
+
                 </td>
             </tr>
             </tbody>
         </table>
-        <container th:insert="blocks/navigation :: nav"></container>
-    </main>
-    <footer th:insert="blocks/footer :: footer"></footer>
+    </div>
+    <div th:insert="blocks/navigation :: nav"></div>
+    <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>
 </html>

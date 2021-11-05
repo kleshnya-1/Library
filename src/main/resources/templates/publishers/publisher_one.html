@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<div th:insert="blocks/style :: style"></div>
 <head>
     <meta charset="UTF-8">
     <title>Книга</title>
@@ -11,7 +12,7 @@
 
     <header th:insert="blocks/header :: header"></header>
     <main>
-                <table class="table table-striped">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col">Название</th>
@@ -25,12 +26,8 @@
             <td th:text="${dto.getPhoneNumber()}">-</td>
             </tbody>
         </table>
-
-        <iframe height="800" th:src="@{http://localhost:8080/library/by_publisher/{id}/1/(id=${dto.getId()})}"
-                title="Iframe Example" width="1400"></iframe>
-
     </main>
-    <footer th:insert="blocks/footer :: footer"></footer>
+    <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>
 </html>

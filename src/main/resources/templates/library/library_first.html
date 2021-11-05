@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<div th:insert="blocks/style :: style"></div>
+<div th:insert="blocks/style :: style"></div>
 <head>
     <meta charset="UTF-8">
     <title>Книги</title>
@@ -9,17 +11,17 @@
 <body>
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
-    <main>
-        <h4>Книги в библиотеке: </h4>
-        <a class="btn btn-primary" th:href="@{/library/id/library_new}">Добавить</a>
+    <h4>Книги в библиотеке: </h4>
+    <a class="btn btn-primary" th:href="@{/library/id/library_new}">Добавить</a>
+    <div class="container-in">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col" width="150">Название</th>
                 <th scope="col" width="100">Автор(ы)</th>
                 <th scope="col" width="500">Описание</th>
-                <th scope="col"  width="120">Издатель</th>
-                <th scope="col" width="220">Действия</th>
+                <th scope="col" width="120">Издатель</th>
+                <th scope="col" width="240">Действия</th>
             </tr>
             </thead>
             <tbody>
@@ -43,29 +45,27 @@
                     </td>
                 </div>
                 <td>
-                    <div aria-label="Basic example" class="btn-group" role="group">
-                        <a class="btn btn-primary" th:href="@{/library/id/{id}(id=${e.getId()})}">Открыть</a>
-                        <a class="btn btn-primary" th:href="@{/library/id/{id}/edit(id=${e.getId()})}">Редактировать</a>
-                    </div>
+
+                    <a class="btn btn-primary" th:href="@{/library/id/{id}(id=${e.getId()})}">Открыть</a>
+                    <a class="btn btn-primary" th:href="@{/library/id/{id}/edit(id=${e.getId()})}">Редактировать</a>
                     <br>
-                    <div aria-label="Basic example47" class="btn-group" role="group">
-                        <form class="btn-group"
-                              th:action="@{http://localhost:8080/library/id/{id}/remove(id=${e.getId()})}"
-                              th:method="post">
-                            <input class="btn btn-primary" type="submit" value="Удалить"/>
-                        </form>
-                        <form class="btn-group" th:action="@{/library/id/{id}/to_archive(id=${e.getId()})}"
-                              th:method="post">
-                            <input class="btn btn-primary" type="submit" value="В архив"/>
-                        </form>
-                    </div>
+                    <br>
+                    <form class="btn-group"
+                          th:action="@{http://localhost:8080/library/id/{id}/remove(id=${e.getId()})}"
+                          th:method="post">
+                        <input class="btn btn-primary" type="submit" value="Удалить"/>
+                    </form>
+                    <form class="btn-group" th:action="@{/library/id/{id}/to_archive(id=${e.getId()})}"
+                          th:method="post">
+                        <input class="btn btn-primary" type="submit" value="В архив"/>
+                    </form>
                 </td>
             </tr>
             </tbody>
         </table>
-        <container th:insert="blocks/navigation :: nav"></container>
-    </main>
-    <footer th:insert="blocks/footer :: footer"></footer>
+    </div>
+    <div th:insert="blocks/navigation :: nav"></div>
+    <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>
 </html>

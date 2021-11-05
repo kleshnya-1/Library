@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<div th:insert="blocks/style :: style"></div>
 <head>
     <meta charset="UTF-8">
     <title>Добавить</title>
@@ -10,8 +11,9 @@
 
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
-    <main>
+
         <h4>Добавление новой книги: </h4>
+
         <form method="post" th:action="@{/library/id/}" th:object="${emptyDto}">
             <div class="row">
                 <div class="form-group col-md-6">
@@ -68,8 +70,8 @@
             </div>
             <button class="btn btn-primary" type="submit">Создать</button>
         </form>
-    </main>
-    <footer th:insert="blocks/footer :: footer"></footer>
+
+    <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>
 </html>

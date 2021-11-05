@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<div th:insert="blocks/style :: style"></div>
 <head>
     <meta charset="UTF-8">
     <title>Редактировать книгу</title>
@@ -17,7 +18,7 @@
                 <div class="form-group col-md-6">
                     <label>Название</label>
                     <input class="form-control" placeholder="Колобок"
-                           th:field="*{name}" type="text" readonly>
+                           readonly th:field="*{name}" type="text">
                 </div>
                 <div class="container">
                     <div class="row">
@@ -73,7 +74,7 @@
             <button class="btn btn-primary" type="submit">Создать</button>
         </form>
     </main>
-    <footer th:insert="blocks/footer :: footer"></footer>
+    <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>
 </html>

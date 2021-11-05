@@ -33,6 +33,7 @@ public class AuthorController {
     public String getAuthors(@PathVariable Integer page, Model model) {
         List<AuthorDto> dtoList = frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).readList(page));
         model.addAttribute("dtoList", dtoList);
+        model.addAttribute("url", "authors");
         model.addAttribute("currentPageNum", page);
         model.addAttribute("isLastPage", pageUtility.getIsFullPage(dtoList.size(), page));
         return "authors/author_first";

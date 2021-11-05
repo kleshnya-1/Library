@@ -42,6 +42,7 @@ public class BookInLibraryController {
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(serviceFactory.get(BookInLibrary.class).readList(page));
         dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
         model.addAttribute("dtoList", dtoList);
+        model.addAttribute("url", "library");
         model.addAttribute("currentPageNum", page);
         model.addAttribute("isLastPage", pageUtility.getIsFullPage(dtoList.size(), page));
         return "library/library_first";

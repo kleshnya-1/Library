@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<div th:insert="blocks/style :: style"></div>
 <head>
     <meta charset="UTF-8">
     <title>Книги автора</title>
@@ -9,9 +10,9 @@
 <body>
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
-    <main>
-        <h4 th:text="'Книги '+${master}+' в библиотеке'">Книги в библиотеке: </h4>
-        <a class="btn btn-primary" th:href="@{/library/id/library_new}">Добавить</a>
+    <h4 th:text="'Книги '+${master}+' в библиотеке'">Книги в библиотеке: </h4>
+    <a class="btn btn-primary" th:href="@{/library/id/library_new}">Добавить</a>
+    <div class="container-in">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -48,20 +49,10 @@
             </tr>
             </tbody>
         </table>
+    </div>
 
-
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link"
-                                         th:href="@{/library/by_author/{id}/{page}(id=${authorId}, page=${exPageNum})}">Назад</a>
-                </li>
-                <li class="page-item"><a class="page-link"
-                                         th:href="@{/library/by_author/{id}/{page}(id=${authorId}, page=${nextPageNum})}">Вперед</a>
-                </li>
-            </ul>
-        </nav>
-    </main>
-    <footer th:insert="blocks/footer :: footer"></footer>
+    <div th:insert="blocks/navigation :: nav"></div>
+    <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>
 </html>

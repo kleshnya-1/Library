@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<div th:insert="blocks/style :: style"></div>
 <head>
     <meta charset="UTF-8">
     <title>Книги автора</title>
@@ -14,7 +15,7 @@
         <a class="btn btn-primary" th:href="@{/library/1/}">В библиотеку</a>
 
     </main>
-    <footer th:insert="blocks/footer :: footer"></footer>
+    <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>
 </html>

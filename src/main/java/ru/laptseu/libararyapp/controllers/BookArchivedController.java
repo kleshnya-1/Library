@@ -38,6 +38,7 @@ public class BookArchivedController {
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(bookArchivingMapper.map(serviceFactory.get(BookArchived.class).readList(page)));
         dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
         model.addAttribute("dtoList", dtoList);
+        model.addAttribute("url", "archive");
         model.addAttribute("currentPageNum", page);
         model.addAttribute("isLastPage", pageUtility.getIsFullPage(dtoList.size(), page));
         return "archive/archive_first";

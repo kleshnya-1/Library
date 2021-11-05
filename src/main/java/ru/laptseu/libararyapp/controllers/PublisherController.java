@@ -30,6 +30,7 @@ public class PublisherController {
     public String getPublishers(@PathVariable Integer page, Model model) {
         List<PublisherDto> dtoList = frontMappersFactory.get(Publisher.class).map(serviceFactory.get(Publisher.class).readList(page));
         model.addAttribute("dtoList", dtoList);
+        model.addAttribute("url", "publishers");
         model.addAttribute("currentPageNum", page);
         model.addAttribute("isLastPage", pageUtility.getIsFullPage(dtoList.size(), page));
         return "publishers/publisher_first";
