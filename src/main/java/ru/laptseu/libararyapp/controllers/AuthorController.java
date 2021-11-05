@@ -6,11 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.EntityWithId;
-import ru.laptseu.libararyapp.entities.books.BookInLibrary;
-import ru.laptseu.libararyapp.entities.dto.AuthorDto;
-import ru.laptseu.libararyapp.entities.dto.BookDto;
+import ru.laptseu.libararyapp.models.entities.Author;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
+import ru.laptseu.libararyapp.models.dto.AuthorDto;
+import ru.laptseu.libararyapp.models.dto.BookDto;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
 import ru.laptseu.libararyapp.services.ServiceFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
@@ -34,8 +33,8 @@ public class AuthorController {
     public String getAuthors(@PathVariable Integer page, Model model) {
         List<AuthorDto> dtoList = frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).readList(page));
         model.addAttribute("dtoList", dtoList);
-        model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
-        model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
+        model.addAttribute("currentPageNum", page);
+        model.addAttribute("isLastPage", pageUtility.getIsFullPage(dtoList.size(), page));
         return "authors/author_first";
     }
 
@@ -76,7 +75,7 @@ public class AuthorController {
     @GetMapping("/id/{id}")
     public String getAuthor(@PathVariable Long id, Model model) {
         Author author = (Author) serviceFactory.get(Author.class).read(id);
-        String representing = author.toString();
+        String representing = getAuthorRepresentation(author);
         AuthorDto dto = (AuthorDto) frontMappersFactory.get(Author.class).map(author);
         model.addAttribute("dto", dto);
         model.addAttribute("representing", representing);
@@ -108,5 +107,37 @@ public class AuthorController {
     public String deleteAuthor(@PathVariable Long id) {
         serviceFactory.get(Author.class).delete(id);
         return startingUrl;
+    }
+
+    private String getAuthorRepresentation(Author a) {
+        String fn;
+        String sn;
+        String by;
+        String dy;
+        if (a.getFirstName() != null) {
+            fn = a.getFirstName();
+        } else {
+            fn = "...";
+        }
+        if (a.getSecondName() != null) {
+            sn = a.getSecondName();
+        } else {
+            sn = "";
+        }
+        if (a.getBirthYear() == null) {
+            by = "...";
+        } else if (a.getBirthYear() < 0) {
+            by = a.getBirthYear() + "BC";
+        } else {
+            by = a.getBirthYear().toString();
+        }
+        if (a.getDeathYear() == null) {
+            dy = "...";
+        } else if (a.getDeathYear() < 0) {
+            dy = a.getDeathYear() + "BC";
+        } else {
+            dy = a.getDeathYear().toString();
+        }
+        return fn + " " + sn + " (" + by + "-" + dy + ")";
     }
 }

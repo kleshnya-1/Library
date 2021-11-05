@@ -1,8 +1,7 @@
-package ru.laptseu.libararyapp.entities.books;
+package ru.laptseu.libararyapp.models.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.laptseu.libararyapp.entities.EntityWithId;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -16,5 +15,6 @@ public class Book extends EntityWithId {
     @Column(columnDefinition = "text")
     private String description;
 
+    @Column(name = "year_of_publishing")
     private Integer yearOfPublishing;
 }

@@ -1,8 +1,7 @@
-package ru.laptseu.libararyapp.entities;
+package ru.laptseu.libararyapp.models.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.laptseu.libararyapp.entities.books.BookInLibrary;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,6 +13,8 @@ import java.util.List;
 public class Publisher extends EntityWithId {
     private String name;
     private String address;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

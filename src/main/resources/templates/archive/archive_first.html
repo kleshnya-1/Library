@@ -14,19 +14,17 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Название</th>
-                <th scope="col">Авторство</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Издатель</th>
+                <th scope="col" width="150">Название</th>
+                <th scope="col" width="100">Автор(ы)</th>
+                <th scope="col" width="500">Описание</th>
+                <th scope="col"  width="120">Издатель</th>
                 <th scope="col" width="240">Действия</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="e : ${dtoList}">
-                <td th:text="${dtoList.indexOf(e)}">-</td>
                 <td th:text="${e.getName()}">-</td>
-                <td th:if="${e.getAuthorList().size()==0}">У книги нет авторов</td>
+                <td th:if="${e.getAuthorList().size()==0}">-</td>
                 <div th:if="${e.getAuthorList().size()!=0}">
                     <td>
                         <div th:each="a : ${e.getAuthorList()}">
@@ -36,7 +34,7 @@
                     </td>
                 </div>
                 <td th:text="${e.getDescription()}">-</td>
-                <td th:if="${e.getPublisherDto()==null}">У книги нет издателя</td>
+                <td th:if="${e.getPublisherDto()==null}">-</td>
                 <div th:if="${e.getPublisherDto()!=null}">
                     <td>
                         <a th:href="@{/publishers/id/{id}(id=${e.getPublisherDto().getId()})}"
@@ -64,14 +62,7 @@
             </tr>
             </tbody>
         </table>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" th:href="@{/library/{page}(page=${exPageNum})}">Назад</a>
-                </li>
-                <li class="page-item"><a class="page-link" th:href="@{/library/{page}(page=${nextPageNum})}">Вперед</a>
-                </li>
-            </ul>
-        </nav>
+        <container th:insert="blocks/navigation :: nav"></container>
     </main>
     <footer th:insert="blocks/footer :: footer"></footer>
 </div>

@@ -3,12 +3,12 @@ package ru.laptseu.libararyapp.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.EntityWithId;
-import ru.laptseu.libararyapp.entities.LoggingEntity;
-import ru.laptseu.libararyapp.entities.Publisher;
-import ru.laptseu.libararyapp.entities.books.BookArchived;
-import ru.laptseu.libararyapp.entities.books.BookInLibrary;
+import ru.laptseu.libararyapp.models.entities.Author;
+import ru.laptseu.libararyapp.models.entities.EntityWithId;
+import ru.laptseu.libararyapp.models.entities.LoggingEntity;
+import ru.laptseu.libararyapp.models.entities.Publisher;
+import ru.laptseu.libararyapp.models.entities.BookArchived;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
 
 import java.util.HashMap;
 import java.util.Map;

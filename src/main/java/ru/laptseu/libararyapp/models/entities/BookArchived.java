@@ -1,12 +1,9 @@
-package ru.laptseu.libararyapp.entities.books;
+package ru.laptseu.libararyapp.models.entities;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Calendar;
 import java.util.List;
 
@@ -15,6 +12,8 @@ import java.util.List;
 @Setter
 @Table(name = "archived_books")
 public class BookArchived extends Book {
+
+    @Column(name = "date_of_archived")
     private Calendar dateOfArchived;
 
     @ElementCollection(fetch = FetchType.EAGER)

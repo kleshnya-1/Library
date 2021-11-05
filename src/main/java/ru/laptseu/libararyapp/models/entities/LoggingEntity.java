@@ -1,4 +1,4 @@
-package ru.laptseu.libararyapp.entities;
+package ru.laptseu.libararyapp.models.entities;
 
 
 import lombok.Getter;

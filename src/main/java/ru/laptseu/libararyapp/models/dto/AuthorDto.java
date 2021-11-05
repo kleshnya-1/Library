@@ -1,4 +1,4 @@
-package ru.laptseu.libararyapp.entities.dto;
+package ru.laptseu.libararyapp.models.dto;
 
 import lombok.Getter;
 import lombok.Setter;

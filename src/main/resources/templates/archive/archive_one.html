@@ -10,9 +10,7 @@
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
     <main>
-        <img align="left" alt="book" height="300" src="https://www.factroom.ru/wp-content/uploads/2017/02/1-34.jpg"
-             width="447"/>
-        <table class="table table-striped">
+               <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col">Название</th>
@@ -24,7 +22,7 @@
             </thead>
             <tbody>
             <td th:text="${dto.getName()}">-</td>
-            <td th:if="${dto.getAuthorList().size()==0}">У книги нет авторов</td>
+            <td th:if="${dto.getAuthorList().size()==0}">-</td>
             <div th:if="${dto.getAuthorList().size()!=0}">
                 <td>
                     <div th:each="a : ${dto.getAuthorList()}">
@@ -34,7 +32,7 @@
                 </td>
             </div>
             <td th:text="${dto.getDescription()}">-</td>
-            <td th:if="${dto.getPublisherDto()==null}">У книги нет издателя</td>
+            <td th:if="${dto.getPublisherDto()==null}">-</td>
             <div th:if="${dto.getPublisherDto()!=null}">
                 <td>
                     <a th:href="@{/publishers/id/{id}(id=${dto.getPublisherDto().getId()})}"

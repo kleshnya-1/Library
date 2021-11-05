@@ -1,9 +1,7 @@
-package ru.laptseu.libararyapp.entities.books;
+package ru.laptseu.libararyapp.models.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.Publisher;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +11,8 @@ import java.util.List;
 @Setter
 @Table(name = "library_books")
 public class BookInLibrary extends Book {
+
+    @Column(name = "section_number")
     private int sectionNumber;
 
     @ManyToMany(fetch = FetchType.EAGER)

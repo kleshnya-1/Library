@@ -7,15 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.laptseu.libararyapp.LibraryAppApplication;
-import ru.laptseu.libararyapp.entities.books.Book;
-import ru.laptseu.libararyapp.entities.books.BookInLibrary;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
 import ru.laptseu.libararyapp.repositories.library.BookLibraryRepository;
 import ru.laptseu.libararyapp.services.BookLibraryService;
 
 import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.util.AssertionErrors.assertNull;
 
 
 @RunWith(SpringRunner.class)

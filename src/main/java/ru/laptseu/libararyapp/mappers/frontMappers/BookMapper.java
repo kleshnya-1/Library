@@ -3,8 +3,8 @@ package ru.laptseu.libararyapp.mappers.frontMappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
-import ru.laptseu.libararyapp.entities.books.BookInLibrary;
-import ru.laptseu.libararyapp.entities.dto.BookDto;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
+import ru.laptseu.libararyapp.models.dto.BookDto;
 
 @Component
 @Mapper(componentModel = "spring", uses = {AuthorMapper.class, PublisherMapper.class})

@@ -6,9 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.laptseu.libararyapp.entities.Publisher;
-import ru.laptseu.libararyapp.entities.dto.AuthorDto;
-import ru.laptseu.libararyapp.entities.dto.PublisherDto;
+import ru.laptseu.libararyapp.models.entities.Publisher;
+import ru.laptseu.libararyapp.models.dto.AuthorDto;
+import ru.laptseu.libararyapp.models.dto.PublisherDto;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
 import ru.laptseu.libararyapp.services.ServiceFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
@@ -30,8 +30,8 @@ public class PublisherController {
     public String getPublishers(@PathVariable Integer page, Model model) {
         List<PublisherDto> dtoList = frontMappersFactory.get(Publisher.class).map(serviceFactory.get(Publisher.class).readList(page));
         model.addAttribute("dtoList", dtoList);
-        model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
-        model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
+        model.addAttribute("currentPageNum", page);
+        model.addAttribute("isLastPage", pageUtility.getIsFullPage(dtoList.size(), page));
         return "publishers/publisher_first";
     }
 

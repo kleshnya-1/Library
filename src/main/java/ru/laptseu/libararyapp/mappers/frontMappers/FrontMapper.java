@@ -1,7 +1,7 @@
 package ru.laptseu.libararyapp.mappers.frontMappers;
 
-import ru.laptseu.libararyapp.entities.EntityWithId;
-import ru.laptseu.libararyapp.entities.dto.EntityDto;
+import ru.laptseu.libararyapp.models.entities.EntityWithId;
+import ru.laptseu.libararyapp.models.dto.EntityDto;
 
 import java.util.List;
 

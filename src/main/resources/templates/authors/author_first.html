@@ -15,17 +15,16 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Имя</th>
-                <th scope="col"></th>
-                <th scope="col">Годы жизни</th>
-                <th scope="col"></th>
+                <th scope="col" width="200">Имя</th>
+                <th scope="col" width="200">Фамилия</th>
+                <th scope="col" width="70">Годы жизни</th>
+                <th scope="col" width="10"></th>
+                <th scope="col" width="70"></th>
                 <th scope="col" width="320">Действия</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="e : ${dtoList}">
-                <td th:text="${dtoList.indexOf(e)}">-</td>
                 <td th:text="${e.getFirstName()}">-</td>
                 <td th:text="${e.getSecondName()}">-</td>
 
@@ -44,7 +43,7 @@
                 <div th:if="${e.getBirthYear()==null}">
                     <td>-</td>
                 </div>
-
+                <td>/</td>
                 <div th:if="${e.getDeathYear()!=null}">
                     <div th:if="${e.getDeathYear()<0}">
                         <td>
@@ -75,14 +74,7 @@
             </tr>
             </tbody>
         </table>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" th:href="@{/authors/{page}(page=${exPageNum})}">Назад</a>
-                </li>
-                <li class="page-item"><a class="page-link" th:href="@{/authors/{page}(page=${nextPageNum})}">Вперед</a>
-                </li>
-            </ul>
-        </nav>
+        <container th:insert="blocks/navigation :: nav"></container>
     </main>
     <footer th:insert="blocks/footer :: footer"></footer>
 </div>

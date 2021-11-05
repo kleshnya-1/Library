@@ -5,13 +5,13 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.Publisher;
-import ru.laptseu.libararyapp.entities.books.BookArchived;
-import ru.laptseu.libararyapp.entities.books.BookInLibrary;
-import ru.laptseu.libararyapp.entities.dto.AuthorDto;
-import ru.laptseu.libararyapp.entities.dto.BookDto;
-import ru.laptseu.libararyapp.entities.dto.PublisherDto;
+import ru.laptseu.libararyapp.models.entities.Author;
+import ru.laptseu.libararyapp.models.entities.Publisher;
+import ru.laptseu.libararyapp.models.entities.BookArchived;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
+import ru.laptseu.libararyapp.models.dto.AuthorDto;
+import ru.laptseu.libararyapp.models.dto.BookDto;
+import ru.laptseu.libararyapp.models.dto.PublisherDto;
 import ru.laptseu.libararyapp.mappers.backMappers.BookArchivingMapper;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
 import ru.laptseu.libararyapp.services.ServiceFactory;
@@ -38,8 +38,8 @@ public class BookArchivedController {
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(bookArchivingMapper.map(serviceFactory.get(BookArchived.class).readList(page)));
         dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
         model.addAttribute("dtoList", dtoList);
-        model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
-        model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
+        model.addAttribute("currentPageNum", page);
+        model.addAttribute("isLastPage", pageUtility.getIsFullPage(dtoList.size(), page));
         return "archive/archive_first";
     }
 

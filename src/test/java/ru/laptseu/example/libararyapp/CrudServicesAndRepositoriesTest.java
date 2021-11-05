@@ -1,6 +1,5 @@
 package ru.laptseu.example.libararyapp;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.laptseu.libararyapp.LibraryAppApplication;
-import ru.laptseu.libararyapp.entities.Publisher;
-import ru.laptseu.libararyapp.entities.books.BookArchived;
-import ru.laptseu.libararyapp.entities.books.BookInLibrary;
+import ru.laptseu.libararyapp.models.entities.Publisher;
+import ru.laptseu.libararyapp.models.entities.BookArchived;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
 import ru.laptseu.libararyapp.repositories.archive.BookArchiveRepository;
 import ru.laptseu.libararyapp.repositories.library.BookLibraryRepository;
 import ru.laptseu.libararyapp.repositories.library.PublisherRepository;

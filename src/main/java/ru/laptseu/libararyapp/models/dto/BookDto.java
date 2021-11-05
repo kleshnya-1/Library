@@ -1,4 +1,4 @@
-package ru.laptseu.libararyapp.entities.dto;
+package ru.laptseu.libararyapp.models.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ public class BookDto extends EntityDto {
     @NotEmpty(message = "it's library and each book must have at least a name")
     private String name;
 
-    private List<AuthorDto> authorList;
+    private List<AuthorSimpleDto> authorList;
     private String[] authorArrayForHtml;
     private String description;
     private Integer sectionNumber;

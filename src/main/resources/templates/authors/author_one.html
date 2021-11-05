@@ -11,9 +11,7 @@
     <header th:insert="blocks/header :: header"></header>
     <main>
         <h4 th:text="${representing}"></h4>
-        <img align="left" alt="автор" height="300" src="https://rmgallery.ru/files/medium/617_98.jpg" width="213"/>
-
-        <div class="container">
+                <div class="container">
             <br>
             <iframe height="800" th:src="@{http://localhost:8080/library/by_author/{id}/1/(id=${dto.getId()})}"
                     title="Iframe Example" width="1400"></iframe>

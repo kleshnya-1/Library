@@ -10,10 +10,7 @@
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
     <main>
-        <img align="left" alt="book" height="300"
-             src="https://i.pinimg.com/originals/60/38/7b/60387bfc9f91172d2d456286b4022991.png"
-             width="213"/>
-        <table class="table table-striped">
+               <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col">Название</th>
@@ -26,7 +23,7 @@
             </thead>
             <tbody>
             <td th:text="${dto.getName()}">-</td>
-            <td th:if="${dto.getAuthorList().size()==0}">У книги нет авторов</td>
+            <td th:if="${dto.getAuthorList().size()==0}">-</td>
             <div th:if="${dto.getAuthorList().size()!=0}">
                 <td>
                     <div th:each="a : ${dto.getAuthorList()}">
@@ -35,7 +32,7 @@
                 </td>
             </div>
             <td th:text="${dto.getDescription()}">-</td>
-            <td th:if="${dto.getPublisherDto()==null}">У книги нет издателя</td>
+            <td th:if="${dto.getPublisherDto()==null}">-</td>
             <div th:if="${dto.getPublisherDto()!=null}">
                 <td>
                     <a th:href="@{/publishers/id/{id}(id=${dto.getPublisherDto().getId()})}"

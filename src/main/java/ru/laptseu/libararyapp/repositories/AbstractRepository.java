@@ -3,7 +3,7 @@ package ru.laptseu.libararyapp.repositories;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
-import ru.laptseu.libararyapp.entities.EntityWithId;
+import ru.laptseu.libararyapp.models.entities.EntityWithId;
 
 import java.util.List;
 import java.util.Optional;
