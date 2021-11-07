@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import ru.laptseu.libararyapp.LibraryAppApplication;
 import ru.laptseu.libararyapp.models.entities.Author;
 import ru.laptseu.libararyapp.models.entities.Publisher;
@@ -28,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = LibraryAppApplication.class)
 @DisplayName("Archive Service Test")
+@Transactional(value = "libraryTransactionManager")
 class MappingTest {
     @Autowired
     BookLibraryService bookLibraryService;
@@ -128,12 +130,12 @@ class MappingTest {
         assertEquals(3, bookFromLib1.getAuthorList().size());
         assertEquals(1, bookFromLib2.getAuthorList().size());
 
-        Long archivingId1 = libraryService.toArchive(bookFromLib1).getId();
-        Long archivingId2 = libraryService.toArchive(bookFromLib2).getId();
+        Long archivingId1 = libraryService.toArchive(bookFromLib1.getId()).getId();
+        Long archivingId2 = libraryService.toArchive(bookFromLib2.getId()).getId();
         BookArchived bookWeArchived1 = archiveService.read(archivingId1);
         BookArchived bookWeArchived2 = archiveService.read(archivingId2);
-        BookInLibrary bookWeUnArchived1 = archiveService.fromArchive(bookWeArchived1);
-        BookInLibrary bookWeUnArchived2 = archiveService.fromArchive(bookWeArchived2);
+        BookInLibrary bookWeUnArchived1 = archiveService.fromArchive(bookWeArchived1.getId());
+        BookInLibrary bookWeUnArchived2 = archiveService.fromArchive(bookWeArchived2.getId());
         assertEquals(p1.getName(), bookWeUnArchived1.getPublisher().getName());
         assertEquals(p2.getName(), bookWeUnArchived2.getPublisher().getName());
         assertEquals(3, bookWeUnArchived1.getAuthorList().size());

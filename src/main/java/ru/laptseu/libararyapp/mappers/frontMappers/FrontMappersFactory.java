@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import ru.laptseu.libararyapp.models.entities.Author;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
 import ru.laptseu.libararyapp.models.entities.EntityWithId;
 import ru.laptseu.libararyapp.models.entities.Publisher;
-import ru.laptseu.libararyapp.models.entities.BookInLibrary;
 
 import java.util.HashMap;
 import java.util.Map;

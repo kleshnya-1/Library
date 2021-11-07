@@ -3,12 +3,7 @@ package ru.laptseu.libararyapp.repositories;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import ru.laptseu.libararyapp.models.entities.Author;
-import ru.laptseu.libararyapp.models.entities.EntityWithId;
-import ru.laptseu.libararyapp.models.entities.LoggingEntity;
-import ru.laptseu.libararyapp.models.entities.Publisher;
-import ru.laptseu.libararyapp.models.entities.BookArchived;
-import ru.laptseu.libararyapp.models.entities.BookInLibrary;
+import ru.laptseu.libararyapp.models.entities.*;
 import ru.laptseu.libararyapp.repositories.archive.BookArchiveRepository;
 import ru.laptseu.libararyapp.repositories.library.AuthorRepository;
 import ru.laptseu.libararyapp.repositories.library.BookLibraryRepository;
@@ -27,7 +22,7 @@ public class RepositoryFactory {
         FACTORY_MAP.put(BookArchived.class, BookArchiveRepository.class);
         FACTORY_MAP.put(BookInLibrary.class, BookLibraryRepository.class);
         FACTORY_MAP.put(Publisher.class, PublisherRepository.class);
-        FACTORY_MAP.put(LoggingEntity.class, LoggingRepository.class);
+        FACTORY_MAP.put(Logging.class, LoggingRepository.class);
     }
 
     private final ApplicationContext applicationContext;

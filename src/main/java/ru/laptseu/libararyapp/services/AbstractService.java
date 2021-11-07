@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
-import ru.laptseu.libararyapp.models.entities.EntityWithId;
-import ru.laptseu.libararyapp.models.entities.LoggingEntity;
+import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
 import ru.laptseu.libararyapp.models.entities.BookArchived;
 import ru.laptseu.libararyapp.models.entities.BookInLibrary;
-import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
+import ru.laptseu.libararyapp.models.entities.EntityWithId;
+import ru.laptseu.libararyapp.models.entities.Logging;
 import ru.laptseu.libararyapp.repositories.RepositoryFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
 
@@ -35,7 +35,7 @@ public abstract class AbstractService<T extends EntityWithId> {
         while (saveCounter <= 10) {
             try {// TODO: 02.11.2021 spring starts to count from last saved id by itself(!).
                 savedEntity = (T) repositoryFactory.get(getEntityClass()).save(entity);
-                repositoryFactory.get(LoggingEntity.class).save(new LoggingEntity(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved"));
+                repositoryFactory.get(Logging.class).save(new Logging(getEntityClass().getSimpleName() + " " + savedEntity.getId() + " saved"));
                 break;
             } catch (DataIntegrityViolationException e) {
                 log.error(e);
@@ -58,24 +58,17 @@ public abstract class AbstractService<T extends EntityWithId> {
 
     public void delete(Long id) {
         repositoryFactory.get(getEntityClass()).deleteById(id);
-        repositoryFactory.get(LoggingEntity.class).save(new LoggingEntity(getEntityClass().getSimpleName() + " " + id + " deleted"));
-    }
-
-    public BookArchived toArchive(BookInLibrary bookInLibrary) throws OperationNotSupportedException {
-        throw new OperationNotSupportedException();
+        repositoryFactory.get(Logging.class).save(new Logging(getEntityClass().getSimpleName() + " " + id + " deleted"));
     }
 
     public BookArchived toArchive(Long id) throws OperationNotSupportedException {
-        return toArchive((BookInLibrary) read(id));
-    }
-
-    public BookInLibrary fromArchive(BookArchived bookArchived) throws OperationNotSupportedException {
         throw new OperationNotSupportedException();
     }
 
     public BookInLibrary fromArchive(Long id) throws OperationNotSupportedException {
-        return fromArchive((BookArchived) read(id));
+        throw new OperationNotSupportedException();
     }
+
 
     public List<T> readList(Integer page) {
         Pageable pageable = pageUtility.getPageable(page);

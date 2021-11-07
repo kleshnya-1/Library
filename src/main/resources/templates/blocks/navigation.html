@@ -4,7 +4,8 @@
             <li class="page-item"><a class="page-link" th:href="@{/{url}/{page}(page=${currentPageNum-1}, url=${url})}"
                                      th:if="${currentPageNum!=1}">Назад</a>
             </li>
-            <li class="page-item disabled"><a class="page-link" th:href="@{/{url}/{page}(page=${currentPageNum-1}, url=${url})}"
+            <li class="page-item disabled"><a class="page-link"
+                                              th:href="@{/{url}/{page}(page=${currentPageNum-1}, url=${url})}"
                                               th:if="${currentPageNum==1}">Назад</a>
             </li>
             <li aria-current="page" class="page-item active">
@@ -13,7 +14,8 @@
             <li class="page-item"><a class="page-link" th:href="@{/{url}/{page}(page=${currentPageNum+1}, url=${url})}"
                                      th:if="${!isLastPage}">Вперед</a>
             </li>
-            <li class="page-item disabled"><a class="page-link" th:href="@{/{url}/{page}(page=${currentPageNum+1}, url=${url})}"
+            <li class="page-item disabled"><a class="page-link"
+                                              th:href="@{/{url}/{page}(page=${currentPageNum+1}, url=${url})}"
                                               th:if="${isLastPage}">Вперед</a>
             </li>
         </ul>

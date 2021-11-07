@@ -16,20 +16,20 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col" width="200">Имя</th>
-                <th scope="col" width="250"></th>
-                <th scope="col" width="150">Годы жизни</th>
-                <th scope="col" width="250"></th>
-                <th scope="col" width="320">Действия</th>
+                <th scope="col" width="350">Имя</th>
+                <th scope="col" width="100"></th>
+                <th scope="col" width="200">Годы жизни</th>
+                <th scope="col" width="180"></th>
+                <th scope="col" width="330">Действия</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="e : ${dtoList}">
                 <td th:text="${e.getFirstName()}+' '+${e.getSecondName()}">-</td>
-                <td ></td>
+                <td></td>
                 <td>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-4">
                             <div th:if="${e.getBirthYear()!=null}">
                                 <div th:if="${e.getBirthYear()<0}">
                                     <p th:text="${e.getBirthYear()*-1}+' BC'"></p>
@@ -42,10 +42,10 @@
                                 <p>...</p>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-md-auto">
                             <p> / </p>
                         </div>
-                        <div class="col">
+                        <div class="col-md-auto">
                             <div th:if="${e.getDeathYear()!=null}">
                                 <div th:if="${e.getDeathYear()<0}">
                                     <p th:text="${e.getDeathYear()*-1}+' BC'"></p>
@@ -56,12 +56,13 @@
                                 </div>
                             </div>
                             <div th:if="${e.getDeathYear()==null}">
-                                <p>... </p>
+                                <p>...</p>
                             </div>
                         </div>
                     </div>
+
                 </td>
-                <td ></td>
+                <td></td>
 
                 <td>
                     <a class="btn btn-primary" th:href="@{/authors/id/{id}(id=${e.getId()})}">Открыть</a>

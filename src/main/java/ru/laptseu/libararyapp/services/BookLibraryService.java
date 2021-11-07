@@ -4,12 +4,13 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.laptseu.libararyapp.models.entities.LoggingEntity;
-import ru.laptseu.libararyapp.models.entities.BookArchived;
-import ru.laptseu.libararyapp.models.entities.BookInLibrary;
 import ru.laptseu.libararyapp.mappers.backMappers.BookArchivingMapper;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
+import ru.laptseu.libararyapp.models.entities.BookArchived;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
+import ru.laptseu.libararyapp.models.entities.Logging;
 import ru.laptseu.libararyapp.repositories.RepositoryFactory;
+import ru.laptseu.libararyapp.utilities.HibernateUnproxyUtility;
 import ru.laptseu.libararyapp.utilities.PageUtility;
 
 import java.util.Calendar;
@@ -22,25 +23,30 @@ public class BookLibraryService extends AbstractService<BookInLibrary> {
     private final BookArchivingMapper bookArchivingMapper;
     private final ServiceFactory serviceFactory;
     private final RepositoryFactory repositoryFactory;
+    private final PageUtility pageUtility;
+    private final HibernateUnproxyUtility hibernateUnproxyUtility;
 
     public BookLibraryService(RepositoryFactory repositoryFactory, PageUtility pageUtility, FrontMappersFactory frontMappersFactory,
-                              BookArchivingMapper bookArchivingMapper, ServiceFactory serviceFactory) {
+                              BookArchivingMapper bookArchivingMapper, ServiceFactory serviceFactory, HibernateUnproxyUtility hibernateUnproxyUtility) {
         super(repositoryFactory, pageUtility, frontMappersFactory);
         this.bookArchivingMapper = bookArchivingMapper;
         this.serviceFactory = serviceFactory;
         this.repositoryFactory = repositoryFactory;
+        this.pageUtility = pageUtility;
+        this.hibernateUnproxyUtility = hibernateUnproxyUtility;
     }
 
     @Override
     @Transactional(value = "libraryTransactionManager", rollbackFor = Exception.class)
-    public BookArchived toArchive(BookInLibrary bookInLibraryForArchiving) {
+    public BookArchived toArchive(Long id) {
+        BookInLibrary bookInLibraryForArchiving = read(id);
         BookArchived bookArchived = bookArchivingMapper.map(bookInLibraryForArchiving);
         bookArchived.setId(null);
         bookArchived.setDateOfArchived(Calendar.getInstance());
         bookArchived = (BookArchived) serviceFactory.get(BookArchived.class).save(bookArchived);
         serviceFactory.get(BookInLibrary.class).delete(bookInLibraryForArchiving.getId());
         try {
-            serviceFactory.get(LoggingEntity.class).save(new LoggingEntity("Book " +
+            serviceFactory.get(Logging.class).save(new Logging("Book " +
                     bookInLibraryForArchiving.getId() + " " + bookInLibraryForArchiving.getName() + " archived successfully"));
         } catch (Exception e) {
             log.error(e);
@@ -49,10 +55,16 @@ public class BookLibraryService extends AbstractService<BookInLibrary> {
     }
 
     @Override
-    public BookInLibrary read(Long id) {
+    @Transactional(value = "libraryTransactionManager")
+    public BookInLibrary read(Long id) {//filtering deleted related entities
         BookInLibrary a = super.read(id);
-        a.setAuthorList(a.getAuthorList().stream().filter(b -> b.isDeleted() == false).collect(Collectors.toList()));
-        if (a.getPublisher() != null && a.getPublisher().isDeleted() == true) {
+        if (a == null) {
+            return null;
+        }
+        if (a.getAuthorList() != null && !a.getAuthorList().isEmpty()) {
+            a.setAuthorList(a.getAuthorList().stream().filter(b -> !b.isDeleted()).collect(Collectors.toList()));
+        }
+        if (a.getPublisher() != null && a.getPublisher().isDeleted()) {
             a.setPublisher(null);
         }
         return a;

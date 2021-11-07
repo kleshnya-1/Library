@@ -11,7 +11,7 @@
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
     <h4>Книги в архиве: </h4>
-    <a class="btn btn-primary"  style="background:transparent; border:none; color:transparent;">Добавить</a>
+    <a class="btn btn-primary" style="background:transparent; border:none; color:transparent;">Добавить</a>
     <div class="container-in">
         <table class="table table-striped">
             <thead>
@@ -36,21 +36,18 @@
                     </td>
                 </div>
                 <td th:text="${e.getDescription()}">-</td>
-                <td th:if="${e.getPublisherDto()==null}">-</td>
-                <div th:if="${e.getPublisherDto()!=null}">
+                <td th:if="${e.getPublisherSimpleDto()==null}">-</td>
+                <div th:if="${e.getPublisherSimpleDto()!=null}">
                     <td>
-                        <a th:href="@{/publishers/id/{id}(id=${e.getPublisherDto().getId()})}"
-                           th:text="${e.getPublisherDto().getName()}">Открыть</a>
+                        <a th:href="@{/publishers/id/{id}(id=${e.getPublisherSimpleDto().getId()})}"
+                           th:text="${e.getPublisherSimpleDto().getName()}">Открыть</a>
                     </td>
                 </div>
                 <td>
-
                     <a class="btn btn-primary" th:href="@{/archive/id/{id}(id=${e.getId()})}">Открыть</a>
                     <a class="btn btn-primary" th:href="@{/archive/id/{id}/edit(id=${e.getId()})}">Редактировать</a>
-
                     <br>
                     <br>
-
                     <form class="btn-group"
                           th:action="@{http://localhost:8080/archive/id/{id}/remove(id=${e.getId()})}"
                           th:method="post">
@@ -60,7 +57,6 @@
                           th:method="post">
                         <input class="btn btn-primary" type="submit" value="Разархивировать"/>
                     </form>
-
                 </td>
             </tr>
             </tbody>

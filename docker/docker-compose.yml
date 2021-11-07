@@ -12,7 +12,7 @@ services:
   pg_libraryApp_libraryDb:
     image: postgres:13.3
     volumes:
-      - C:\Users\Andrey\IdeaProjects\libararyApp\docker\volumes\libraryDb:/var/lib/postgresql/data
+      - ./volumes/libraryDb:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=libraryDb
       - POSTGRES_PASSWORD=1
@@ -23,7 +23,7 @@ services:
   pg_libraryApp_archiveDb:
     image: postgres:13.3
     volumes:
-      - C:\Users\Andrey\IdeaProjects\libararyApp\docker\volumes\archiveDb:/var/lib/postgresql/data
+      - ./volumes/archiveDb:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=archiveDb
       - POSTGRES_PASSWORD=1

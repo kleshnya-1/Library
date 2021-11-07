@@ -37,11 +37,11 @@
                     </td>
                 </div>
                 <td th:text="${e.getDescription()}">-</td>
-                <td th:if="${e.getPublisherDto()==null}">-</td>
-                <div th:if="${e.getPublisherDto()!=null}">
+                <td th:if="${e.getPublisherSimpleDto()==null}">-</td>
+                <div th:if="${e.getPublisherSimpleDto()!=null}">
                     <td>
-                        <a th:href="@{/publishers/id/{id}(id=${e.getPublisherDto().getId()})}"
-                           th:text="${e.getPublisherDto().getName()}">Открыть</a>
+                        <a th:href="@{/publishers/id/{id}(id=${e.getPublisherSimpleDto().getId()})}"
+                           th:text="${e.getPublisherSimpleDto().getName()}">Открыть</a>
                     </td>
                 </div>
                 <td>

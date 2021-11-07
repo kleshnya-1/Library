@@ -12,8 +12,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ru.laptseu.libararyapp.models.entities.Author;
-import ru.laptseu.libararyapp.models.entities.Publisher;
 import ru.laptseu.libararyapp.models.entities.BookInLibrary;
+import ru.laptseu.libararyapp.models.entities.Publisher;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;

@@ -16,24 +16,21 @@
             <div class="form-group row">
                 <div class="form-group col-md-4">
                     <label>Название</label>
-                    <input class="form-control" placeholder="Альпина Паблишер" th:field="*{name}" type="text">
+                    <input class="form-control" placeholder="Альпина Паблишер"
+                           required th:field="*{name}" type="text">
                 </div>
                 <div class="form-group col-md-4">
                     <label>Адрес</label>
                     <input class="form-control" placeholder="г.Москва, 4-я Магистральная улица, д.5"
-                           th:field="*{address}"
-                           type="text">
+                           required th:field="*{address}" type="text">
                 </div>
                 <div class="form-group col-md-4">
                     <label>Телефон</label>
-                    <input class="form-control" placeholder="+7 (495) 980-53-54" th:field="*{phoneNumber}" type="text">
+                    <input class="form-control" pattern="[0-9]{6,12}" placeholder="+7 (495) 980-53-54"
+                           required th:field="*{phoneNumber}" type="tel">
                 </div>
             </div>
-
-
             <button class="btn btn-primary" type="submit">Создать</button>
-
-
         </form>
     </main>
     <div th:insert="blocks/footer :: footer"></div>

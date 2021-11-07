@@ -12,7 +12,7 @@ import ru.laptseu.libararyapp.services.ServiceFactory;
 @Getter
 public class PageUtility {
 
-    private final int numberOfEntitiesPerPage;
+    private final int numberOfEntitiesPerPage; // TODO: 08.11.2021 to front
     private final ServiceFactory serviceFactory;
 
     public PageUtility(@Value("${app.pages.entities-per-page}") int numberOfEntitiesPerPage, ServiceFactory serviceFactory) {
@@ -25,13 +25,10 @@ public class PageUtility {
         return PageRequest.of(pageNum - 1, numberOfEntitiesPerPage, Sort.by("id").descending());
     }
 
-    public boolean getIsFullPage(int size, int page){
-        if (size < numberOfEntitiesPerPage) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean getIsFullPage(int size, int page) {
+        return size < numberOfEntitiesPerPage;
     }
+
     public int getExPageNum(int page) {
         if (page == 1) {
             return page;

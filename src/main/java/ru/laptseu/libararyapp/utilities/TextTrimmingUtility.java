@@ -13,6 +13,9 @@ public class TextTrimmingUtility {
     }
 
     public String trimToSize(String source) {
+        if (source == null) {
+            return "...";
+        }
         if (source.length() > descriptionLength) {//case: too long description
             for (int i = descriptionLength - 3; i > 0; i--) {
                 if (Character.isWhitespace(source.charAt(i))) {

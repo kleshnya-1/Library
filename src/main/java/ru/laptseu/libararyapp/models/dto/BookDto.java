@@ -2,8 +2,10 @@ package ru.laptseu.libararyapp.models.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.laptseu.libararyapp.models.dto.simpleDto.AuthorSimpleDto;
+import ru.laptseu.libararyapp.models.dto.simpleDto.PublisherSimpleDto;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class BookDto extends EntityDto {
     @Positive
     private Long id;
 
-    @NotEmpty(message = "it's library and each book must have at least a name")
+    @NotBlank(message = "В библиотеке каждая книга должна иметь хотя бы имя")
     private String name;
 
     private List<AuthorSimpleDto> authorList;
@@ -21,6 +23,6 @@ public class BookDto extends EntityDto {
     private String description;
     private Integer sectionNumber;
     private Integer yearOfPublishing;
-    private PublisherDto publisherDto;
+    private PublisherSimpleDto publisherSimpleDto;
     private boolean unknownPublishingYear;
 }

@@ -3,12 +3,7 @@ package ru.laptseu.libararyapp.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import ru.laptseu.libararyapp.models.entities.Author;
-import ru.laptseu.libararyapp.models.entities.EntityWithId;
-import ru.laptseu.libararyapp.models.entities.LoggingEntity;
-import ru.laptseu.libararyapp.models.entities.Publisher;
-import ru.laptseu.libararyapp.models.entities.BookArchived;
-import ru.laptseu.libararyapp.models.entities.BookInLibrary;
+import ru.laptseu.libararyapp.models.entities.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +18,7 @@ public class ServiceFactory {
         FACTORY_MAP.put(BookArchived.class, BookArchiveService.class);
         FACTORY_MAP.put(Publisher.class, PublisherService.class);
         FACTORY_MAP.put(Author.class, AuthorService.class);
-        FACTORY_MAP.put(LoggingEntity.class, LoggingService.class);
+        FACTORY_MAP.put(Logging.class, LoggingService.class);
     }
 
     private final ApplicationContext applicationContext;

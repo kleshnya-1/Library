@@ -14,7 +14,7 @@
     <div class="row">
         <div class="form-group col-md-6">
             <label>Название</label>
-            <p th:text="${dto.getName()}">  </p>
+            <p th:text="${dto.getName()}"></p>
         </div>
         <div class="container">
             <div class="row">
@@ -22,30 +22,36 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label>Авторы</label>
-                            <div th:if="${dto.getAuthorList()!=null}" th:each="a : ${dto.getAuthorList()}">
-                                <a th:href="@{/authors/id/{id}(id=${a.getId()})}" th:text="${a.getFirstName()}">Открыть</a>
+                            <div th:each="a : ${dto.getAuthorList()}" th:if="${dto.getAuthorList()!=null}">
+                                <a th:href="@{/authors/id/{id}(id=${a.getId()})}"
+                                   th:text="${a.getFirstName()+' '+a.getSecondName()}">Открыть</a>
                             </div>
                         </div>
                         <div class="col-xs-2">
                             <label>Номер полки</label>
-                            <p th:text="${dto.getSectionNumber()}">  </p>
+                            <p th:text="${dto.getSectionNumber()}"></p>
                             <label>Год издания</label>
-                            <p th:if="${dto.getYearOfPublishing()!=null}" th:text="${dto.getYearOfPublishing()}">  --</p>
+                            <p th:if="${dto.getYearOfPublishing()!=null}" th:text="${dto.getYearOfPublishing()}"></p>
+                            <p th:if="${dto.getYearOfPublishing()==null}">-</p>
 
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label>Издатель</label>
-                    <p th:if="${dto.getPublisherDto()!=null}" th:text="${dto.getPublisherDto().getName()}">  </p>
+                    <br>
+                    <a th:href="@{/publishers/id/{id}(id=${dto.getPublisherSimpleDto().getId()})}"
+                       th:if="${dto.getPublisherSimpleDto()!=null}"
+                       th:text="${dto.getPublisherSimpleDto().getName()}"> </a>
+                    <a th:if="${dto.getPublisherSimpleDto()==null}">-</a>
                 </div>
             </div>
         </div>
         <div class="form-group col-md-9">
             <label>Описание</label>
-            <textarea th:if="${dto.getDescription()!=null}" class="form-control"
-                      placeholder="-"
-                      rows="10" th:text="${dto.getDescription()}" type="text" readonly> </textarea>
+            <textarea class="form-control" placeholder="-"
+                      readonly
+                      rows="10" th:if="${dto.getDescription()!=null}" th:text="${dto.getDescription()}" type="text"> </textarea>
         </div>
     </div>
     <div th:insert="blocks/footer :: footer"></div>

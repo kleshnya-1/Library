@@ -16,7 +16,7 @@ public class BookArchived extends Book {
     @Column(name = "date_of_archived")
     private Calendar dateOfArchived;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Long> authorList;
 
     private Long publisher;

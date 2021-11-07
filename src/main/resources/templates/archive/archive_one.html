@@ -8,43 +8,89 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
-    <main>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">Название</th>
-                <th scope="col">Авторство</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Издатель</th>
-                <th scope="col">Дата архивации</th>
-            </tr>
-            </thead>
-            <tbody>
-            <td th:text="${dto.getName()}">-</td>
-            <td th:if="${dto.getAuthorList().size()==0}">-</td>
-            <div th:if="${dto.getAuthorList().size()!=0}">
-                <td>
-                    <div th:each="a : ${dto.getAuthorList()}">
-                        <a th:href="@{/authors/id/{id}(id=${a.getId()})}"
-                           th:text="${a.getFirstName()}+'  '+${a.getSecondName()}">Открыть</a>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label>Название</label>
+            <p th:text="${dto.getName()}"></p>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label>Авторы</label>
+                            <div th:each="a : ${dto.getAuthorList()}" th:if="${dto.getAuthorList()!=null}">
+                                <a th:href="@{/authors/id/{id}(id=${a.getId()})}"
+                                   th:text="${a.getFirstName()+' '+a.getSecondName()}">Открыть</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <label>Дата архивации </label>
+                            <p th:text="${dateOfArchiving}"></p>
+                            <label>Год издания</label>
+                            <p th:if="${dto.getYearOfPublishing()!=null}" th:text="${dto.getYearOfPublishing()}"> --</p>
+
+                        </div>
                     </div>
-                </td>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Издатель</label>
+                    <p th:if="${dto.getPublisherSimpleDto()!=null}"
+                       th:text="${dto.getPublisherSimpleDto().getName()}"></p>
+                </div>
             </div>
-            <td th:text="${dto.getDescription()}">-</td>
-            <td th:if="${dto.getPublisherDto()==null}">-</td>
-            <div th:if="${dto.getPublisherDto()!=null}">
-                <td>
-                    <a th:href="@{/publishers/id/{id}(id=${dto.getPublisherDto().getId()})}"
-                       th:text="${dto.getPublisherDto().getName()}">Открыть</a>
-                </td>
-            </div>
-            <td th:text="${dateOfArchiving}">-</td>
-            </tbody>
-        </table>
-    </main>
+        </div>
+        <div class="form-group col-md-9">
+            <label>Описание</label>
+            <textarea class="form-control" placeholder="-"
+                      readonly
+                      rows="10" th:if="${dto.getDescription()!=null}" th:text="${dto.getDescription()}" type="text"> </textarea>
+        </div>
+    </div>
     <div th:insert="blocks/footer :: footer"></div>
 </div>
+
+<!--<div class="container">-->
+<!--    <header th:insert="blocks/header :: header"></header>-->
+<!--    <main>-->
+<!--        <table class="table table-striped">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col">Название</th>-->
+<!--                <th scope="col">Авторство</th>-->
+<!--                <th scope="col">Описание</th>-->
+<!--                <th scope="col">Издатель</th>-->
+<!--                <th scope="col">Дата архивации</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <td th:text="${dto.getName()}">-</td>-->
+<!--            <td th:if="${dto.getAuthorList().size()==0}">-</td>-->
+<!--            <div th:if="${dto.getAuthorList().size()!=0}">-->
+<!--                <td>-->
+<!--                    <div th:each="a : ${dto.getAuthorList()}">-->
+<!--                        <a th:href="@{/authors/id/{id}(id=${a.getId()})}"-->
+<!--                           th:text="${a.getFirstName()}+'  '+${a.getSecondName()}">Открыть</a>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </div>-->
+<!--            <td th:text="${dto.getDescription()}">-</td>-->
+<!--            <td th:if="${dto.getPublisherSimpleDto()==null}">-</td>-->
+<!--            <div th:if="${dto.getPublisherSimpleDto()!=null}">-->
+<!--                <td>-->
+<!--                    <a th:href="@{/publishers/id/{id}(id=${dto.getPublisherSimpleDto().getId()})}"-->
+<!--                       th:text="${dto.getPublisherSimpleDto().getName()}">Открыть</a>-->
+<!--                </td>-->
+<!--            </div>-->
+<!--            <td th:text="${dateOfArchiving}">-</td>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </main>-->
+<!--    <div th:insert="blocks/footer :: footer"></div>-->
+<!--</div>-->
 </body>
 </html>

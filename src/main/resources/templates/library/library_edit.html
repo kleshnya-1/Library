@@ -13,12 +13,10 @@
     <main>
         <form th:action="@{http://localhost:8080/library/id/{id}(id=${dto.getId()})}" th:method="PATCH"
               th:object="${dto}">
-
             <div class="row">
                 <div class="form-group col-md-6">
                     <label>Название</label>
-                    <input class="form-control" placeholder="Колобок"
-                           readonly th:field="*{name}" type="text">
+                    <input class="form-control" placeholder="Колобок" readonly th:field="*{name}" type="text">
                 </div>
                 <div class="container">
                     <div class="row">
@@ -26,15 +24,9 @@
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label>Авторы</label>
-                                    <br>
-                                    <sup>(для изменения выберете новых)</sup>
-                                    <select class="form-control" id="authors" multiple="multiple" size="10"
-                                            th:field="*{authorArrayForHtml}">
-                                        <option th:each="a : ${authors}"
-                                                th:text="${a.getFirstName()}+'  '+${a.getSecondName()}"
-                                                th:value="${a.getId()}"></option>
-                                        </option>
-                                    </select>
+                                    <div th:each="a : ${dto.getAuthorList()}" th:if="${dto.getAuthorList()!=null}">
+                                        <p th:text="${a.getFirstName()+' '+a.getSecondName()}"></p>
+                                    </div>
                                 </div>
                                 <div class="col-xs-2">
                                     <label>Номер полки</label>
@@ -42,24 +34,16 @@
                                            th:field="*{sectionNumber}"
                                            type="number">
                                     <label>Год издания</label>
-                                    <input class="form-control" placeholder="0" size="400"
+                                    <input class="form-control" placeholder="0" readonly size="400"
                                            th:field="*{yearOfPublishing}"
                                            type="number">
-                                    <div class="col-xs-8">Неизвестен.</div>
-                                    <input class="form-check-input" th:field="*{unknownPublishingYear}" type="checkbox">
-                                    </label>
                                 </div>
-
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Издатель</label>
-                            <select class="form-control" th:field="*{publisherDto.id}">
-                                <option th:each="a : ${publishers}"
-                                        th:text="${a.getName()}" th:value="${a.getId()}"></option>
-                                <option
-                                        th:text="неивестен" th:value="null"></option>
-                            </select>
+                            <p class="form-control" placeholder="Колобок" th:if="${dto.getPublisherSimpleDto()!=null}"
+                               th:text="${dto.getPublisherSimpleDto().getName()}" type="text">
                         </div>
                     </div>
                 </div>
@@ -68,10 +52,10 @@
                     <label>Описание</label>
                     <textarea class="form-control"
                               placeholder="Книга отом, как череда случайных, несвязанных между собой событий, приводит к нелепой смерти главного героя."
-                              th:field="*{description}" type="text"> </textarea>
+                              rows="10" th:field="*{description}" type="text"> </textarea>
                 </div>
             </div>
-            <button class="btn btn-primary" type="submit">Создать</button>
+            <button class="btn btn-primary" type="submit">Сохранить</button>
         </form>
     </main>
     <div th:insert="blocks/footer :: footer"></div>

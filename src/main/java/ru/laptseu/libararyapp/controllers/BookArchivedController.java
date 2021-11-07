@@ -5,15 +5,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.laptseu.libararyapp.models.entities.Author;
-import ru.laptseu.libararyapp.models.entities.Publisher;
-import ru.laptseu.libararyapp.models.entities.BookArchived;
-import ru.laptseu.libararyapp.models.entities.BookInLibrary;
-import ru.laptseu.libararyapp.models.dto.AuthorDto;
-import ru.laptseu.libararyapp.models.dto.BookDto;
-import ru.laptseu.libararyapp.models.dto.PublisherDto;
 import ru.laptseu.libararyapp.mappers.backMappers.BookArchivingMapper;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
+import ru.laptseu.libararyapp.models.dto.BookDto;
+import ru.laptseu.libararyapp.models.entities.BookArchived;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
 import ru.laptseu.libararyapp.services.ServiceFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
 import ru.laptseu.libararyapp.utilities.TextTrimmingUtility;
@@ -59,17 +55,19 @@ public class BookArchivedController {
         BookArchived bookArchived = (BookArchived) serviceFactory.get(BookArchived.class).read(id);
         BookInLibrary bookInLibrary = bookArchivingMapper.map(bookArchived);
         BookDto dto = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
-        List<AuthorDto> authors = frontMappersFactory.get(Author.class).map(bookInLibrary.getAuthorList());
-        List<PublisherDto> publishers = frontMappersFactory.get(Publisher.class).map(serviceFactory.get(Publisher.class).read());
         model.addAttribute("dto", dto);
-        model.addAttribute("authors", authors);
-        model.addAttribute("publishers", publishers);
+        model.addAttribute("dateOfArchiving", bookArchived.getDateOfArchived().getTime());
         return "archive/archive_edit";
     }
 
     @PatchMapping("/id/{id}")
-    public String updateBookInArchive(@ModelAttribute("dto") BookDto dto) {
-        serviceFactory.get(BookArchived.class).update(bookArchivingMapper.map((BookArchived) frontMappersFactory.get(BookInLibrary.class).map((dto))));
+    public String updateBookInArchive(@ModelAttribute("dto") BookDto dto, @PathVariable("id") Long id) {
+
+        BookArchived origin = (BookArchived) serviceFactory.get(BookArchived.class).read(id);
+        if (origin.getDescription() != dto.getDescription()) {
+            origin.setDescription(dto.getDescription());
+            serviceFactory.get(BookArchived.class).update(origin);
+        }
         return startingUrl;
     }
 

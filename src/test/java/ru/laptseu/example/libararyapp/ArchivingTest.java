@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 import ru.laptseu.libararyapp.LibraryAppApplication;
 import ru.laptseu.libararyapp.models.entities.Author;
 import ru.laptseu.libararyapp.models.entities.Publisher;
@@ -122,6 +125,8 @@ class ArchivingTest {
     }
 
     @Test
+
+    @Transactional(value = "libraryTransactionManager")
     @DisplayName("Test Archive and UnArchive Books")
     void testToArchive() throws Exception {
         BookInLibrary bookFromLib1 = (BookInLibrary) libraryService.read(bookLibId1);
@@ -131,13 +136,13 @@ class ArchivingTest {
 
         int sizeL = bookLibraryRepository.findAll().size();
         int sizeA = bookArchiveRepository.findAll().size();
-        Long idOfArchivingLb1 = libraryService.toArchive(bookFromLib1).getId();
-        Long idOfArchivingLb2 = libraryService.toArchive(bookFromLib2).getId();
+        Long idOfArchivingLb1 = libraryService.toArchive(bookFromLib1.getId()).getId();
+        Long idOfArchivingLb2 = libraryService.toArchive(bookFromLib2.getId()).getId();
 
         assertEquals(2 + sizeA, bookArchiveRepository.findAll().size());
 
-        BookInLibrary bookInLibraryFromArchive1 = archiveService.fromArchive(bookFromArchive1);
-        BookInLibrary bookInLibraryFromArchive2 = archiveService.fromArchive(bookFromArchive2);
+        BookInLibrary bookInLibraryFromArchive1 = archiveService.fromArchive(bookFromArchive1.getId());
+        BookInLibrary bookInLibraryFromArchive2 = archiveService.fromArchive(bookFromArchive2.getId());
         assertEquals(bookFromArchive1.getName(), bookInLibraryFromArchive1.getName());
 
         assertEquals(sizeL, bookLibraryRepository.findAll().size());

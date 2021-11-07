@@ -11,9 +11,50 @@
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
     <main>
-        <h4 th:text="${representing}"></h4>
+        <div class="form-group row">
+            <div class="col-md-auto"></div>
+            <div class="col-md-auto" th:text="${dto.getFirstName()}+' '+${dto.getSecondName()}">-</div>
+            <div class="col-md-auto">
+                <div th:if="${dto.getBirthYear()!=null}">
+                    <div th:if="${dto.getBirthYear()<0}">
+                        <p th:text="${dto.getBirthYear()*-1}+' BC'"></p>
+                    </div>
+                    <div th:if="${dto.getBirthYear()>-1}">
+                        <p th:text="${dto.getBirthYear()}"></p>
+                    </div>
+                </div>
+                <div th:if="${dto.getBirthYear()==null}">
+                    <p>...</p>
+                </div>
+            </div>
+            <div class="col-md-auto">
+                <p> / </p>
+            </div>
+            <div class="col-md-auto">
+                <div th:if="${dto.getDeathYear()!=null}">
+                    <div th:if="${dto.getDeathYear()<0}">
+                        <p th:text="${dto.getDeathYear()*-1}+' BC'"></p>
+                    </div>
+                    <div th:if="${dto.getDeathYear()>-1}">
+                        <p th:text="${dto.getDeathYear()}">
+                        </p>
+                    </div>
+                </div>
+                <div th:if="${dto.getDeathYear()==null}">
+                    <p>... </p>
+                </div>
+            </div>
 
+
+        </div>
+        <br>
     </main>
+    <label>Книги в библиотеке</label>
+    <div class="container-small">
+        <div th:each="a : ${bookList}" th:if="${bookList!=null}">
+            <a th:href="@{/library/id/{id}(id=${a.getId()})}" th:text="${a.getName()}">Открыть</a>
+        </div>
+    </div>
     <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>

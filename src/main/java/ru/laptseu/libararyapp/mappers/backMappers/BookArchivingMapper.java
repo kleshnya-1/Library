@@ -5,9 +5,9 @@ import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.laptseu.libararyapp.models.entities.Author;
-import ru.laptseu.libararyapp.models.entities.Publisher;
 import ru.laptseu.libararyapp.models.entities.BookArchived;
 import ru.laptseu.libararyapp.models.entities.BookInLibrary;
+import ru.laptseu.libararyapp.models.entities.Publisher;
 import ru.laptseu.libararyapp.services.AuthorService;
 import ru.laptseu.libararyapp.services.PublisherService;
 
@@ -37,7 +37,11 @@ public abstract class BookArchivingMapper {
     }
 
     public Long mapPublisher(Publisher publisher) {
-        return publisher.getId();
+        if (publisher != null) {
+            return publisher.getId();
+        } else {
+            return null;
+        }
     }
 
     public abstract BookInLibrary map(BookArchived archivedBook);

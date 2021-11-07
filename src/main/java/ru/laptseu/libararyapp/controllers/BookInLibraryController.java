@@ -6,15 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
 import ru.laptseu.libararyapp.mappers.frontMappers.simple.FrontSimpleMappersFactory;
-import ru.laptseu.libararyapp.models.dto.AuthorSimpleDto;
-import ru.laptseu.libararyapp.models.entities.Author;
-import ru.laptseu.libararyapp.models.entities.Publisher;
-import ru.laptseu.libararyapp.models.entities.BookInLibrary;
-import ru.laptseu.libararyapp.models.dto.AuthorDto;
 import ru.laptseu.libararyapp.models.dto.BookDto;
 import ru.laptseu.libararyapp.models.dto.PublisherDto;
-import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
+import ru.laptseu.libararyapp.models.dto.simpleDto.AuthorSimpleDto;
+import ru.laptseu.libararyapp.models.entities.Author;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
+import ru.laptseu.libararyapp.models.entities.Publisher;
 import ru.laptseu.libararyapp.services.ServiceFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
 import ru.laptseu.libararyapp.utilities.TextTrimmingUtility;
@@ -49,13 +48,21 @@ public class BookInLibraryController {
     }
 
 
-
     @PostMapping("/id/")
-    public String createBookInLibrary(@ModelAttribute @Valid BookDto filledDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors() || filledDto.getId() != null) {
-            log.error(bindingResult.getFieldErrors());
-            log.error("not saved as new with id " + filledDto.getId());
-            return startingUrl;
+    public String createBookInLibrary(@Valid BookDto filledDto, BindingResult bindingResult, Model model) {
+        List<String> errors = new ArrayList<>();
+        if (filledDto.getId() != null) {
+            errors.add("ID для нового пользователя не может существовать. ID=" + filledDto.getId());
+            log.error("not saved as new with id " + filledDto.getId());//this URL only for new Entities
+        }
+        if (bindingResult.hasErrors()) {
+            log.debug(bindingResult.getFieldErrors());
+            bindingResult.getAllErrors().stream().forEach(objectError -> errors.add(objectError.getDefaultMessage()));
+        }
+        if (!errors.isEmpty()) {
+            model.addAttribute("entity", "книги");
+            model.addAttribute("errors", errors);
+            return "blocks/error_messages";
         }
         if (Objects.equals(filledDto.getDescription(), "")) {
             filledDto.setDescription(null);
@@ -66,8 +73,8 @@ public class BookInLibraryController {
         if (filledDto.isUnknownPublishingYear()) {
             filledDto.setYearOfPublishing(null);
         }
-        if (filledDto.getPublisherDto().getId() == null) {
-            filledDto.setPublisherDto(null);
+        if (filledDto.getPublisherSimpleDto().getId() == null) {
+            filledDto.setPublisherSimpleDto(null);
         }
         BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map((filledDto));
         List<Author> authorList = new ArrayList<>();
@@ -102,35 +109,18 @@ public class BookInLibraryController {
     public String editBookInLibrary(Model model, @PathVariable("id") Long id) {
         BookInLibrary bookInLibrary = (BookInLibrary) serviceFactory.get(BookInLibrary.class).read(id);
         BookDto dto = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
-        List<AuthorDto> authors = frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).read());
-        List<PublisherDto> publishers = frontMappersFactory.get(Publisher.class).map(serviceFactory.get(Publisher.class).read());
         model.addAttribute("dto", dto);
-        model.addAttribute("authors", authors);
-        model.addAttribute("publishers", publishers);
         return "library/library_edit";
     }
 
     @PatchMapping("/id/{id}")
-    public String updateBookInLibrary(@ModelAttribute("dto") BookDto dto) {
-        if (dto.getPublisherDto().getId() == null) {
-            dto.setPublisherDto(null);
+    public String updateBookInLibrary(@ModelAttribute("dto") BookDto dto, @PathVariable("id") Long id) {
+        BookInLibrary origin = (BookInLibrary) serviceFactory.get(BookInLibrary.class).read(id);
+        if (origin.getDescription() != dto.getDescription() || origin.getSectionNumber() != dto.getSectionNumber()) {
+            origin.setDescription(dto.getDescription());
+            origin.setSectionNumber(dto.getSectionNumber());
+            serviceFactory.get(BookInLibrary.class).update(origin);
         }
-        BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map((dto));
-        List<Author> authorList;
-        if (dto.getAuthorArrayForHtml().length > 0) {
-            authorList = new ArrayList<>();
-            bookInLibrary.setAuthorList(authorList);
-            for (String s : dto.getAuthorArrayForHtml()) {
-                Author author = new Author();
-                author.setId(Long.parseLong(s));
-                authorList.add(author);
-            }
-        } else {
-            authorList = ((BookInLibrary) serviceFactory.get(BookInLibrary.class).read(bookInLibrary.getId())).getAuthorList();
-        }
-        bookInLibrary.setAuthorList(authorList);
-
-        serviceFactory.get(BookInLibrary.class).update(bookInLibrary);
         return startingUrl;
     }
 
@@ -149,34 +139,5 @@ public class BookInLibraryController {
             log.error(e);
         }
         return startingUrl;
-    }
-    @GetMapping("/by_author/{id}/{page}")
-    public String getBooksInLibraryByAuthor(@PathVariable Long id, @PathVariable Integer page, Model model) {
-        Author author = (Author) serviceFactory.get(Author.class).read(id);
-        String masterString = author.toString();
-        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(author.getBookList());
-        dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
-        model.addAttribute("dtoList", dtoList);
-        model.addAttribute("authorId", id);
-        model.addAttribute("master", " " + masterString + " ");
-        model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
-        model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
-        model.addAttribute("path", "/by_author/");
-        return "library/library_by_querry";
-    }
-
-    @GetMapping("/by_publisher/{id}/{page}")
-    public String getBooksInLibraryByPublisher(@PathVariable Long id, @PathVariable Integer page, Model model) {
-        Publisher publisher = (Publisher) serviceFactory.get(Publisher.class).read(id);
-        String masterString = publisher.getName();
-        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(publisher.getBookList());
-        dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
-        model.addAttribute("dtoList", dtoList);
-        model.addAttribute("publisherId", id);
-        model.addAttribute("master", " " + masterString + " ");
-        model.addAttribute("exPageNum", pageUtility.getExPageNum(page));
-        model.addAttribute("nextPageNum", pageUtility.getNextPageNum(dtoList.size(), page));
-        model.addAttribute("path", "/by_publisher/");
-        return "library/library_by_querry";
     }
 }
