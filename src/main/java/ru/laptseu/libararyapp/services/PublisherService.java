@@ -33,18 +33,4 @@ public class PublisherService extends AbstractService<Publisher> {
         }
         return a;
     }
-
-//    @Override
-//    @Transactional(value = "libraryTransactionManager")
-//    public List<Publisher> read( ) {
-//        List<Publisher> a = super.read();
-//        if (a ==null){
-//            return null;
-//        }
-//        if (a.getBookList() != null) {
-//            a.setBookList(a.getBookList().stream().filter(b -> b.isDeleted() == false).collect(Collectors.toList()));
-//        }
-//        return a;
-//    }
-
-}
+    }
