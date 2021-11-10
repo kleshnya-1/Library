@@ -13,7 +13,7 @@ import java.util.List;
 public class BookInLibrary extends Book {
 
     @Column(name = "section_number")
-    private int sectionNumber;
+    private Integer sectionNumber;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Author> authorList;

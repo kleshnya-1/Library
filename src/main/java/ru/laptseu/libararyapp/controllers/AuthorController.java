@@ -2,6 +2,7 @@ package ru.laptseu.libararyapp.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +33,8 @@ public class AuthorController {
 
     @GetMapping("/{page}")
     public String getAuthors(@PathVariable Integer page, Model model) {
-        List<AuthorDto> dtoList = frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).readList(page));
+        Pageable pageable = pageUtility.getPageable(page);
+        List<AuthorDto> dtoList = frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).readList(pageable));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("url", "authors");
         model.addAttribute("currentPageNum", page);
@@ -51,17 +53,11 @@ public class AuthorController {
             log.debug(bindingResult.getFieldErrors());
             bindingResult.getAllErrors().stream().forEach(objectError -> errors.add(objectError.getDefaultMessage()));
         }
-        if (Objects.equals(filledDto.getFirstName(), "")) {// TODO: 06.11.2021 to front jquery it
+        if (Objects.equals(filledDto.getFirstName(), "")) {
             filledDto.setFirstName(null);
         }
         if (Objects.equals(filledDto.getSecondName(), "")) {
             filledDto.setSecondName(null);
-        }
-        if (filledDto.isUnknownBirthYear()) {
-            filledDto.setBirthYear(null);
-        }
-        if (filledDto.isUnknownDeathYear()) {
-            filledDto.setDeathYear(null);
         }
         if (filledDto.getFirstName() == null && filledDto.getSecondName() == null &&
                 filledDto.getBirthYear() == null && filledDto.getDeathYear() == null) {
@@ -74,7 +70,7 @@ public class AuthorController {
             errors.add("Дата смерти в будущем не может быть доподленно известна (" + filledDto.getDeathYear() + " г.)");
         }
         if (filledDto.getBirthYear() != null && filledDto.getDeathYear() != null && filledDto.getDeathYear() - filledDto.getBirthYear() < 0) {
-            errors.add("Возраст автора отрицателен (" + filledDto.getBirthYear() + " " + filledDto.getDeathYear() + ")");
+            errors.add("Указанна дата рождения после даты смерти (" + filledDto.getBirthYear() + " " + filledDto.getDeathYear() + ")");
         }
         if (!errors.isEmpty()) {
             model.addAttribute("entity", "автора");
@@ -113,21 +109,27 @@ public class AuthorController {
     public String updateAuthor(@ModelAttribute("dto") AuthorDto dto, @PathVariable Long id, Model model) {
         List<String> errors = new ArrayList<>();
         Author authorFromDb = (Author) serviceFactory.get(Author.class).read(id);
-        if (authorFromDb.getDeathYear() != null && dto.isUnknownDeathYear()) {
+        if (authorFromDb.getDeathYear() != null && dto.getDeathYear()==null) {
             errors.add("Год смерти не мог быть известным (" + dto.getDeathYear() + "г.) и стать неизвестным");
         }
         if (authorFromDb.getDeathYear() != null && authorFromDb.getDeathYear() != dto.getDeathYear()) {
             errors.add("Год смерти не мог мог измениться. (" + authorFromDb.getDeathYear() + " => " + dto.getDeathYear() + ") ");
+        }
+        if (dto.getDeathYear() != null && dto.getDeathYear() > Calendar.getInstance().get(Calendar.YEAR)) {
+            errors.add("Дата смерти в будущем не может быть доподленно известна (" + dto.getDeathYear() + " г.)");
+        }
+        if (dto.getBirthYear() != null && dto.getDeathYear() != null && dto.getDeathYear() - dto.getBirthYear() < 0) {
+            errors.add("Указанна дата рождения после даты смерти (" + dto.getBirthYear() + " " + dto.getDeathYear() + ")");
         }
         if (!errors.isEmpty()) {
             model.addAttribute("entity", "автора");
             model.addAttribute("errors", errors);
             return "blocks/error_messages";
         }
-        if (dto.isUnknownDeathYear() && authorFromDb.getDeathYear() == null) {
+        if (dto.getDeathYear()==null && authorFromDb.getDeathYear() == null) {
             return startingUrl;//nothing to update
         }
-        if (!dto.isUnknownDeathYear()) {
+        if (dto.getDeathYear()!=null) {
             serviceFactory.get(Author.class).update(frontMappersFactory.get(Author.class).map((dto)));
         }
         return startingUrl;

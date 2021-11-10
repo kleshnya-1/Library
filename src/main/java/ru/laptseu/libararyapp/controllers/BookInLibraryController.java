@@ -2,6 +2,7 @@ package ru.laptseu.libararyapp.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,7 +39,10 @@ public class BookInLibraryController {
 
     @GetMapping("/{page}")
     public String getBooksInLibrary(@PathVariable Integer page, Model model) {
-        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(serviceFactory.get(BookInLibrary.class).readList(page));
+
+        Pageable pageable = pageUtility.getPageable(page);
+        List l =serviceFactory.get(BookInLibrary.class).readList(pageable);
+        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(l);
         dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("url", "library");
@@ -66,12 +70,6 @@ public class BookInLibraryController {
         }
         if (Objects.equals(filledDto.getDescription(), "")) {
             filledDto.setDescription(null);
-        }
-        if (Objects.equals(filledDto.getName(), "")) {
-            filledDto.setName(null);
-        }
-        if (filledDto.isUnknownPublishingYear()) {
-            filledDto.setYearOfPublishing(null);
         }
         if (filledDto.getPublisherSimpleDto().getId() == null) {
             filledDto.setPublisherSimpleDto(null);
@@ -125,7 +123,7 @@ public class BookInLibraryController {
     }
 
     @PostMapping("/id/{id}/remove")
-    public String deleteBookInLIbrary(@PathVariable Long id) {
+    public String deleteBookInLibrary(@PathVariable Long id) {
         serviceFactory.get(BookInLibrary.class).delete(id);
         return startingUrl;
     }

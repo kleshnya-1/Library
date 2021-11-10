@@ -1,6 +1,7 @@
 package ru.laptseu.libararyapp.configurations;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ru.laptseu.libararyapp.models.entities.Author;
@@ -17,6 +19,7 @@ import ru.laptseu.libararyapp.models.entities.Publisher;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.HashMap;
 
 
 @Configuration
@@ -40,7 +43,7 @@ public class LibraryConfiguration {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean libraryEntityManager
-            (EntityManagerFactoryBuilder builder,
+            (@Qualifier("entityManagerFactoryBuilderLibrary") EntityManagerFactoryBuilder builder,
              @Qualifier("libraryDataSource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
@@ -51,5 +54,24 @@ public class LibraryConfiguration {
     @Bean
     public PlatformTransactionManager libraryTransactionManager(@Qualifier("libraryEntityManager") EntityManagerFactory productDSEmFactory) {
         return new JpaTransactionManager(productDSEmFactory);
+    }
+
+
+    @Bean
+    public HibernateJpaVendorAdapter hibernateJpaVendorAdapterLibrary(
+            @Value("${spring.jooq.sql-dialect}") String databasePlatform,
+            @Value("${spring.jpa.generate-ddl}") boolean generateDdl,
+            @Value("${spring.jpa.show-sql}") boolean showSql) {
+        HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+        jpaVendorAdapter.setDatabasePlatform(databasePlatform);
+        jpaVendorAdapter.setGenerateDdl(generateDdl);
+        jpaVendorAdapter.setShowSql(showSql);
+        return jpaVendorAdapter;
+    }
+
+    @Bean
+    public EntityManagerFactoryBuilder entityManagerFactoryBuilderLibrary(@Qualifier("hibernateJpaVendorAdapterLibrary") HibernateJpaVendorAdapter hibernateJpaVendorAdapter) {
+        return new EntityManagerFactoryBuilder(hibernateJpaVendorAdapter,
+                new HashMap(), null);
     }
 }

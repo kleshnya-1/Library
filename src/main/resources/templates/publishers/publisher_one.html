@@ -3,36 +3,25 @@
 <div th:insert="blocks/style :: style"></div>
 <head>
     <meta charset="UTF-8">
-    <title>Книга</title>
+    <title>Издатель</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
+
+    <h4>Издатель: </h4>
     <main>
-        <div class="form-group row">
-            <div class="form-group col-md-4">
-                <label>Название</label>
-                <p th:text="${dto.getName()}">
-            </div>
-            <div class="form-group col-md-4">
-                <label>Адрес</label>
-                <p th:text="${dto.getAddress()}">
-            </div>
-            <div class="form-group col-md-4">
-                <label>Телефон</label>
-                <p th:text="${dto.getPhoneNumber()}">
-            </div>
-
-        </div>
+                <p th:text="${'Название:'+dto.getName()}">
+                <p th:text="${'Адрес: '+dto.getAddress()}">
+                <p th:text="${'Телефон: '+dto.getPhoneNumber()}">
         <br>
-
     </main>
-
-    <label>Книги в библиотеке</label>
-    <div class="container-small">
-        <div class="form-group" th:each="a : ${bookList}" th:if="${bookList!=null}">
+    <p>Книги в библиотеке:</p>
+    <p th:if="${dto.getBookList().size()==0}">-</p>
+    <div th:if="${dto.getBookList().size()!=0}" class="container-small">
+        <div class="form-group" th:each="a : ${dto.getBookList()}" >
             <a th:href="@{/library/id/{id}(id=${a.getId()})}" th:text="${a.getName()}">Открыть</a>
         </div>
     </div>

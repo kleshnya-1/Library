@@ -2,6 +2,7 @@ package ru.laptseu.libararyapp.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,9 @@ import ru.laptseu.libararyapp.utilities.PageUtility;
 import ru.laptseu.libararyapp.utilities.TextTrimmingUtility;
 
 import javax.naming.OperationNotSupportedException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Controller
@@ -28,11 +31,14 @@ public class BookArchivedController {
     private final PageUtility pageUtility;
     private final BookArchivingMapper bookArchivingMapper;
     private final TextTrimmingUtility textTrimmingUtility;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss/MM-dd-yyyy");
 
     @GetMapping("/{page}")
     public String getBooksInArchive(@PathVariable Integer page, Model model) {
-        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(bookArchivingMapper.map(serviceFactory.get(BookArchived.class).readList(page)));
+        Pageable pageable = pageUtility.getPageable(page);
+        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(bookArchivingMapper.map(serviceFactory.get(BookArchived.class).readList(pageable)));
         dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
+        dtoList.stream().filter(bookDto -> bookDto.getId()==null).collect(Collectors.toList());
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("url", "archive");
         model.addAttribute("currentPageNum", page);
@@ -46,7 +52,7 @@ public class BookArchivedController {
         BookInLibrary bookInLibrary = bookArchivingMapper.map(bookArchived);
         BookDto dto = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
         model.addAttribute("dto", dto);
-        model.addAttribute("dateOfArchiving", bookArchived.getDateOfArchived().getTime());
+        model.addAttribute("dateOfArchiving", simpleDateFormat.format(bookArchived.getDateOfArchived().getTime()));
         return "archive/archive_one";
     }
 
@@ -56,13 +62,12 @@ public class BookArchivedController {
         BookInLibrary bookInLibrary = bookArchivingMapper.map(bookArchived);
         BookDto dto = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
         model.addAttribute("dto", dto);
-        model.addAttribute("dateOfArchiving", bookArchived.getDateOfArchived().getTime());
+        model.addAttribute("dateOfArchiving", simpleDateFormat.format(bookArchived.getDateOfArchived().getTime()));
         return "archive/archive_edit";
     }
 
     @PatchMapping("/id/{id}")
     public String updateBookInArchive(@ModelAttribute("dto") BookDto dto, @PathVariable("id") Long id) {
-
         BookArchived origin = (BookArchived) serviceFactory.get(BookArchived.class).read(id);
         if (origin.getDescription() != dto.getDescription()) {
             origin.setDescription(dto.getDescription());

@@ -16,8 +16,6 @@ public class AuthorDto extends EntityDto {
     private String firstName;
     private String secondName;
     private Integer birthYear;
-    private boolean unknownBirthYear;
     private Integer deathYear;
-    private boolean unknownDeathYear;
     private List<BookSimpleDto> bookList;
 }

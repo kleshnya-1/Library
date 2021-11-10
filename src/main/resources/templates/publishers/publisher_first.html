@@ -10,16 +10,28 @@
 <body>
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
+
     <h4>Издательства: </h4>
     <a class="btn btn-primary" th:href="@{/publishers/id/publishers_new}">Добавить</a>
+    <br>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col" width="180">Название</th>
+            <th scope="col" width="270">Адрес</th>
+            <th scope="col" width="350">Телефон</th>
+            <th scope="col" width="320">Действия</th>
+        </tr>
+        </thead>
+    </table>
     <div class="container-in">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col" width="180">Название</th>
-                <th scope="col" width="270">Адрес</th>
-                <th scope="col" width="350">Телефон</th>
-                <th scope="col" width="320">Действия</th>
+                <th scope="col" width="180"></th>
+                <th scope="col" width="270"></th>
+                <th scope="col" width="350"></th>
+                <th scope="col" width="320"></th>
             </tr>
             </thead>
             <tbody>
@@ -28,7 +40,6 @@
                 <td th:text="${e.getAddress()}">-</td>
                 <td th:text="${e.getPhoneNumber()}">-</td>
                 <td>
-
                     <a class="btn btn-primary" th:href="@{/publishers/id/{id}(id=${e.getId()})}">Открыть</a>
                     <a class="btn btn-primary"
                        th:href="@{/publishers/id/{id}/edit(id=${e.getId()})}">Редактировать</a>
@@ -42,8 +53,8 @@
             </tr>
             </tbody>
         </table>
+        <div th:insert="blocks/navigation :: nav"></div>
     </div>
-    <div th:insert="blocks/navigation :: nav"></div>
     <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>

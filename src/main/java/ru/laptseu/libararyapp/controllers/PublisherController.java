@@ -2,6 +2,7 @@ package ru.laptseu.libararyapp.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,7 +31,8 @@ public class PublisherController {
 
     @GetMapping("/{page}")
     public String getPublishers(@PathVariable Integer page, Model model) {
-        List<PublisherDto> dtoList = frontMappersFactory.get(Publisher.class).map(serviceFactory.get(Publisher.class).readList(page));
+        Pageable pageable = pageUtility.getPageable(page);
+        List<PublisherDto> dtoList = frontMappersFactory.get(Publisher.class).map(serviceFactory.get(Publisher.class).readList(pageable));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("url", "publishers");
         model.addAttribute("currentPageNum", page);

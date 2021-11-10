@@ -10,6 +10,8 @@
 <body>
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
+
+    <h4>Редактировать издателя: </h4>
     <main>
         <form th:action="@{http://localhost:8080/publishers/id/{id}(id=${dto.getId()})}" th:method="PATCH"
               th:object="${dto}">

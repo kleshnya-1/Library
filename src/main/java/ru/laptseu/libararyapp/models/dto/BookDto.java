@@ -24,5 +24,4 @@ public class BookDto extends EntityDto {
     private Integer sectionNumber;
     private Integer yearOfPublishing;
     private PublisherSimpleDto publisherSimpleDto;
-    private boolean unknownPublishingYear;
 }

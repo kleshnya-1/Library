@@ -10,64 +10,56 @@
 <body>
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
+
     <h4>Авторы: </h4>
     <a class="btn btn-primary" th:href="@{/authors/id/authors_new}">Добавить</a>
+    <br>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col" width="450">Имя</th>
+            <th scope="col" width="120">Годы жизни</th>
+            <th scope="col" width="260"></th>
+            <th scope="col" width="330">Действия</th>
+        </tr>
+        </thead>
+    </table>
     <div class="container-in">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col" width="350">Имя</th>
-                <th scope="col" width="100"></th>
-                <th scope="col" width="200">Годы жизни</th>
-                <th scope="col" width="180"></th>
-                <th scope="col" width="330">Действия</th>
+                <th scope="col" width="450"></th>
+                <th scope="col" width="120"></th>
+                <th scope="col" width="260"></th>
+                <th scope="col" width="330"></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="e : ${dtoList}">
                 <td th:text="${e.getFirstName()}+' '+${e.getSecondName()}">-</td>
-                <td></td>
                 <td>
-                    <div class="row">
-                        <div class="col-4">
-                            <div th:if="${e.getBirthYear()!=null}">
-                                <div th:if="${e.getBirthYear()<0}">
-                                    <p th:text="${e.getBirthYear()*-1}+' BC'"></p>
-                                </div>
-                                <div th:if="${e.getBirthYear()>-1}">
-                                    <p th:text="${e.getBirthYear()}"></p>
-                                </div>
-                            </div>
-                            <div th:if="${e.getBirthYear()==null}">
-                                <p>...</p>
-                            </div>
-                        </div>
+                    <div class="row justify-content-center">
                         <div class="col-md-auto">
-                            <p> / </p>
-                        </div>
-                        <div class="col-md-auto">
-                            <div th:if="${e.getDeathYear()!=null}">
-                                <div th:if="${e.getDeathYear()<0}">
-                                    <p th:text="${e.getDeathYear()*-1}+' BC'"></p>
-                                </div>
-                                <div th:if="${e.getDeathYear()>-1}">
-                                    <p th:text="${e.getDeathYear()}">
-                                    </p>
-                                </div>
-                            </div>
-                            <div th:if="${e.getDeathYear()==null}">
-                                <p>...</p>
-                            </div>
+                            <p th:if="${e.getBirthYear()!=null&&e.getDeathYear()!=null}"
+                               th:text="${e.getBirthYear()+' / '+e.getDeathYear()}"></p>
+                            <p th:if="${e.getBirthYear()!=null&&e.getDeathYear()==null}"
+                               th:text="${e.getBirthYear()+' / ...'}"></p>
+                            <p th:if="${e.getBirthYear()==null&&e.getDeathYear()==null}" th:text="${'... / ...'}"></p>
+                            <p th:if="${e.getBirthYear()==null&&e.getDeathYear()!=null}"
+                               th:text="${'... / '+e.getDeathYear()}"></p>
                         </div>
                     </div>
-
                 </td>
                 <td></td>
 
                 <td>
                     <a class="btn btn-primary" th:href="@{/authors/id/{id}(id=${e.getId()})}">Открыть</a>
-                    <a class="btn btn-primary"
-                       th:href="@{/authors/id/{id}/edit(id=${e.getId()})}">Редактировать</a>
+                    <a class="btn btn-primary" th:if="${e.getDeathYear()==null}"
+                       th:href="@{/authors/id/{id}/edit(id=${e.getId()})}">Редактировать
+                    </a>
+                    <a class="btn btn-primary" th:if="${e.getDeathYear()!=null}"
+                       th:href="@{/authors/id/{id}/edit(id=${e.getId()})}" disabled>Редактировать
+                    </a>
                     <form class="btn-group"
                           th:action="@{http://localhost:8080/authors/id/{id}/remove(id=${e.getId()})}"
                           th:method="post">
@@ -78,9 +70,10 @@
             </tr>
             </tbody>
         </table>
+        <div th:insert="blocks/navigation :: nav"></div>
     </div>
 
-    <div th:insert="blocks/navigation :: nav"></div>
+
     <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>

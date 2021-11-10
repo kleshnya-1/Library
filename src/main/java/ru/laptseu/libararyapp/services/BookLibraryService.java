@@ -2,6 +2,7 @@ package ru.laptseu.libararyapp.services;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.laptseu.libararyapp.mappers.backMappers.BookArchivingMapper;
@@ -14,6 +15,7 @@ import ru.laptseu.libararyapp.utilities.HibernateUnproxyUtility;
 import ru.laptseu.libararyapp.utilities.PageUtility;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -68,5 +70,18 @@ public class BookLibraryService extends AbstractService<BookInLibrary> {
             a.setPublisher(null);
         }
         return a;
+    }
+
+    public List<BookInLibrary> readList(Pageable pageable) {
+        List<BookInLibrary> listWithDeletedEntities = repositoryFactory.get(BookInLibrary.class).findPageable(pageable);
+        listWithDeletedEntities.stream().forEach(bookInLibrary -> {
+            if (bookInLibrary.getPublisher()!=null&&bookInLibrary.getPublisher().isDeleted()){
+                bookInLibrary.setPublisher(null);
+            }
+            if (bookInLibrary.getAuthorList()!=null){
+                bookInLibrary.setAuthorList(bookInLibrary.getAuthorList().stream().filter(author -> !author.isDeleted()).collect(Collectors.toList()));
+            }
+        });
+        return listWithDeletedEntities;
     }
 }

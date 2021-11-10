@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <div th:insert="blocks/style :: style"></div>
-<div th:insert="blocks/style :: style"></div>
 <head>
     <meta charset="UTF-8">
     <title>Книги</title>
@@ -9,19 +8,34 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
+
+
     <h4>Книги в библиотеке: </h4>
     <a class="btn btn-primary" th:href="@{/library/id/library_new}">Добавить</a>
+    <table width="" class="table table">
+        <thead>
+        <tr>
+            <th scope="col" width="100">Название</th>
+            <th scope="col" width="150">Автор(ы)</th>
+            <th scope="col" width="500">Описание</th>
+            <th scope="col" width="120">Издатель</th>
+            <th scope="col" width="240">Действия</th>
+
+        </tr>
+        </thead>
+    </table>
     <div class="container-in">
-        <table class="table table-striped">
+        <table class="table table-bordered">
             <thead>
             <tr>
-                <th scope="col" width="150">Название</th>
-                <th scope="col" width="100">Автор(ы)</th>
-                <th scope="col" width="500">Описание</th>
-                <th scope="col" width="120">Издатель</th>
-                <th scope="col" width="240">Действия</th>
+                <th scope="col" width="100"></th>
+                <th scope="col" width="150"></th>
+                <th scope="col" width="500"></th>
+                <th scope="col" width="120"></th>
+                <th scope="col" width="240"></th>
             </tr>
             </thead>
             <tbody>
@@ -31,8 +45,7 @@
                 <div th:if="${e.getAuthorList().size()!=0}">
                     <td>
                         <div th:each="a : ${e.getAuthorList()}">
-                            <a th:href="@{/authors/id/{id}(id=${a.getId()})}"
-                               th:text="${a.getFirstName()}+'  '+${a.getSecondName()}">Открыть</a>
+                            <p th:text="${a.getFirstName()}+'  '+${a.getSecondName()}"></p>
                         </div>
                     </td>
                 </div>
@@ -40,20 +53,19 @@
                 <td th:if="${e.getPublisherSimpleDto()==null}">-</td>
                 <div th:if="${e.getPublisherSimpleDto()!=null}">
                     <td>
-                        <a th:href="@{/publishers/id/{id}(id=${e.getPublisherSimpleDto().getId()})}"
-                           th:text="${e.getPublisherSimpleDto().getName()}">Открыть</a>
+                        <p th:text="${e.getPublisherSimpleDto().getName()}"></p>
                     </td>
                 </div>
                 <td>
-
-                    <a class="btn btn-primary" th:href="@{/library/id/{id}(id=${e.getId()})}">Открыть</a>
+                    <a class="btn btn-primary " th:href="@{/library/id/{id}(id=${e.getId()})}">Открыть </a>
                     <a class="btn btn-primary" th:href="@{/library/id/{id}/edit(id=${e.getId()})}">Редактировать</a>
-                    <br>
-                    <br>
+                    <span class="br-custom"></span>
+
+
                     <form class="btn-group"
                           th:action="@{http://localhost:8080/library/id/{id}/remove(id=${e.getId()})}"
                           th:method="post">
-                        <input class="btn btn-primary" type="submit" value="Удалить"/>
+                        <input class="btn btn-primary btn-block" type="submit" value="Удалить"/>
                     </form>
                     <form class="btn-group" th:action="@{/library/id/{id}/to_archive(id=${e.getId()})}"
                           th:method="post">
@@ -63,8 +75,9 @@
             </tr>
             </tbody>
         </table>
+        <div th:insert="blocks/navigation :: nav"></div>
     </div>
-    <div th:insert="blocks/navigation :: nav"></div>
+
     <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>

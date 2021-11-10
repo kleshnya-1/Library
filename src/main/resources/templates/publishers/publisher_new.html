@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <div th:insert="blocks/style :: style"></div>
+<script type="text/javascript">
+    function EnableDisable(txtPassportNumber) {
+        //Reference the Button.
+        var btnSubmit = document.getElementById("btnSubmit");
+
+        //Verify the TextBox value.
+        if (requiredField.value.trim() != ""&&requiredField1.value.trim() != ""&&requiredField2.value.trim() != ""
+        ) {
+            //Enable the TextBox when TextBox has value.
+            btnSubmit.disabled = false;
+        } else {
+            //Disable the TextBox when TextBox is empty.
+            btnSubmit.disabled = true;
+        }
+    };
+</script>
 <head>
     <meta charset="UTF-8">
     <title>Добавить</title>
@@ -10,27 +26,28 @@
 <body>
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
+
+    <h4>Добавление нового издателя: </h4>
     <main>
-        <h4>Добавление нового издателя: </h4>
         <form method="post" th:action="@{/publishers/id/}" th:object="${emptyDto}">
             <div class="form-group row">
                 <div class="form-group col-md-4">
-                    <label>Название</label>
-                    <input class="form-control" placeholder="Альпина Паблишер"
+                    <label>Название</label><sup>*</sup>
+                    <input class="form-control" placeholder="Альпина Паблишер" id="requiredField1" onkeyup="EnableDisable(this)"
                            required th:field="*{name}" type="text">
                 </div>
                 <div class="form-group col-md-4">
-                    <label>Адрес</label>
-                    <input class="form-control" placeholder="г.Москва, 4-я Магистральная улица, д.5"
+                    <label>Адрес</label><sup>*</sup>
+                    <input class="form-control" placeholder="г.Москва, 4-я Магистральная улица, д.5" id="requiredField2" onkeyup="EnableDisable(this)"
                            required th:field="*{address}" type="text">
                 </div>
                 <div class="form-group col-md-4">
-                    <label>Телефон</label>
-                    <input class="form-control" pattern="[0-9]{6,12}" placeholder="+7 (495) 980-53-54"
-                           required th:field="*{phoneNumber}" type="tel">
+                    <label>Телефон</label> <sup>*(6-12 цифр)</sup>
+                    <input class="form-control" pattern="[0-9]{6,12}" placeholder="74959805354" id="requiredField" onkeyup="EnableDisable(this)"
+                           required th:field="*{phoneNumber}"  title="6-12 цифр">
                 </div>
             </div>
-            <button class="btn btn-primary" type="submit">Создать</button>
+            <button class="btn btn-primary"  id="btnSubmit"  type="submit" disabled="disabled">Создать</button>
         </form>
     </main>
     <div th:insert="blocks/footer :: footer"></div>
