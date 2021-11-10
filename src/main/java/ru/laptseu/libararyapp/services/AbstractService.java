@@ -71,7 +71,7 @@ public abstract class AbstractService<T extends EntityWithId> {
 
 
     public List<T> readList(Pageable pageable) {
-       // Pageable pageable = pageUtility.getPageable(page);
+        // Pageable pageable = pageUtility.getPageable(page);
         return repositoryFactory.get(getEntityClass()).findPageable(pageable);
     }
 }

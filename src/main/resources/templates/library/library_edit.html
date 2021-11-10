@@ -47,11 +47,11 @@
                                 <div class="col-md-6 mb-3">
                                     <label>Издатель</label>
                                     <input class="form-control" placeholder="-"
-                                           th:if="${dto.getPublisherSimpleDto()==null}"
                                            readonly
+                                           th:if="${dto.getPublisherSimpleDto()==null}"
                                            type="text">
                                     <p class="form-control" placeholder="Колобок"
-                                       th:if="${dto.getPublisherSimpleDto()!=null}" readonly
+                                       readonly th:if="${dto.getPublisherSimpleDto()!=null}"
                                        th:text="${dto.getPublisherSimpleDto().getName()}" type="text">
                                 </div>
                             </div>

@@ -43,9 +43,9 @@
                 <td th:if="${e.getAuthorList().size()==0}">-</td>
                 <div th:if="${e.getAuthorList().size()!=0}">
                     <td>
-                        <div th:if="${e.getAuthorList().size()!=0}" th:each="a : ${e.getAuthorList()}">
-                            <a th:if="${a!=null}"
-                              th:href="@{/authors/id/{id}(id=${a.getId()})}"
+                        <div th:each="a : ${e.getAuthorList()}" th:if="${e.getAuthorList().size()!=0}">
+                            <a th:href="@{/authors/id/{id}(id=${a.getId()})}"
+                               th:if="${a!=null}"
                                th:text="${a.getFirstName()}+'  '+${a.getSecondName()}">Открыть</a>
                         </div>
                     </td>
@@ -54,7 +54,7 @@
                 <td th:if="${e.getPublisherSimpleDto()==null}">-</td>
                 <div th:if="${e.getPublisherSimpleDto()!=null}">
                     <td>
-                        <p                           th:text="${e.getPublisherSimpleDto().getName()}">Открыть</p>
+                        <p th:text="${e.getPublisherSimpleDto().getName()}">Открыть</p>
                     </td>
                 </div>
                 <td>

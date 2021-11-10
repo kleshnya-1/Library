@@ -27,7 +27,7 @@
 
     <br>
     <p>Описание:</p>
-    <p th:text="${dto.getDescription()}" ></p>
+    <p th:text="${dto.getDescription()}"></p>
     <br>
 
     <p>Автор(ы):</p>
@@ -36,9 +36,6 @@
         <a th:href="@{/authors/id/{id}(id=${a.getId()})}"
            th:text="${a.getFirstName()+' '+a.getSecondName()}">Открыть</a>
     </div>
-
-
-
 
 
     <div th:insert="blocks/footer :: footer"></div>

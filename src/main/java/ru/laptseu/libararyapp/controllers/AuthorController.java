@@ -109,7 +109,7 @@ public class AuthorController {
     public String updateAuthor(@ModelAttribute("dto") AuthorDto dto, @PathVariable Long id, Model model) {
         List<String> errors = new ArrayList<>();
         Author authorFromDb = (Author) serviceFactory.get(Author.class).read(id);
-        if (authorFromDb.getDeathYear() != null && dto.getDeathYear()==null) {
+        if (authorFromDb.getDeathYear() != null && dto.getDeathYear() == null) {
             errors.add("Год смерти не мог быть известным (" + dto.getDeathYear() + "г.) и стать неизвестным");
         }
         if (authorFromDb.getDeathYear() != null && authorFromDb.getDeathYear() != dto.getDeathYear()) {
@@ -126,10 +126,10 @@ public class AuthorController {
             model.addAttribute("errors", errors);
             return "blocks/error_messages";
         }
-        if (dto.getDeathYear()==null && authorFromDb.getDeathYear() == null) {
+        if (dto.getDeathYear() == null && authorFromDb.getDeathYear() == null) {
             return startingUrl;//nothing to update
         }
-        if (dto.getDeathYear()!=null) {
+        if (dto.getDeathYear() != null) {
             serviceFactory.get(Author.class).update(frontMappersFactory.get(Author.class).map((dto)));
         }
         return startingUrl;

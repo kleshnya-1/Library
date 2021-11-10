@@ -14,7 +14,7 @@
             //Disable the TextBox when TextBox is empty.
             btnSubmit.disabled = true;
         }
-    };
+    }
 </script>
 <head>
     <meta charset="UTF-8">
@@ -32,8 +32,8 @@
             <div class="form-group col-md-6">
                 <label>Название</label><sup>*</sup>
                 <input class="form-control"
-                       placeholder="Колобок" title="У книги должно быть хотя бы название" required th:field="*{name}"
-                       id="requiredField" onkeyup="EnableDisable(this)"
+                       id="requiredField" onkeyup="EnableDisable(this)" placeholder="Колобок" required
+                       th:field="*{name}" title="У книги должно быть хотя бы название"
                        type="text">
             </div>
             <div class="container">
@@ -52,14 +52,14 @@
                             </div>
                             <div class="col-xs-2">
                                 <label>Номер полки</label>
-                                <input class="form-control" placeholder="-" size="400"
-                                       th:field="*{sectionNumber}" step="1"
-                                       min="0"
+                                <input class="form-control" min="0" placeholder="-"
+                                       size="400" step="1"
+                                       th:field="*{sectionNumber}"
                                        type="number">
                                 <label>Год издания</label>
-                                <input class="form-control" placeholder="-" size="400" pattern="[0-9]{,4}"
-                                       th:field="*{yearOfPublishing}" step="1" value="-1"
-                                       min="0" type="number">
+                                <input class="form-control" min="0" pattern="[0-9]{,4}" placeholder="-"
+                                       size="400" step="1" th:field="*{yearOfPublishing}"
+                                       type="number" value="-1">
                             </div>
                         </div>
                         <div class="row">
@@ -82,7 +82,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <button class="btn btn-primary" id="btnSubmit" type="submit" disabled="disabled">
+                                <button class="btn btn-primary" disabled="disabled" id="btnSubmit" type="submit">
                                     Создать
                                 </button>
                             </div>

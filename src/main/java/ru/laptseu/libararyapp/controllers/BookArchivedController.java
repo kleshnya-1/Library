@@ -38,7 +38,7 @@ public class BookArchivedController {
         Pageable pageable = pageUtility.getPageable(page);
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(bookArchivingMapper.map(serviceFactory.get(BookArchived.class).readList(pageable)));
         dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
-        dtoList.stream().filter(bookDto -> bookDto.getId()==null).collect(Collectors.toList());
+        dtoList.stream().filter(bookDto -> bookDto.getId() == null).collect(Collectors.toList());
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("url", "archive");
         model.addAttribute("currentPageNum", page);

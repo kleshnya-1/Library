@@ -3,9 +3,7 @@ package ru.laptseu.libararyapp.mappers.frontMappers.simple;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMapper;
-import ru.laptseu.libararyapp.models.dto.AuthorDto;
 import ru.laptseu.libararyapp.models.dto.simpleDto.PublisherSimpleDto;
-import ru.laptseu.libararyapp.models.entities.Author;
 import ru.laptseu.libararyapp.models.entities.Publisher;
 
 @Component

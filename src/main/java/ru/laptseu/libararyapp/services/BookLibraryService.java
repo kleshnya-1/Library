@@ -75,10 +75,10 @@ public class BookLibraryService extends AbstractService<BookInLibrary> {
     public List<BookInLibrary> readList(Pageable pageable) {
         List<BookInLibrary> listWithDeletedEntities = repositoryFactory.get(BookInLibrary.class).findPageable(pageable);
         listWithDeletedEntities.stream().forEach(bookInLibrary -> {
-            if (bookInLibrary.getPublisher()!=null&&bookInLibrary.getPublisher().isDeleted()){
+            if (bookInLibrary.getPublisher() != null && bookInLibrary.getPublisher().isDeleted()) {
                 bookInLibrary.setPublisher(null);
             }
-            if (bookInLibrary.getAuthorList()!=null){
+            if (bookInLibrary.getAuthorList() != null) {
                 bookInLibrary.setAuthorList(bookInLibrary.getAuthorList().stream().filter(author -> !author.isDeleted()).collect(Collectors.toList()));
             }
         });

@@ -12,7 +12,7 @@ import ru.laptseu.libararyapp.services.ServiceFactory;
 @Getter
 public class PageUtility {
 
-    private final int numberOfEntitiesPerPage; // TODO: 08.11.2021 to front
+    private final int numberOfEntitiesPerPage;
     private final ServiceFactory serviceFactory;
 
     public PageUtility(@Value("${app.pages.entities-per-page}") int numberOfEntitiesPerPage, ServiceFactory serviceFactory) {

@@ -13,15 +13,15 @@
 
     <h4>Издатель: </h4>
     <main>
-                <p th:text="${'Название:'+dto.getName()}">
-                <p th:text="${'Адрес: '+dto.getAddress()}">
-                <p th:text="${'Телефон: '+dto.getPhoneNumber()}">
-        <br>
+        <p th:text="${'Название:'+dto.getName()}">
+        <p th:text="${'Адрес: '+dto.getAddress()}">
+        <p th:text="${'Телефон: '+dto.getPhoneNumber()}">
+            <br>
     </main>
     <p>Книги в библиотеке:</p>
     <p th:if="${dto.getBookList().size()==0}">-</p>
-    <div th:if="${dto.getBookList().size()!=0}" class="container-small">
-        <div class="form-group" th:each="a : ${dto.getBookList()}" >
+    <div class="container-small" th:if="${dto.getBookList().size()!=0}">
+        <div class="form-group" th:each="a : ${dto.getBookList()}">
             <a th:href="@{/library/id/{id}(id=${a.getId()})}" th:text="${a.getName()}">Открыть</a>
         </div>
     </div>

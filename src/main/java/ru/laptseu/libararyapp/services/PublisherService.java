@@ -33,4 +33,4 @@ public class PublisherService extends AbstractService<Publisher> {
         }
         return a;
     }
-    }
+}

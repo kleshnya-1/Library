@@ -15,7 +15,7 @@
     <main>
         <p th:text="${'Название: '+dto.getName()}"></p>
         <p th:if=" ${dto.getSectionNumber()!=null}" th:text="${'Номер полки: '+dto.getSectionNumber()}"></p>
-        <p th:if=" ${dto.getSectionNumber()==null}" >Номер полки: -</p>
+        <p th:if=" ${dto.getSectionNumber()==null}">Номер полки: -</p>
         <p th:if="${dto.getYearOfPublishing()!=null}" th:text="${'Год издания: '+dto.getYearOfPublishing()}"></p>
         <p th:if="${dto.getYearOfPublishing()==null}">Год издания: -</p>
         <a th:href="@{/publishers/id/{id}(id=${dto.getPublisherSimpleDto().getId()})}"
@@ -27,7 +27,7 @@
 
     <br>
     <p>Описание:</p>
-    <p th:text="${dto.getDescription()}" ></p>
+    <p th:text="${dto.getDescription()}"></p>
     <br>
 
     <p>Автор(ы):</p>

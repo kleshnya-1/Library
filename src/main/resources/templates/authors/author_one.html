@@ -14,10 +14,10 @@
     <h4>Автор: </h4>
     <main>
         <div class="row">
-            <div class="col-md-auto" > </div>
+            <div class="col-md-auto"></div>
             <div class="col-md-auto" th:text="${dto.getFirstName()}+' '+${dto.getSecondName()}"></div>
             <p class="col-md-auto" th:if="${dto.getBirthYear()!=null}" th:text="${dto.getBirthYear()+'  /'}"></p>
-            <p class="col-md-auto" th:if="${dto.getBirthYear()==null}">...  /</p>
+            <p class="col-md-auto" th:if="${dto.getBirthYear()==null}">... /</p>
             <p class="col-md-auto" th:if="${dto.getDeathYear()!=null}" th:text="${dto.getDeathYear()}">
             <p class="col-md-auto" th:if="${dto.getDeathYear()==null}">...</p>
         </div>
@@ -25,7 +25,7 @@
     </main>
     <p>Книги в библиотеке:</p>
     <p th:if="${bookList.size()==0}"> -</p>
-    <div th:if="${bookList.size()!=0}" class="container-small">
+    <div class="container-small" th:if="${bookList.size()!=0}">
         <div class="form-group" th:each="a : ${bookList}">
             <a th:href="@{/library/id/{id}(id=${a.getId()})}" th:text="${a.getName()}">Открыть</a>
         </div>

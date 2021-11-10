@@ -54,11 +54,11 @@
 
                 <td>
                     <a class="btn btn-primary" th:href="@{/authors/id/{id}(id=${e.getId()})}">Открыть</a>
-                    <a class="btn btn-primary" th:if="${e.getDeathYear()==null}"
-                       th:href="@{/authors/id/{id}/edit(id=${e.getId()})}">Редактировать
+                    <a class="btn btn-primary" th:href="@{/authors/id/{id}/edit(id=${e.getId()})}"
+                       th:if="${e.getDeathYear()==null}">Редактировать
                     </a>
-                    <a class="btn btn-primary" th:if="${e.getDeathYear()!=null}"
-                       th:href="@{/authors/id/{id}/edit(id=${e.getId()})}" disabled>Редактировать
+                    <a class="btn btn-primary" disabled
+                       th:href="@{/authors/id/{id}/edit(id=${e.getId()})}" th:if="${e.getDeathYear()!=null}">Редактировать
                     </a>
                     <form class="btn-group"
                           th:action="@{http://localhost:8080/authors/id/{id}/remove(id=${e.getId()})}"

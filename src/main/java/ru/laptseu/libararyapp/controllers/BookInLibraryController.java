@@ -41,7 +41,7 @@ public class BookInLibraryController {
     public String getBooksInLibrary(@PathVariable Integer page, Model model) {
 
         Pageable pageable = pageUtility.getPageable(page);
-        List l =serviceFactory.get(BookInLibrary.class).readList(pageable);
+        List l = serviceFactory.get(BookInLibrary.class).readList(pageable);
         List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(l);
         dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
         model.addAttribute("dtoList", dtoList);
