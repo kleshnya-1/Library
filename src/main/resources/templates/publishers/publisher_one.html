@@ -10,22 +10,39 @@
 <body>
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
+    <div class="container-in">
+        <h4>Издатель: </h4>
+        <main>
+            <table class="table" width="800">
+                <tbody>
+                <tr>
+                    <th scope="row" width="200">Название:</th>
+                    <td th:text="${dto.getName()}" width="600"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Адрес:</th>
+                    <td th:text="${dto.getAddress()}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Телефон:</th>
+                    <td th:text="${dto.getPhoneNumber()}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Книги в библиотеке:</th>
+                    <td th:if="${dto.getBookList()!=null}">
+                        <div th:if="${dto.getBookList().size()!=0}"
+                             th:each="a : ${dto.getBookList()}">
+                            ><a th:href="@{/library/id/{id}(id=${a.getId()})}" th:text="${a.getName()}">Открыть</a>
 
-    <h4>Издатель: </h4>
-    <main>
-        <p th:text="${'Название:'+dto.getName()}">
-        <p th:text="${'Адрес: '+dto.getAddress()}">
-        <p th:text="${'Телефон: '+dto.getPhoneNumber()}">
-            <br>
-    </main>
-    <p>Книги в библиотеке:</p>
-    <p th:if="${dto.getBookList().size()==0}">-</p>
-    <div class="container-small" th:if="${dto.getBookList().size()!=0}">
-        <div class="form-group" th:each="a : ${dto.getBookList()}">
-            <a th:href="@{/library/id/{id}(id=${a.getId()})}" th:text="${a.getName()}">Открыть</a>
-        </div>
+                        </div>
+                    </td>
+                    <td th:if="${dto.getBookList()==null}">-</td>
+                </tr>
+                </tbody>
+            </table>
+        </main>
+        <div th:insert="blocks/footer :: footer"></div>
     </div>
-    <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>
 </html>

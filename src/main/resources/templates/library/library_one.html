@@ -10,33 +10,54 @@
 <body>
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
+<div class="container-in">
 
     <h4>Книга: </h4>
     <main>
-        <p th:text="${'Название: '+dto.getName()}"></p>
-        <p th:if=" ${dto.getSectionNumber()!=null}" th:text="${'Номер полки: '+dto.getSectionNumber()}"></p>
-        <p th:if=" ${dto.getSectionNumber()==null}">Номер полки: -</p>
-        <p th:if="${dto.getYearOfPublishing()!=null}" th:text="${'Год издания: '+dto.getYearOfPublishing()}"></p>
-        <p th:if="${dto.getYearOfPublishing()==null}">Год издания: -</p>
-        <a th:href="@{/publishers/id/{id}(id=${dto.getPublisherSimpleDto().getId()})}"
-           th:if="${dto.getPublisherSimpleDto()!=null}"
-           th:text="${'Издатель: '+dto.getPublisherSimpleDto().getName()}"> </a>
-        <a th:if="${dto.getPublisherSimpleDto()==null}">Издатель: -</a>
-
+        <table class="table" width="800">
+            <tbody>
+            <tr>
+                <th scope="row"  width="200">Название: </th>
+                <td th:text="${dto.getName()}"  width="600"></td>
+            </tr>
+            <tr>
+                <th scope="row" >Номер полки: </th>
+                <td th:if="${dto.getSectionNumber()!=null}" th:text="${dto.getSectionNumber()}"></td>
+                <td th:if="${dto.getSectionNumber()==null}" >-</td>
+            </tr>
+            <tr>
+                <th scope="row">Год издания: </th>
+                <td th:if="${dto.getYearOfPublishing()!=null}" th:text="${dto.getYearOfPublishing()}"></td>
+                <td th:if="${dto.getYearOfPublishing()==null}" >-</td>
+            </tr>
+            <tr>
+                <th scope="row">Издатель: </th>
+                <td th:if="${dto.getPublisherSimpleDto()!=null}">
+                    <a th:href="@{/publishers/id/{id}(id=${dto.getPublisherSimpleDto().getId()})}"
+                       th:text="${dto.getPublisherSimpleDto().getName()}"></a>
+                </td>
+                <td th:if="${dto.getPublisherSimpleDto()==null}" >-</td>
+            </tr>
+            <tr>
+                <th scope="row">Описание: </th>
+                <td th:if="${dto.getDescription()!=null}" th:text="${dto.getDescription()}"></td>
+                <td th:if="${dto.getDescription()==null}" >-</td>
+            </tr>
+            <tr>
+                <th scope="row">Автор(ы): </th>
+                <td th:if="${dto.getAuthorList()!=null&&dto.getAuthorList().size()!=0}" >
+                    <div th:each="a : ${dto.getAuthorList()}" th:if="${dto.getAuthorList().size()!=null}">
+                        <a th:href="@{/authors/id/{id}(id=${a.getId()})}"
+                           th:text="${a.getFirstName()+' '+a.getSecondName()}">Открыть</a>
+                    </div>
+                </td>
+                <td th:if="${dto.getAuthorList().size()==0}" >-</td>
+            </tr>
+            </tbody>
+        </table>
     </main>
-
-    <br>
-    <p>Описание:</p>
-    <p th:text="${dto.getDescription()}"></p>
-    <br>
-
-    <p>Автор(ы):</p>
-    <p th:if="${dto.getAuthorList()==null}">-</p>
-    <div th:each="a : ${dto.getAuthorList()}" th:if="${dto.getAuthorList().size()!=null}">
-        <a th:href="@{/authors/id/{id}(id=${a.getId()})}"
-           th:text="${a.getFirstName()+' '+a.getSecondName()}">Открыть</a>
-    </div>
     <div th:insert="blocks/footer :: footer"></div>
+</div>
 </div>
 </body>
 </html>

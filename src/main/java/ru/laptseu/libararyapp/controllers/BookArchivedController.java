@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.laptseu.libararyapp.mappers.backMappers.BookArchivingEntityLoader;
 import ru.laptseu.libararyapp.mappers.backMappers.BookArchivingMapper;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
 import ru.laptseu.libararyapp.models.dto.BookDto;
@@ -31,12 +32,14 @@ public class BookArchivedController {
     private final PageUtility pageUtility;
     private final BookArchivingMapper bookArchivingMapper;
     private final TextTrimmingUtility textTrimmingUtility;
+    private final BookArchivingEntityLoader bookArchivingEntityLoader;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss/MM-dd-yyyy");
 
     @GetMapping("/{page}")
     public String getBooksInArchive(@PathVariable Integer page, Model model) {
         Pageable pageable = pageUtility.getPageable(page);
-        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(bookArchivingMapper.map(serviceFactory.get(BookArchived.class).readList(pageable)));
+        List l = bookArchivingEntityLoader.findEntity(bookArchivingMapper.map(serviceFactory.get(BookArchived.class).readList(pageable)));
+        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(l);
         dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
         dtoList.stream().filter(bookDto -> bookDto.getId() == null).collect(Collectors.toList());
         model.addAttribute("dtoList", dtoList);
@@ -50,6 +53,7 @@ public class BookArchivedController {
     public String getBookInArchive(@PathVariable Long id, Model model) {
         BookArchived bookArchived = (BookArchived) serviceFactory.get(BookArchived.class).read(id);
         BookInLibrary bookInLibrary = bookArchivingMapper.map(bookArchived);
+        bookInLibrary = bookArchivingEntityLoader.findEntity(bookInLibrary);
         BookDto dto = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
         model.addAttribute("dto", dto);
         model.addAttribute("dateOfArchiving", simpleDateFormat.format(bookArchived.getDateOfArchived().getTime()));

@@ -10,28 +10,17 @@
 <body>
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
-
-    <h4>Издательства: </h4>
-    <a class="btn btn-primary" th:href="@{/publishers/id/publishers_new}">Добавить</a>
-    <br>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col" width="180">Название</th>
-            <th scope="col" width="270">Адрес</th>
-            <th scope="col" width="350">Телефон</th>
-            <th scope="col" width="320">Действия</th>
-        </tr>
-        </thead>
-    </table>
     <div class="container-in">
-        <table class="table table-striped">
+        <h4>Издательства: </h4>
+        <a class="btn btn-primary" th:href="@{/publishers/id/publishers_new}">Добавить</a>
+        <br>
+        <table class="table table-bordered">
             <thead>
             <tr>
-                <th scope="col" width="180"></th>
-                <th scope="col" width="270"></th>
-                <th scope="col" width="350"></th>
-                <th scope="col" width="320"></th>
+                <th scope="col" width="180">Название</th>
+                <th scope="col" width="270">Адрес</th>
+                <th scope="col" width="350">Телефон</th>
+                <th scope="col" width="320">Действия</th>
             </tr>
             </thead>
             <tbody>
@@ -48,7 +37,6 @@
                           th:method="post">
                         <input class="btn btn-primary" type="submit" value="Удалить"/>
                     </form>
-
                 </td>
             </tr>
             </tbody>

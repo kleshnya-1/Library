@@ -11,21 +11,12 @@
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
 
-    <h4>Авторы: </h4>
-    <a class="btn btn-primary" th:href="@{/authors/id/authors_new}">Добавить</a>
-    <br>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col" width="450">Имя</th>
-            <th scope="col" width="120">Годы жизни</th>
-            <th scope="col" width="260"></th>
-            <th scope="col" width="330">Действия</th>
-        </tr>
-        </thead>
-    </table>
     <div class="container-in">
-        <table class="table table-striped">
+        <h4>Авторы: </h4>
+        <a class="btn btn-primary" th:href="@{/authors/id/authors_new}">Добавить</a>
+        <br>
+
+        <table class="table table-bordered">
             <thead>
             <tr>
                 <th scope="col" width="450"></th>

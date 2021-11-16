@@ -12,30 +12,19 @@
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
 
-
-    <h4>Книги в библиотеке: </h4>
-    <a class="btn btn-primary" th:href="@{/library/id/library_new}">Добавить</a>
-    <table class="table table" width="">
-        <thead>
-        <tr>
-            <th scope="col" width="100">Название</th>
-            <th scope="col" width="150">Автор(ы)</th>
-            <th scope="col" width="500">Описание</th>
-            <th scope="col" width="120">Издатель</th>
-            <th scope="col" width="240">Действия</th>
-
-        </tr>
-        </thead>
-    </table>
     <div class="container-in">
+
+        <h4>Книги в библиотеке: </h4>
+
+        <a class="btn btn-primary" th:href="@{/library/id/library_new}">Добавить</a>
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th scope="col" width="100"></th>
-                <th scope="col" width="150"></th>
-                <th scope="col" width="500"></th>
-                <th scope="col" width="120"></th>
-                <th scope="col" width="240"></th>
+                <th scope="col" width="100">Название</th>
+                <th scope="col" width="150">Автор(ы)</th>
+                <th scope="col" width="500">Описание</th>
+                <th scope="col" width="120">Издатель</th>
+                <th scope="col" width="240">Действия</th>
             </tr>
             </thead>
             <tbody>

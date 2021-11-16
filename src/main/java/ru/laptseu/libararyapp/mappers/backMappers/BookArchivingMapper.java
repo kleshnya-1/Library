@@ -15,28 +15,26 @@ import java.util.List;
 
 @Component
 @Mapper(componentModel = "spring")
-public abstract class BookArchivingMapper {
+public interface BookArchivingMapper {
 
-    @Autowired
-    AuthorService authorService;
-    @Autowired
-    PublisherService publisherService;
 
     @Mapping(source = "id", target = "id")
-    public Author mapAuthor(Long id) {
-        return authorService.read(id);
-    }
+     Author mapAuthor(Long id);
+//    {
+//        return authorService.read(id);
+//    }
 
     @Mapping(source = "id", target = "id")
-    public Publisher mapPublisher(Long id) {
-        return publisherService.read(id);
-    }
+     Publisher mapPublisher(Long id);
+//    {
+//        return publisherService.read(id);
+//    }
 
-    public Long mapAuthor(Author author) {
+    default Long mapAuthor(Author author) {
         return author.getId();
     }
 
-    public Long mapPublisher(Publisher publisher) {
+    default Long mapPublisher(Publisher publisher) {
         if (publisher != null) {
             return publisher.getId();
         } else {
@@ -44,11 +42,11 @@ public abstract class BookArchivingMapper {
         }
     }
 
-    public abstract BookInLibrary map(BookArchived archivedBook);
+     BookInLibrary map(BookArchived archivedBook);
 
-    public abstract BookArchived map(BookInLibrary libraryBook);
+    BookArchived map(BookInLibrary libraryBook);
 
-    public abstract List<BookInLibrary> map(List<BookArchived> archivedBook);
+     List<BookInLibrary> map(List<BookArchived> archivedBook);
 
-    public abstract List<BookArchived> mapL(List<BookInLibrary> libraryBook);
+    List<BookArchived> mapL(List<BookInLibrary> libraryBook);
 }
