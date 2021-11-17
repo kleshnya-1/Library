@@ -21,22 +21,20 @@
                 </tr>
                 <tr>
                     <th scope="row">Годы жизни:</th>
-                    <td class="row" width="800">
-                        <p class="col-md-auto" th:if="${dto.getBirthYear()!=null}"
-                           th:text="${dto.getBirthYear()+'  /'}"></p>
-                        <p class="col-md-auto" th:if="${dto.getBirthYear()==null}">... /</p>
-                        <p class="col-md-auto" th:if="${dto.getDeathYear()!=null}" th:text="${dto.getDeathYear()}">
-                        <p class="col-md-auto" th:if="${dto.getDeathYear()==null}">...</p>
+                    <td>
+                        <a  th:if="${dto.getBirthYear()!=null}"
+                           th:text="${dto.getBirthYear()+'  /'}"></a>
+                        <a  th:if="${dto.getBirthYear()==null}">... /</a>
+                        <a  th:if="${dto.getDeathYear()!=null}" th:text="${dto.getDeathYear()}"></a>
+                        <a  th:if="${dto.getDeathYear()==null}">...</a>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row">Книги в библиотеке:</th>
                     <td th:if="${bookList.size()!=0}">
-
                             <div  th:each="a : ${bookList}">
                                 ><a th:href="@{/library/id/{id}(id=${a.getId()})}" th:text="${a.getName()}">Открыть</a>
                             </div>
-
                     </td>
                     <td th:if="${dto.getBookList().size()==0}">-</td>
                 </tr>

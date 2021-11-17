@@ -45,7 +45,7 @@ public class BookArchivedController {
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("url", "archive");
         model.addAttribute("currentPageNum", page);
-        model.addAttribute("isLastPage", pageUtility.getIsFullPage(dtoList.size(), page));
+        model.addAttribute("isLastPage", pageUtility.getIsTheLastPage(BookArchived.class, dtoList.size(), page));
         return "archive/archive_first";
     }
 

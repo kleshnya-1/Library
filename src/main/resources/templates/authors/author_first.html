@@ -19,17 +19,16 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th scope="col" width="450"></th>
-                <th scope="col" width="120"></th>
-                <th scope="col" width="260"></th>
-                <th scope="col" width="330"></th>
+                <th scope="col" width="450">Имя</th>
+                <th scope="col" width="380">Годы жизни</th>
+                <th scope="col" width="330">Действия</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="e : ${dtoList}">
                 <td th:text="${e.getFirstName()}+' '+${e.getSecondName()}">-</td>
                 <td>
-                    <div class="row justify-content-center">
+
                         <div class="col-md-auto">
                             <p th:if="${e.getBirthYear()!=null&&e.getDeathYear()!=null}"
                                th:text="${e.getBirthYear()+' / '+e.getDeathYear()}"></p>
@@ -39,10 +38,7 @@
                             <p th:if="${e.getBirthYear()==null&&e.getDeathYear()!=null}"
                                th:text="${'... / '+e.getDeathYear()}"></p>
                         </div>
-                    </div>
                 </td>
-                <td></td>
-
                 <td>
                     <a class="btn btn-primary" th:href="@{/authors/id/{id}(id=${e.getId()})}">Открыть</a>
                     <a class="btn btn-primary" th:href="@{/authors/id/{id}/edit(id=${e.getId()})}"
@@ -56,15 +52,12 @@
                           th:method="post">
                         <input class="btn btn-primary" type="submit" value="Удалить"/>
                     </form>
-
                 </td>
             </tr>
             </tbody>
         </table>
         <div th:insert="blocks/navigation :: nav"></div>
     </div>
-
-
     <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>

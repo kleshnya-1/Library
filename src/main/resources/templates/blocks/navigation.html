@@ -1,6 +1,6 @@
-<div th:fragment="nav">
+<div  th:fragment="nav">
     <nav aria-label="Page navigation example">
-        <ul class="pagination">
+        <ul class="pagination" id="navigation">
             <li class="page-item"><a class="page-link" th:href="@{/{url}/{page}(page=${currentPageNum-1}, url=${url})}"
                                      th:if="${currentPageNum!=1}">Назад</a>
             </li>

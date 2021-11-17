@@ -38,7 +38,7 @@ public class AuthorController {
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("url", "authors");
         model.addAttribute("currentPageNum", page);
-        model.addAttribute("isLastPage", pageUtility.getIsFullPage(dtoList.size(), page));
+        model.addAttribute("isLastPage", pageUtility.getIsTheLastPage(Author.class, dtoList.size(), page));
         return "authors/author_first";
     }
 

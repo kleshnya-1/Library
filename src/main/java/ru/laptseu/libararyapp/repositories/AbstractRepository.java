@@ -17,6 +17,8 @@ public interface AbstractRepository<T extends EntityWithId> extends PagingAndSor
 
     Optional<T> readByIdAndIsDeletedFalse(Long id);
 
+    Integer countAllByIsDeletedFalse();
+
     default List<T> findPageable(Pageable pageable) {
         return readAllByIsDeletedFalse(pageable);
     }

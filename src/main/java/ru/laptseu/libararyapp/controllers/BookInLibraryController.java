@@ -41,13 +41,12 @@ public class BookInLibraryController {
     public String getBooksInLibrary(@PathVariable Integer page, Model model) {
 
         Pageable pageable = pageUtility.getPageable(page);
-        List l = serviceFactory.get(BookInLibrary.class).readList(pageable);
-        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(l);
+        List<BookDto> dtoList = frontMappersFactory.get(BookInLibrary.class).map(serviceFactory.get(BookInLibrary.class).readList(pageable));
         dtoList.forEach(bookDto -> bookDto.setDescription(textTrimmingUtility.trimToSize(bookDto.getDescription())));
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("url", "library");
         model.addAttribute("currentPageNum", page);
-        model.addAttribute("isLastPage", pageUtility.getIsFullPage(dtoList.size(), page));
+        model.addAttribute("isLastPage", pageUtility.getIsTheLastPage(Author.class, dtoList.size(), page));
         return "library/library_first";
     }
 

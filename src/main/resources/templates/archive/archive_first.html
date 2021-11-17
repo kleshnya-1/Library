@@ -10,12 +10,9 @@
 <body>
 <div class="container">
     <header th:insert="blocks/header :: header"></header>
-
     <div class="container-in">
         <h4>Книги в архиве: </h4>
 
-        <a class="btn btn-primary" style="background:transparent; border:none; color:transparent;">Добавить</a>
-        <br>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -39,7 +36,8 @@
                         </div>
                     </td>
                 </div>
-                <td th:text="${e.getDescription()}">-</td>
+                <td th:if="${e.getDescription()!=null}" th:text="${e.getDescription()}">-</td>
+                <td th:if="${e.getDescription()==null}">-</td>
                 <td th:if="${e.getPublisherSimpleDto()==null}">-</td>
                 <div th:if="${e.getPublisherSimpleDto()!=null}">
                     <td>
@@ -65,7 +63,6 @@
         </table>
         <div th:insert="blocks/navigation :: nav"></div>
     </div>
-
     <div th:insert="blocks/footer :: footer"></div>
 </div>
 </body>

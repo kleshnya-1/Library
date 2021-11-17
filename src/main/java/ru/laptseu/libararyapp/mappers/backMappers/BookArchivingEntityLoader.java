@@ -23,7 +23,7 @@ public class BookArchivingEntityLoader {
             source.setPublisher(publisherService.read(source.getPublisher().getId()));
         }
         if (source.getAuthorList() != null) {
-            List <Author> newAuthorList=new ArrayList<>();
+            List<Author> newAuthorList = new ArrayList<>();
             source.getAuthorList().stream().forEach(author -> {
                 if (author != null && author.getBookList() == null) {
                     newAuthorList.add(authorService.read(author.getId()));// TODO: 10.11.2021 querry to base as list of ID

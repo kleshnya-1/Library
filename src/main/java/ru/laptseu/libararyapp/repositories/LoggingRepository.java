@@ -51,6 +51,11 @@ public class LoggingRepository implements AbstractRepository<Logging> {
     }
 
     @Override
+    public Integer countAllByIsDeletedFalse() {
+        return null;
+    }
+
+    @Override
     public List findPageable(Pageable pageable) {
         return AbstractRepository.super.findPageable(pageable);
     }

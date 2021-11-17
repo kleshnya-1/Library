@@ -20,28 +20,15 @@ public class PageUtility {
         this.serviceFactory = serviceFactory;
     }
 
-
     public Pageable getPageable(int pageNum) {
         return PageRequest.of(pageNum - 1, numberOfEntitiesPerPage, Sort.by("id").descending());
     }
 
-    public boolean getIsFullPage(int size, int page) {
-        return size < numberOfEntitiesPerPage;
-    }
-
-    public int getExPageNum(int page) {
-        if (page == 1) {
-            return page;
-        } else {
-            return page - 1;
-        }
-    }
-
-    public int getNextPageNum(int size, int page) {
+    public boolean getIsTheLastPage(Class clazz, int size, int page) {
         if (size < numberOfEntitiesPerPage) {
-            return page;
+            return true;
         } else {
-            return page + 1;
+            return (page * numberOfEntitiesPerPage) == serviceFactory.get(clazz).getNumberOfEntitiesInDb();
         }
     }
 }

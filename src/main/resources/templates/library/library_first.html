@@ -38,7 +38,8 @@
                         </div>
                     </td>
                 </div>
-                <td th:text="${e.getDescription()}">-</td>
+                <td th:if="${e.getDescription()!=null}" th:text="${e.getDescription()}">-</td>
+                <td th:if="${e.getDescription()==null}">-</td>
                 <td th:if="${e.getPublisherSimpleDto()==null}">-</td>
                 <div th:if="${e.getPublisherSimpleDto()!=null}">
                     <td>
@@ -67,7 +68,7 @@
         <div th:insert="blocks/navigation :: nav"></div>
     </div>
 
-    <div th:insert="blocks/footer :: footer"></div>
+    <footer th:insert="blocks/footer :: footer"></footer>
 </div>
 </body>
 </html>

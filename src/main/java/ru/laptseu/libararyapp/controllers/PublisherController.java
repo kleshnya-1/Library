@@ -10,6 +10,7 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
 import ru.laptseu.libararyapp.models.dto.PublisherDto;
+import ru.laptseu.libararyapp.models.entities.Author;
 import ru.laptseu.libararyapp.models.entities.Publisher;
 import ru.laptseu.libararyapp.services.ServiceFactory;
 import ru.laptseu.libararyapp.utilities.PageUtility;
@@ -36,7 +37,7 @@ public class PublisherController {
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("url", "publishers");
         model.addAttribute("currentPageNum", page);
-        model.addAttribute("isLastPage", pageUtility.getIsFullPage(dtoList.size(), page));
+        model.addAttribute("isLastPage", pageUtility.getIsTheLastPage(Author.class, dtoList.size(), page));
         return "publishers/publisher_first";
     }
 
