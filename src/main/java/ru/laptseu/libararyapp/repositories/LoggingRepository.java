@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import ru.laptseu.libararyapp.models.entities.Logging;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,21 +17,21 @@ import java.util.Optional;
 
 @Log4j2
 @Repository
-public class LoggingRepository implements AbstractRepository {
-    @Value("${logFile.address}")
-    String LOGGING_FILE_ADDRESS;
+public class LoggingRepository implements AbstractRepository<Logging> {
     Calendar calendar = new GregorianCalendar();
+    @Value("${logFile.address}")
+    private String LOGGING_FILE_ADDRESS;
 
-
-    public <S extends String> S save(S entity) {
+    public Logging save(Logging logging) {
+        String entity = logging.getMessage();
         try (FileOutputStream fileOutputStream = new FileOutputStream(LOGGING_FILE_ADDRESS, true)) {
-            entity = (S) (calendar.getTime() + " | " + entity + "\n"); //todo custom date format
+            entity = (calendar.getTime() + " | " + entity + "\n");
             byte[] buffer = entity.getBytes();
             fileOutputStream.write(buffer);
         } catch (IOException e) {
             log.error(e);
         }
-        return entity;
+        return logging;
     }
 
 
@@ -50,6 +51,11 @@ public class LoggingRepository implements AbstractRepository {
     }
 
     @Override
+    public Integer countAllByIsDeletedFalse() {
+        return null;
+    }
+
+    @Override
     public List findPageable(Pageable pageable) {
         return AbstractRepository.super.findPageable(pageable);
     }
@@ -65,8 +71,13 @@ public class LoggingRepository implements AbstractRepository {
     }
 
     @Override
-    public void deleteById(Long id) {
-        AbstractRepository.super.deleteById(id);
+    public boolean existsById(Long aLong) {
+        return false;
+    }
+
+    @Override
+    public void delete(Logging entity) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -85,20 +96,6 @@ public class LoggingRepository implements AbstractRepository {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public Object save(Object entity) {
-        return null;
-    }
-
-    @Override
-    public Optional findById(Object o) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean existsById(Object o) {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public Iterable findAllById(Iterable iterable) {
@@ -107,16 +104,6 @@ public class LoggingRepository implements AbstractRepository {
 
     @Override
     public long count() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void deleteById(Object o) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void delete(Object entity) {
         throw new UnsupportedOperationException();
     }
 

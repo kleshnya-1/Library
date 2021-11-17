@@ -1,84 +1,102 @@
 package ru.laptseu.libararyapp.controllers;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.books.BookInLibrary;
-import ru.laptseu.libararyapp.entities.dto.AuthorDto;
-import ru.laptseu.libararyapp.entities.dto.BookDto;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
+import ru.laptseu.libararyapp.models.dto.AuthorDto;
+import ru.laptseu.libararyapp.models.dto.BookDto;
+import ru.laptseu.libararyapp.models.entities.Author;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
 import ru.laptseu.libararyapp.services.ServiceFactory;
+import ru.laptseu.libararyapp.utilities.PageUtility;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
+@Log4j2
 @Controller
 @RequestMapping("/authors")
 @RequiredArgsConstructor
 public class AuthorController {
+    private static final String startingUrl = "redirect:/authors/1";
     private final ServiceFactory serviceFactory;
     private final FrontMappersFactory frontMappersFactory;
+    private final PageUtility pageUtility;
 
     @GetMapping("/{page}")
-    public String openPage(@PathVariable Integer page, Model model) {
-        List<AuthorDto> dtoList = serviceFactory.get(Author.class).readDtoList(page);
+    public String getAuthors(@PathVariable Integer page, Model model) {
+        Pageable pageable = pageUtility.getPageable(page);
+        List<AuthorDto> dtoList = frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).readList(pageable));
         model.addAttribute("dtoList", dtoList);
-        if (page == 1) {
-            model.addAttribute("exPageNum", page);
-        } else {
-            model.addAttribute("exPageNum", page - 1);
-        }
-        model.addAttribute("nextPageNum", page + 1);
+        model.addAttribute("url", "authors");
+        model.addAttribute("currentPageNum", page);
+        model.addAttribute("isLastPage", pageUtility.getIsTheLastPage(Author.class, dtoList.size(), page));
         return "authors/author_first";
     }
 
     @PostMapping("/id/")
-    public String submit(@ModelAttribute @Valid AuthorDto filledDto, BindingResult bindingResult) {
+    public String createAuthor(@Valid AuthorDto filledDto, BindingResult bindingResult, Model model) {
+        List<String> errors = new ArrayList<>();
+        if (filledDto.getId() != null) {
+            errors.add("ID для нового пользователя не может существовать. ID=" + filledDto.getId());
+            log.error("not saved as new with id " + filledDto.getId());//this URL only for new Entities
+        }
         if (bindingResult.hasErrors()) {
-            return "redirect:/authors/1";
+            log.debug(bindingResult.getFieldErrors());
+            bindingResult.getAllErrors().stream().forEach(objectError -> errors.add(objectError.getDefaultMessage()));
         }
-        if (filledDto.getId() != null) {//this URL only for new Entities
-            return "redirect:/authors/1";
+        if (Objects.equals(filledDto.getFirstName(), "")) {
+            filledDto.setFirstName(null);
         }
-        if (filledDto.getFirstName() == "" && filledDto.getSecondName() == "" &&
+        if (Objects.equals(filledDto.getSecondName(), "")) {
+            filledDto.setSecondName(null);
+        }
+        if (filledDto.getFirstName() == null && filledDto.getSecondName() == null &&
                 filledDto.getBirthYear() == null && filledDto.getDeathYear() == null) {
-            return "redirect:/authors/1";
+            errors.add("Не заполненно ни одного поля. Такая запись не имеет смысла");
         }
         if (filledDto.getBirthYear() != null && filledDto.getBirthYear() > Calendar.getInstance().get(Calendar.YEAR)) {
-            return "redirect:/authors/1";
+            errors.add("Автор не может родиться в будущем (" + filledDto.getBirthYear() + " г.)");
         }
-        if (filledDto.getBirthYear() != null && filledDto.getDeathYear() != null) {
-            if (filledDto.getDeathYear() - filledDto.getBirthYear() < 0) {
-                return "redirect:/authors/1";
-            }
+        if (filledDto.getDeathYear() != null && filledDto.getDeathYear() > Calendar.getInstance().get(Calendar.YEAR)) {
+            errors.add("Дата смерти в будущем не может быть доподленно известна (" + filledDto.getDeathYear() + " г.)");
         }
-        Author author = (Author) serviceFactory.get(Author.class).fromDto(filledDto);
+        if (filledDto.getBirthYear() != null && filledDto.getDeathYear() != null && filledDto.getDeathYear() - filledDto.getBirthYear() < 0) {
+            errors.add("Указанна дата рождения после даты смерти (" + filledDto.getBirthYear() + " " + filledDto.getDeathYear() + ")");
+        }
+        if (!errors.isEmpty()) {
+            model.addAttribute("entity", "автора");
+            model.addAttribute("errors", errors);
+            return "blocks/error_messages";
+        }
+        Author author = (Author) frontMappersFactory.get(Author.class).map(filledDto);
         serviceFactory.get(Author.class).save(author);
-        return "redirect:/authors/1";
+        return startingUrl;
     }
 
     @GetMapping("/id/{id}")
-    public String openPersonalPage(@PathVariable Long id, Model model) {
-        Author author = (Author) serviceFactory.get(Author.class).read(id);
-        AuthorDto dto = (AuthorDto) frontMappersFactory.get(Author.class).map(author);
-        List<BookDto> dtoBooks = frontMappersFactory.get(BookInLibrary.class).map(author.getBookList());
+    public String getAuthor(@PathVariable Long id, Model model) {
+        AuthorDto dto = (AuthorDto) frontMappersFactory.get(Author.class).map(serviceFactory.get(Author.class).read(id));
         model.addAttribute("dto", dto);
-        model.addAttribute("dtoList", dtoBooks);
+        model.addAttribute("bookList", dto.getBookList());
         return "authors/author_one";
     }
 
     @GetMapping("/id/authors_new")
-    public String newAccount(@ModelAttribute("emptyDto") AuthorDto emptyDto) {
-
+    public String newAuthor(@ModelAttribute("emptyDto") AuthorDto emptyDto) {
         return "authors/author_new";
     }
 
     @GetMapping("/id/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
+    public String editAuthor(Model model, @PathVariable("id") Long id) {
         Author author = (Author) serviceFactory.get(Author.class).read(id);
         AuthorDto dto = (AuthorDto) frontMappersFactory.get(Author.class).map(author);
         List<BookDto> dtoBooks = frontMappersFactory.get(BookInLibrary.class).map(author.getBookList());
@@ -88,14 +106,40 @@ public class AuthorController {
     }
 
     @PatchMapping("/id/{id}")
-    public String update(@ModelAttribute("dto") AuthorDto dto) {
-        serviceFactory.get(Author.class).update(serviceFactory.get(Author.class).fromDto(dto));
-        return "redirect:/authors/1";
+    public String updateAuthor(@ModelAttribute("dto") AuthorDto dto, @PathVariable Long id, Model model) {
+        List<String> errors = new ArrayList<>();
+        Author authorFromDb = (Author) serviceFactory.get(Author.class).read(id);
+        if (authorFromDb.getDeathYear() != null && dto.getDeathYear() == null) {
+            errors.add("Год смерти не мог быть известным (" + dto.getDeathYear() + "г.) и стать неизвестным");
+        }
+        if (authorFromDb.getDeathYear() != null && authorFromDb.getDeathYear() != dto.getDeathYear()) {
+            errors.add("Год смерти не мог мог измениться. (" + authorFromDb.getDeathYear() + " => " + dto.getDeathYear() + ") ");
+        }
+        if (dto.getDeathYear() != null && dto.getDeathYear() > Calendar.getInstance().get(Calendar.YEAR)) {
+            errors.add("Дата смерти в будущем не может быть доподленно известна (" + dto.getDeathYear() + " г.)");
+        }
+        if (dto.getBirthYear() != null && dto.getDeathYear() != null && dto.getDeathYear() - dto.getBirthYear() < 0) {
+            errors.add("Указанна дата рождения после даты смерти (" + dto.getBirthYear() + " " + dto.getDeathYear() + ")");
+        }
+        if (!errors.isEmpty()) {
+            model.addAttribute("entity", "автора");
+            model.addAttribute("errors", errors);
+            return "blocks/error_messages";
+        }
+        if (dto.getDeathYear() == null && authorFromDb.getDeathYear() == null) {
+            return startingUrl;//nothing to update
+        }
+        if (dto.getDeathYear() != null) {
+            serviceFactory.get(Author.class).update(frontMappersFactory.get(Author.class).map((dto)));
+        }
+        return startingUrl;
     }
 
     @PostMapping("/id/{id}/remove")
-    public String delete(@PathVariable Long id) {
+    public String deleteAuthor(@PathVariable Long id) {
         serviceFactory.get(Author.class).delete(id);
-        return "redirect:/authors/1";
+        return startingUrl;
     }
+
+
 }

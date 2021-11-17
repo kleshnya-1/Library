@@ -1,6 +1,7 @@
 package ru.laptseu.libararyapp.configurations;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -12,13 +13,12 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import ru.laptseu.libararyapp.entities.Publisher;
-import ru.laptseu.libararyapp.entities.books.BookArchived;
+import ru.laptseu.libararyapp.models.entities.BookArchived;
+import ru.laptseu.libararyapp.models.entities.Publisher;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.HashMap;
-import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
@@ -41,31 +41,35 @@ public class ArchiveConfiguration {
     }
 
     @Bean
-    public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
-        return new EntityManagerFactoryBuilder(new HibernateJpaVendorAdapter(),
-                new HashMap(), null);
-    }
-
-    Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");// TODO: 21.10.2021 refactor to properties
-        return properties;
-    }
-
-    @Bean
     public LocalContainerEntityManagerFactoryBean archiveEntityManager
-            (EntityManagerFactoryBuilder builder,
+            (@Qualifier("entityManagerFactoryBuilderArchive") EntityManagerFactoryBuilder builder,
              @Qualifier("archiveDataSource") DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean l = builder
+        return builder
                 .dataSource(dataSource)
                 .packages(BookArchived.class, Publisher.class)
                 .build();
-        l.setJpaProperties(additionalProperties());
-        return l;
     }
 
     @Bean
     public PlatformTransactionManager archiveTransactionManager(@Qualifier("archiveEntityManager") EntityManagerFactory productDSEmFactory) {
         return new JpaTransactionManager(productDSEmFactory);
+    }
+
+    @Bean
+    public HibernateJpaVendorAdapter hibernateJpaVendorAdapterArchive(
+            @Value("${spring.jooq.sql-dialect}") String databasePlatform,
+            @Value("${spring.jpa.generate-ddl}") boolean generateDdl,
+            @Value("${spring.jpa.show-sql}") boolean showSql) {
+        HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+        jpaVendorAdapter.setDatabasePlatform(databasePlatform);
+        jpaVendorAdapter.setGenerateDdl(generateDdl);
+        jpaVendorAdapter.setShowSql(showSql);
+        return jpaVendorAdapter;
+    }
+
+    @Bean
+    public EntityManagerFactoryBuilder entityManagerFactoryBuilderArchive(@Qualifier("hibernateJpaVendorAdapterArchive") HibernateJpaVendorAdapter hibernateJpaVendorAdapter) {
+        return new EntityManagerFactoryBuilder(hibernateJpaVendorAdapter,
+                new HashMap(), null);
     }
 }

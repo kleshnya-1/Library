@@ -1,6 +1,7 @@
 package ru.laptseu.libararyapp.configurations;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -9,15 +10,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.Publisher;
-import ru.laptseu.libararyapp.entities.books.BookInLibrary;
+import ru.laptseu.libararyapp.models.entities.Author;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
+import ru.laptseu.libararyapp.models.entities.Publisher;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.Properties;
+import java.util.HashMap;
 
 
 @Configuration
@@ -39,25 +41,37 @@ public class LibraryConfiguration {
         return dataSourcePropertiesLibrary.initializeDataSourceBuilder().build();
     }
 
-    Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");//TODO: 21.10.2021 refactor to properties
-        return properties;
-    }
-
     @Bean
     public LocalContainerEntityManagerFactoryBean libraryEntityManager
-            (EntityManagerFactoryBuilder builder, @Qualifier("libraryDataSource") DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean l = builder
+            (@Qualifier("entityManagerFactoryBuilderLibrary") EntityManagerFactoryBuilder builder,
+             @Qualifier("libraryDataSource") DataSource dataSource) {
+        return builder
                 .dataSource(dataSource)
                 .packages(BookInLibrary.class, Publisher.class, Author.class)
                 .build();
-        l.setJpaProperties(additionalProperties());
-        return l;
     }
 
     @Bean
     public PlatformTransactionManager libraryTransactionManager(@Qualifier("libraryEntityManager") EntityManagerFactory productDSEmFactory) {
         return new JpaTransactionManager(productDSEmFactory);
+    }
+
+
+    @Bean
+    public HibernateJpaVendorAdapter hibernateJpaVendorAdapterLibrary(
+            @Value("${spring.jooq.sql-dialect}") String databasePlatform,
+            @Value("${spring.jpa.generate-ddl}") boolean generateDdl,
+            @Value("${spring.jpa.show-sql}") boolean showSql) {
+        HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+        jpaVendorAdapter.setDatabasePlatform(databasePlatform);
+        jpaVendorAdapter.setGenerateDdl(generateDdl);
+        jpaVendorAdapter.setShowSql(showSql);
+        return jpaVendorAdapter;
+    }
+
+    @Bean
+    public EntityManagerFactoryBuilder entityManagerFactoryBuilderLibrary(@Qualifier("hibernateJpaVendorAdapterLibrary") HibernateJpaVendorAdapter hibernateJpaVendorAdapter) {
+        return new EntityManagerFactoryBuilder(hibernateJpaVendorAdapter,
+                new HashMap(), null);
     }
 }

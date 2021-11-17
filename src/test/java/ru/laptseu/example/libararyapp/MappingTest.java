@@ -7,18 +7,17 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import ru.laptseu.libararyapp.LibraryAppApplication;
-import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.Publisher;
-import ru.laptseu.libararyapp.entities.books.BookArchived;
-import ru.laptseu.libararyapp.entities.books.BookInLibrary;
-import ru.laptseu.libararyapp.entities.dto.AuthorDto;
-import ru.laptseu.libararyapp.entities.dto.BookDto;
-import ru.laptseu.libararyapp.entities.dto.EntityDto;
+import ru.laptseu.libararyapp.models.entities.Author;
+import ru.laptseu.libararyapp.models.entities.Publisher;
+import ru.laptseu.libararyapp.models.entities.BookArchived;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
+import ru.laptseu.libararyapp.models.dto.AuthorDto;
+import ru.laptseu.libararyapp.models.dto.BookDto;
+import ru.laptseu.libararyapp.models.dto.EntityDto;
 import ru.laptseu.libararyapp.mappers.frontMappers.FrontMappersFactory;
-import ru.laptseu.libararyapp.repositories.archive.BookArchiveRepository;
 import ru.laptseu.libararyapp.repositories.library.BookLibraryRepository;
-import ru.laptseu.libararyapp.repositories.library.PublisherRepository;
 import ru.laptseu.libararyapp.services.*;
 
 import java.util.ArrayList;
@@ -30,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = LibraryAppApplication.class)
 @DisplayName("Archive Service Test")
+@Transactional(value = "libraryTransactionManager")
 class MappingTest {
     @Autowired
     BookLibraryService bookLibraryService;
@@ -68,10 +68,9 @@ class MappingTest {
     Long bookArchId1;
     Long bookArchId2;
     Long a1SavedId;
-    Long a2SavedId ;
-    Long a3SavedId ;
+    Long a2SavedId;
+    Long a3SavedId;
     Long a4SavedId;
-
 
     @BeforeEach
     void before() throws Exception {
@@ -100,9 +99,9 @@ class MappingTest {
         a3.setFirstName("a3 " + Calendar.getInstance().getTime());
         a4.setFirstName("a4 " + Calendar.getInstance().getTime());
         a1SavedId = authorService.save(a1).getId();
-         a2SavedId = authorService.save(a2).getId();
-         a3SavedId = authorService.save(a3).getId();
-         a4SavedId = authorService.save(a4).getId();
+        a2SavedId = authorService.save(a2).getId();
+        a3SavedId = authorService.save(a3).getId();
+        a4SavedId = authorService.save(a4).getId();
 
         listOfThreeAuthors = new ArrayList<>();
         listOfThreeAuthors.add(a1);
@@ -131,12 +130,12 @@ class MappingTest {
         assertEquals(3, bookFromLib1.getAuthorList().size());
         assertEquals(1, bookFromLib2.getAuthorList().size());
 
-        Long archivingId1 = libraryService.toArchive(bookFromLib1).getId();
-        Long archivingId2 = libraryService.toArchive(bookFromLib2).getId();
+        Long archivingId1 = libraryService.toArchive(bookFromLib1.getId()).getId();
+        Long archivingId2 = libraryService.toArchive(bookFromLib2.getId()).getId();
         BookArchived bookWeArchived1 = archiveService.read(archivingId1);
         BookArchived bookWeArchived2 = archiveService.read(archivingId2);
-        BookInLibrary bookWeUnArchived1 = archiveService.fromArchive(bookWeArchived1);
-        BookInLibrary bookWeUnArchived2 = archiveService.fromArchive(bookWeArchived2);
+        BookInLibrary bookWeUnArchived1 = archiveService.fromArchive(bookWeArchived1.getId());
+        BookInLibrary bookWeUnArchived2 = archiveService.fromArchive(bookWeArchived2.getId());
         assertEquals(p1.getName(), bookWeUnArchived1.getPublisher().getName());
         assertEquals(p2.getName(), bookWeUnArchived2.getPublisher().getName());
         assertEquals(3, bookWeUnArchived1.getAuthorList().size());
@@ -145,28 +144,20 @@ class MappingTest {
 
     @Test
     @DisplayName("Test Mapping Dto")
-    void testMappingDto() throws Exception {
-        AuthorDto authorDto1 = (AuthorDto) authorService.readDto(a1SavedId);
-        AuthorDto authorDto2 = (AuthorDto) authorService.readDto(a2SavedId);
+    void testMappingDto() throws Exception {// TODO: 31.10.2021 finish
+        Author author1 = authorService.read(a1SavedId);
+        Author author2 = authorService.read(a2SavedId);
+        AuthorDto authorDto1 = (AuthorDto) frontMappersFactory.get(Author.class).map(authorService.read(a1SavedId));
+        AuthorDto authorDto2 = (AuthorDto) frontMappersFactory.get(Author.class).map(authorService.read(a2SavedId));
 
-        List<EntityDto> aList1 =  authorService.readDtoList(1);
-        List<EntityDto> aList2 =  authorService.readDtoList(2);
-        List<EntityDto> aList3 =  authorService.readDtoList(3);
 
+//        List<EntityDto> aList1 = frontMappersFactory.get(Author.class).map(authorService.readList(1));
+//        List<EntityDto> aList2 = frontMappersFactory.get(Author.class).map(authorService.readList(2));
+//        List<EntityDto> aList3 = frontMappersFactory.get(Author.class).map(authorService.readList(3));
         BookDto bookDto = new BookDto();
         List list = new ArrayList();
         list.add(authorDto1);
         list.add(authorDto2);
-        bookDto.setAuthorDtoList(list);
-
-        // TODO: 26.10.2021 in progress
-      // BookInLibrary bookInLibrary = (BookInLibrary) frontMappersFactory.get(BookInLibrary.class).map(bookDto);
-     //  BookDto bookDto1 = (BookDto) frontMappersFactory.get(BookInLibrary.class).map(bookInLibrary);
-      // assertEquals(1,1);
-
-
-
+        bookDto.setAuthorList(list);
     }
-
-
 }

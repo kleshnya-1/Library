@@ -1,6 +1,5 @@
 package ru.laptseu.example.libararyapp;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,10 +7,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import ru.laptseu.libararyapp.LibraryAppApplication;
-import ru.laptseu.libararyapp.entities.Publisher;
-import ru.laptseu.libararyapp.entities.books.BookArchived;
-import ru.laptseu.libararyapp.entities.books.BookInLibrary;
+import ru.laptseu.libararyapp.models.entities.Publisher;
+import ru.laptseu.libararyapp.models.entities.BookArchived;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
 import ru.laptseu.libararyapp.repositories.archive.BookArchiveRepository;
 import ru.laptseu.libararyapp.repositories.library.BookLibraryRepository;
 import ru.laptseu.libararyapp.repositories.library.PublisherRepository;
@@ -58,35 +58,31 @@ class CrudServicesAndRepositoriesTest {
         ab2 = new BookArchived();
         ab2.setName("ab2 " + ab2.hashCode());
         p1 = new Publisher();
-        p1.setName("p1 "+ Calendar.getInstance().getTime()+" " + p1.hashCode());
+        p1.setName("p1 " + Calendar.getInstance().getTime() + " " + p1.hashCode());
         p2 = new Publisher();
-        p2.setName("p2 " + Calendar.getInstance().getTime()+" "+ p2.hashCode());
-    }
-
-    @AfterEach
-    void after() throws Exception {
+        p2.setName("p2 " + Calendar.getInstance().getTime() + " " + p2.hashCode());
     }
 
     @Test
     @DisplayName("Test Save Book")
     void testSaveBook() throws Exception {
-        int i1=  bookLibraryRepository.findAll().size();
-        int i2= bookArchiveRepository.findAll().size();
+        int i1 = bookLibraryRepository.findAll().size();
+        int i2 = bookArchiveRepository.findAll().size();
         bookLibraryService.save(lb1);
         bookLibraryService.save(lb2);
         bookArchiveService.save(ab1);
         bookArchiveService.save(ab2);
-        assertEquals(2+i1, bookLibraryRepository.findAll().size());
-        assertEquals(2+i2, bookArchiveRepository.findAll().size());
+        assertEquals(2 + i1, bookLibraryRepository.findAll().size());
+        assertEquals(2 + i2, bookArchiveRepository.findAll().size());
     }
 
     @Test
     @DisplayName("Test Save Publisher")
     void testSavePublisher() throws Exception {
-    int i= publisherRepository.findAll().size();
+        int i = publisherRepository.findAll().size();
         publisherService.save(p1);
         publisherService.save(p2);
-        assertEquals(i+2, publisherRepository.findAll().size());
+        assertEquals(i + 2, publisherRepository.findAll().size());
     }
 
     @Test

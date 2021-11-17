@@ -1,22 +1,18 @@
 package ru.laptseu.libararyapp.mappers.frontMappers;
 
-import ru.laptseu.libararyapp.entities.Entity;
-import ru.laptseu.libararyapp.entities.dto.EntityDto;
+import ru.laptseu.libararyapp.models.dto.EntityDto;
+import ru.laptseu.libararyapp.models.entities.EntityWithId;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public interface FrontMapper<T extends Entity> {
 
-    T map(EntityDto entityDto);
+public interface FrontMapper<E extends EntityWithId, D extends EntityDto> {
 
-    EntityDto map(T entity);
+    E map(D entityDto);
 
-//    default List<T> map(List<EntityDto>  entityDto){
-//       return  entityDto.stream().map(entityDto1 -> map(entityDto1)).collect(Collectors.toList());
-//   }
+    D map(E entity);
 
-    default List<EntityDto> map(List<T> entityDto) {
-        return entityDto.stream().map(entityDto1 -> map(entityDto1)).collect(Collectors.toList());
-    }
+    List<E> mapFromDtoList(List<D> entityDtoList);
+
+    List<D> map(List<E> entityList);
 }

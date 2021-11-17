@@ -1,20 +1,16 @@
 package ru.laptseu.libararyapp.mappers.frontMappers;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
-import ru.laptseu.libararyapp.entities.Author;
-import ru.laptseu.libararyapp.entities.dto.AuthorDto;
-import ru.laptseu.libararyapp.entities.dto.EntityDto;
+import ru.laptseu.libararyapp.models.dto.AuthorDto;
+import ru.laptseu.libararyapp.models.entities.Author;
 
 @Component
 @Mapper(componentModel = "spring")
-public abstract class AuthorMapper implements FrontMapper<Author> {
-    public abstract Author map(AuthorDto authorDto);
+public interface AuthorMapper extends FrontMapper<Author, AuthorDto> {
 
-    public Author map(EntityDto authorDto) {
-        AuthorDto authorDto1 = (AuthorDto) authorDto;
-        return map(authorDto1);
-    }
-
-    public abstract AuthorDto map(Author author);
+    @Mapping(source = "firstName", target = "firstName", defaultValue = "...")
+    @Mapping(source = "secondName", target = "secondName", defaultValue = "")
+    AuthorDto map(Author entity);
 }

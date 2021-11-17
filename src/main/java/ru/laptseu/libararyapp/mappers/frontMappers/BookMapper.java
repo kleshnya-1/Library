@@ -1,20 +1,19 @@
 package ru.laptseu.libararyapp.mappers.frontMappers;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
-import ru.laptseu.libararyapp.entities.books.BookInLibrary;
-import ru.laptseu.libararyapp.entities.dto.BookDto;
-import ru.laptseu.libararyapp.entities.dto.EntityDto;
+import ru.laptseu.libararyapp.mappers.frontMappers.simple.AuthorSimpleMapper;
+import ru.laptseu.libararyapp.mappers.frontMappers.simple.PublisherSimpleMapper;
+import ru.laptseu.libararyapp.models.dto.BookDto;
+import ru.laptseu.libararyapp.models.entities.BookInLibrary;
 
 @Component
-@Mapper(componentModel = "spring")
-public abstract class BookMapper implements FrontMapper<BookInLibrary> {
-    public abstract BookInLibrary map(BookDto bookDto);
+@Mapper(componentModel = "spring", uses = {AuthorSimpleMapper.class, PublisherSimpleMapper.class})
+public interface BookMapper extends FrontMapper<BookInLibrary, BookDto> {
+    @Mapping(source = "publisherSimpleDto", target = "publisher")
+    BookInLibrary map(BookDto bookDto);
 
-    public BookInLibrary map(EntityDto bookDto) {
-        BookDto bookDto1 = (BookDto) bookDto;
-        return map(bookDto1);
-    }
-
-    public abstract BookDto map(BookInLibrary bookInLibrary);
+    @Mapping(source = "publisher", target = "publisherSimpleDto")
+    BookDto map(BookInLibrary bookInLibrary);
 }

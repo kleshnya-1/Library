@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  pg_libraryApp_libraryDb:
+    image: postgres:13.3
+    volumes:
+      - ./volumes/libraryDb:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=libraryDb
+      - POSTGRES_PASSWORD=1
+    restart: always
+    ports:
+      - "5432:5432"
+
+  pg_libraryApp_archiveDb:
+    image: postgres:13.3
+    volumes:
+      - ./volumes/archiveDb:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=archiveDb
+      - POSTGRES_PASSWORD=1
+    restart: always
+    ports:
+      - "5439:5432"
+
