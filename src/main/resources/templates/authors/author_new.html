@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:insert="blocks/style :: style"></div>
+<script type="text/javascript">
+    function EnableDisable(txtPassportNumber) {
+        var btnSubmit = document.getElementById("btnSubmit");
+        if (requiredField.value.trim() != "" ||
+            requiredField1.value.trim() != "" ||
+            requiredField3.value.trim() != "" ||
+            requiredField2.value.trim() != ""
+        ) {
+            btnSubmit.disabled = false;
+        } else {
+            btnSubmit.disabled = true;
+        }
+        if (requiredField.value.trim() != ""
+        ) {
+            requiredField1.readOnly = false;
+        } else {
+            requiredField1.readOnly = true;
+        }
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <header th:insert="blocks/header :: header"></header>
+    <h4>Добавление нового автора: </h4>
+    <form method="post" th:action="@{/authors/id/}" th:object="${emptyDto}">
+        <div class="form-group row">
+            <div class="form-group col-md-3">
+                <label>Имя</label>
+                <input class="form-control" id="requiredField" onkeyup="EnableDisable(this)" placeholder="Антуан де"
+                       th:field="*{firstName}" type="text" maxlength="250">
+            </div>
+            <div class="form-group col-md-3">
+                <label>Фамилия</label>
+                <input class="form-control" id="requiredField1" onkeyup="EnableDisable(this)" placeholder="Сент-Экзюпери"
+                       readonly="readonly" th:field="*{secondName}" type="text" maxlength="250">
+            </div>
+            <div class="container">
+                <div class="form-group row">
+                    <div class="form-group col-md-2">
+                        <label f>Годы жизни</label>
+                        <input class="form-control" id="requiredField2" min="0" onkeyup="EnableDisable(this)"
+                               placeholder="1900"
+                               th:field="*{birthYear}" type="number" maxlength="250">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group col-md-2">
+                        <input class="form-control" id="requiredField3" min="0" onkeyup="EnableDisable(this)"
+                               placeholder="1944" th:field="*{deathYear}" type="number">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" disabled="disabled" id="btnSubmit" type="submit">Создать</button>
+    </form>
+    <div th:insert="blocks/footer :: footer"></div>
+</div>
+</body>
+</html>
